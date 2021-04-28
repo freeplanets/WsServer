@@ -1,0 +1,27 @@
+{
+  "name": "wsserver",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/app.js",
+  "scripts": {
+    "serve": "nodemon src/app.ts",
+    "start": "ts-node src/app.ts",
+    "build": "tsc --project ./",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "James",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^14.14.41",
+    "@types/ws": "^7.4.1",
+    "nodemon": "^2.0.7",
+    "typescript": "^4.2.4"
+  },
+  "dependencies": {
+    "aws-mqtt": "^1.0.0",
+    "aws-sdk": "^2.889.0",
+    "dotenv": "^8.2.0",
+    "mariadb": "^2.5.3",
+    "ws": "^7.4.5"
+  }
+}
