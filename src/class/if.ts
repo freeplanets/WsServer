@@ -16,7 +16,7 @@ export const enum ErrCode {
   TRY_CATCH_ERROR = 14,
   NO_DATA_FOUND = 15,
 }
-export interface IDbAns  {
+export interface DbAns  {
   affectedRows: number;
   insertId: number;
   warningStatus: number;
@@ -58,6 +58,7 @@ export interface ReceivedData {
 export interface AskTable {
   id: number;
   UserID: number;
+  UpId: number;
   ItemID: number;
   Code: string;
   AskType: number; // 0 市價, 1 限價
@@ -70,7 +71,7 @@ export interface AskTable {
   AskPrice: number; // 下單價格
   AskCredit?: number; // 下單時暫扣的信用額度
   Credit?: number; // 信用額度
-  ProcStatus?: number;  // 0 等待處理 1 處理中 2 成交 3 取消
+  ProcStatus?: number;  // 0 等待處理, 1 處理中, 2 成交, 3 取消
   CreateTime: number; // 建單時間
   DealTime?: number; // 成交時間
   ModifyTime?: number; // 修改時間
@@ -109,4 +110,12 @@ export interface TMsg<T> extends Msg {
 // key = Code + BuyType
 export interface ObjectIdentify {
   [key:string]:boolean;
+}
+export interface KeyVal {
+  [key:string]:any;
+}
+export interface TableData {
+  TableName: string;
+  keys?: string[];
+  fields?: KeyVal[];
 }

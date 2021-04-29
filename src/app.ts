@@ -1,37 +1,43 @@
-import DB from './components/db';
-import { TMsg, AskTable } from "./class/if";
-import AskSettlement from './class/AskSettlement';
-import Matt from './components/mqtt';
-import CurPrice from './components/CurPrice';
-import LimitPrice from './components/LimitPrice';
+import dotenv from 'dotenv';
+// import SettleProc from './components/SettleProc';
+import { IncomingMessage } from 'node:http';
+import WebSocket from 'ws';
 
-const matt=new Matt()
+dotenv.config()
+// const SP = new SettleProc();
+// let SP:SettleProc;
 
-async function TestQuery():Promise<void> {
-  const db:DB = new DB();
-  const clts:AskSettlement[]=[];
-  const sql="select * from AskTable";
-  const msg:TMsg<AskTable> = await db.Query(sql);
-  //console.log(msg);
-  if(msg.data){
-    msg.data.forEach((ask:AskTable)=>{
-      console.log('static check:',AskSettlement.Identify);
-      const idenKey = `${ask.Code}${ask.AskType}`;
-      console.log('idenKey:',idenKey);
-      if (!AskSettlement.Identify[idenKey]){
-        if(ask.AskType === 0){
-          clts.push(new CurPrice(ask));
-        } else {
-          clts.push(new LimitPrice(ask));
-        }
-      } else {
-        clts.forEach((clt:AskSettlement)=>{
-          clt.Add(ask);
-        })
-      }
-    })
-  }
-  matt.Clients = clts;
+const port:number = process.env.SERVER_PORT ? parseInt(process.env.SERVER_PORT, 10) : 3001;
+const options:WebSocket.ServerOptions = {
+  port: port,
 }
+console.log('options:',options);
+const server = new WebSocket.Server(options)
 
-TestQuery();
+server.on('open',(arg?:any)=>{
+  console.log('connected', arg);
+});
+server.on('close',(me:WebSocket.Server)=>{
+  console.log('disconnected', me);
+})
+
+server.on('connection',(ws:WebSocket,req:IncomingMessage)=>{
+  const ip = req.socket.remoteAddress;
+  const port = req.socket.remotePort;
+  const curClient = `${ip}:${port}`;
+  //console.log('connection:',req);
+  console.log('%s is connected',curClient);
+  // mqtt.Clients = server.clients;
+  ws.send('Welcome ' + curClient);
+
+  ws.on('message',(data:WebSocket.Data)=>{
+    console.log('data:',data);
+    console.log('received: %s from %s', data.toString(), curClient);
+    server.clients.forEach((client:WebSocket)=>{
+      if (client.readyState === WebSocket.OPEN) {
+        client.send(curClient + ' -> ' + data.toString());
+      }
+    });
+  });
+
+});
