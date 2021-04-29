@@ -16,6 +16,12 @@ export const enum ErrCode {
   TRY_CATCH_ERROR = 14,
   NO_DATA_FOUND = 15,
 }
+export interface IDbAns  {
+  affectedRows: number;
+  insertId: number;
+  warningStatus: number;
+  [key: string]: number;
+}
 export interface SendData {
   eventTime: number;
   symbol: string;

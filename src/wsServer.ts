@@ -1,8 +1,8 @@
 import { IncomingMessage } from 'node:http';
 import WebSocket from 'ws';
-import Mqtt from './mqtt';
+// import Mqtt from './mqtt';
 
-const mqtt = new Mqtt();
+// const mqtt = new Mqtt();
 console.log('Create Mqtt:');
 const port:number = process.env.SERVER_PORT ? parseInt(process.env.SERVER_PORT, 10) : 3001;
 const options:WebSocket.ServerOptions = {
@@ -22,7 +22,7 @@ server.on('connection',(ws:WebSocket,req:IncomingMessage)=>{
   const port = req.socket.remotePort;
   const curClient = `${ip}${port}`;
   console.log('%s is connected',curClient);
-  mqtt.Clients = server.clients;
+  // mqtt.Clients = server.clients;
   ws.send('Welcome ' + curClient);
 
   ws.on('message',(data:WebSocket.Data)=>{

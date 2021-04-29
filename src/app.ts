@@ -1,9 +1,9 @@
-import DB from './db';
-import { TMsg, AskTable } from "./if";
-import AskSettlement from './AskSettlement';
-import Matt from './mqtt';
-import CurPrice from './CurPrice';
-import LimitPrice from './LimitPrice';
+import DB from './components/db';
+import { TMsg, AskTable } from "./class/if";
+import AskSettlement from './class/AskSettlement';
+import Matt from './components/mqtt';
+import CurPrice from './components/CurPrice';
+import LimitPrice from './components/LimitPrice';
 
 const matt=new Matt()
 

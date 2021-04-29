@@ -1,8 +1,8 @@
 import AWS from 'aws-sdk';
-import WebSocket from 'ws';
+// import WebSocket from 'ws';
 import config from './config';
-import { SendData, ReceivedData } from './if'
-import AskSettlement from './AskSettlement';
+import { SendData, ReceivedData } from '../class/if'
+import AskSettlement from '../class/AskSettlement';
 //import AWSMqttClient from 'aws-mqtt/lib/NodeClient';
 
 const AWSMqttClient	= require('aws-mqtt/lib/NodeClient');

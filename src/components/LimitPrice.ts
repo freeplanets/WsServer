@@ -1,5 +1,5 @@
-import AskSettlement from './AskSettlement';
-import { SendData, AskTable} from './if';
+import AskSettlement from '../class/AskSettlement';
+import { SendData, AskTable} from '../class/if';
 
 export default class LimitPrice extends AskSettlement {
   constructor(ask:AskTable){

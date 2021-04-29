@@ -1,5 +1,5 @@
-import DB from './db';
-import { TMsg, AskTable } from "./if";
+import DB from './components/db';
+import { TMsg, AskTable } from "./class/if";
 
 async function TestQuery():Promise<void> {
   const db:DB = new DB();
