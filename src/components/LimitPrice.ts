@@ -13,10 +13,10 @@ export default class LimitPrice extends AskSettlement {
     this.list.forEach(async (ask:AskTable) => {
       console.log(this.IdentifyCode,ask.id,ask.CreateTime,new Date(ask.CreateTime).getTime(),r.eventTime);
       if (new Date(ask.CreateTime).getTime() < r.eventTime){
-        console.log("do");
         const price = parseFloat(r.currentClose);
-        const key = ask.BuyType ?  -1 : 1;
-        if ((price - ask.AskPrice)*key >= 0) {
+        const key = ask.BuyType ?  1 : -1;
+        console.log('LimitPrice', ask.AskPrice, price, (price - ask.AskPrice)*key);
+        if ((price - ask.AskPrice)*key >= 0) { //58798.64 58470.93
           /*
           if(ask.Qty){
             ask.Amount = ask.Qty * price;
@@ -25,7 +25,8 @@ export default class LimitPrice extends AskSettlement {
             ask.Amount = ask.Qty * price;
           }
           */
-          ask.Price = price;
+          ask.Price = ask.AskPrice;
+          ask.AskPrice = price;
           ask.Qty = parseFloat((ask.Amount / price).toFixed(8));
           ask.DealTime = r.eventTime;
           const msg:Msg = await this.Settle(ask);

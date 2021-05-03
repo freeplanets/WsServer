@@ -26,7 +26,7 @@ server.on('connection',(ws:WebSocket,req:IncomingMessage)=>{
   ws.send('Welcome ' + curClient);
 
   ws.on('message',(data:WebSocket.Data)=>{
-    console.log('data:',data);
+    console.log('data:',data,typeof(data));
     console.log('received: %s from %s', data.toString(), curClient);
     server.clients.forEach((client:WebSocket)=>{
       if (client.readyState === WebSocket.OPEN) {

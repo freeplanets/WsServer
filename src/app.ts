@@ -1,10 +1,11 @@
 import dotenv from 'dotenv';
-// import SettleProc from './components/SettleProc';
+import SettleProc from './components/SettleProc';
 import { IncomingMessage } from 'node:http';
 import WebSocket from 'ws';
 
 dotenv.config()
-// const SP = new SettleProc();
+const SP = new SettleProc();
+SP.getAsks();
 // let SP:SettleProc;
 
 const port:number = process.env.SERVER_PORT ? parseInt(process.env.SERVER_PORT, 10) : 3001;
@@ -31,13 +32,16 @@ server.on('connection',(ws:WebSocket,req:IncomingMessage)=>{
   ws.send('Welcome ' + curClient);
 
   ws.on('message',(data:WebSocket.Data)=>{
-    console.log('data:',data);
+    //console.log('data:',data,typeof data);
     console.log('received: %s from %s', data.toString(), curClient);
+    const tmpAsk = SP.JsonParse(data.toString());
+    if(tmpAsk){
+      SP.pushAsk(tmpAsk);
+    }
     server.clients.forEach((client:WebSocket)=>{
       if (client.readyState === WebSocket.OPEN) {
         client.send(curClient + ' -> ' + data.toString());
       }
     });
   });
-
 });

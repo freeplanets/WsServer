@@ -38,15 +38,17 @@ class Mqtt {
     })
     this.client.on('message', (topic:string, message:string) => {
       //this.addLogEntry(`${topic} => ${message}`)
-      const data:ReceivedData = JSON.parse(message);
-      const senddata:SendData = {
-        eventTime: data.eventTime,
-        symbol: data.symbol,
-        currentClose: data.currentClose,
-        closeQuantity: data.closeQuantity,
-        open: data.open,
+      const data:ReceivedData|undefined = this.JsonParse(message);
+      if(data){
+        const senddata:SendData = {
+          eventTime: data.eventTime,
+          symbol: data.symbol,
+          currentClose: data.currentClose,
+          closeQuantity: data.closeQuantity,
+          open: data.open,
+        }
+        this.send(senddata);  
       }
-      this.send(senddata);
       //const sendMsg = JSON.stringify(senddata);
       //this.send(sendMsg);
     })
@@ -58,6 +60,19 @@ class Mqtt {
     this.client.on('offline', () => {
       this.addLogEntry('Went offline:-(')
     })
+  }
+  JsonParse(str:string, key?:number):ReceivedData|undefined{
+    try {
+      return JSON.parse(str);
+    } catch(err) {
+      console.log('JSON Parse Error:', str, err);
+      if(!key){
+        const tmp:any = str;
+        const newstr = String.fromCharCode.apply(null, tmp);
+        return this.JsonParse(newstr,1);
+      }
+      return;
+    }
   }
   send(data:SendData):void {
     this.clients.forEach((elm:AskSettlement)=>{

@@ -3,6 +3,7 @@ const config = {
     region: 'ap-southeast-1', // e.g. us-east-1
     iot: {
       // NOTE: get this value with `aws iot describe-endpoint`
+      //endpoint: 'a3598bbh3zx9gg-ats.iot.ap-southeast-1.amazonaws.com',
       endpoint: 'a3598bbh3zx9gg.iot.ap-southeast-1.amazonaws.com',
     },
     cognito: {

@@ -22,15 +22,24 @@ export default class SettleProce {
     const idenKey = `${ask.Code}${ask.AskType}`;
     console.log('idenKey:',idenKey);
     if (!AskSettlement.Identify[idenKey]){
-      if(ask.AskType === 0){
+      if (ask.AskType === 0) {
         this.clts.push(new CurPrice(this.db, ask));
-      } else {
+      } else if(ask.AskType === 1) {
         this.clts.push(new LimitPrice(this.db, ask));
       }
     } else {
       this.clts.forEach((clt:AskSettlement)=>{
         clt.Add(ask);
       })
+    }
+  }
+  JsonParse(str:string):AskTable | undefined{
+    if (str.search('AskType')===-1) return;
+    try {
+      return JSON.parse(str);
+    } catch(err) {
+      console.log('JSON parse error!!',err);
+      return;
     }
   }
   async updateAskStatus(ids:number[]):Promise<void>{

@@ -11,11 +11,15 @@ export default abstract class AskSettlement {
     this.IdentifyCode = `${Code}${AskType}`;
     AskSettlement.Identify[this.IdentifyCode] = true;
   }
-  public Add(ask:AskTable){
+  public Add(ask:AskTable):void{
     if(this.IdentifyCode !== `${ask.Code}${ask.AskType}`) return;
+    if(ask.ProcStatus > 2) {
+      this.Remove(ask);
+      return;
+    }
     if(this.list.indexOf(ask) === -1 ) this.list.push(ask); 
   }
-  public Remove(ask:AskTable){
+  public Remove(ask:AskTable):void{
     const idx = this.list.indexOf(ask);
     if( idx !== -1 ) this.list.splice(idx, 1); 
   }

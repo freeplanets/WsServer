@@ -71,7 +71,7 @@ export interface AskTable {
   AskPrice: number; // 下單價格
   AskCredit?: number; // 下單時暫扣的信用額度
   Credit?: number; // 信用額度
-  ProcStatus?: number;  // 0 等待處理, 1 處理中, 2 成交, 3 取消
+  ProcStatus: number;  // 0 等待處理, 1 處理中, 2 成交, 3 取消
   CreateTime: number; // 建單時間
   DealTime?: number; // 成交時間
   ModifyTime?: number; // 修改時間
