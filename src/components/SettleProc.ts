@@ -48,8 +48,10 @@ export default class SettleProce {
     await this.db.query(sql);
   }
   async getAsks(){
+    //console.log('init getAsk ....');
     const sql="select * from AskTable where ProcStatus < 2";
     const msg:TMsg<AskTable> = await this.db.query(sql);
+    //console.log(msg);
     const ids:number[] = [];
     if(msg.data){
       msg.data.forEach((ask:AskTable)=>{
@@ -61,5 +63,6 @@ export default class SettleProce {
       }
     }
     this.matt.Clients = this.clts;
+    //console.log('init getAsk end.');
   }
 }
