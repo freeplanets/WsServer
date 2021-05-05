@@ -3,6 +3,7 @@ import AWS from 'aws-sdk';
 import config from './config';
 import { SendData, ReceivedData } from '../class/if'
 import AskSettlement from '../class/AskSettlement';
+import SettleProc from "./SettleProc";
 //import AWSMqttClient from 'aws-mqtt/lib/NodeClient';
 
 const AWSMqttClient	= require('aws-mqtt/lib/NodeClient');
@@ -15,8 +16,8 @@ class Mqtt {
   private client;
   private clientId:string;
   private clients:AskSettlement[]=[];
-  constructor(clientId?:string){
-    this.clientId = clientId ? clientId : 'dataprovider@kingbet';
+  constructor(private SP:SettleProc){
+    this.clientId = 'dataprovider@kingbet';
     this.client = new AWSMqttClient({
       region: AWS.config.region,
       credentials: AWS.config.credentials,
@@ -36,7 +37,7 @@ class Mqtt {
       this.subscribe(config.topics.room + this.clientId)			// 訂閱 私人頻道 可發佈訊息
       this.client.publish(config.topics.room + this.clientId, 'enter')	// 連線成功時 發佈 enter 訊息至私人頻道
     })
-    this.client.on('message', (topic:string, message:string) => {
+    this.client.on('message', async (topic:string, message:string) => {
       //this.addLogEntry(`${topic} => ${message}`)
       const data:ReceivedData|undefined = this.JsonParse(message);
       if(data){
@@ -47,7 +48,7 @@ class Mqtt {
           closeQuantity: data.closeQuantity,
           open: data.open,
         }
-        this.send(senddata);  
+        await this.send(senddata);  
       }
       //const sendMsg = JSON.stringify(senddata);
       //this.send(sendMsg);
@@ -74,10 +75,13 @@ class Mqtt {
       return;
     }
   }
-  send(data:SendData):void {
-    this.clients.forEach((elm:AskSettlement)=>{
-      elm.Accept(data);
+  async send(data:SendData):Promise<void> {
+    this.SP.getPrice(data);
+    /*
+    this.clients.forEach(async (elm:AskSettlement)=>{
+      await elm.Accept(data);
     });
+    */
   }
   AddClinet(clt:AskSettlement){
     this.clients.push(clt)

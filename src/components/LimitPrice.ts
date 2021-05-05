@@ -8,8 +8,10 @@ export default class LimitPrice extends AskSettlement {
     super(db, ask.Code, ask.AskType);
     this.Add(ask);
   }
-  Accept(r:SendData){
+  async Accept(r:SendData){
     if(this.Code !== r.symbol) return;
+    if(this.inProcess) return;
+    this.inProcess = true;
     this.list.forEach(async (ask:AskTable) => {
       console.log(this.IdentifyCode,ask.id,ask.CreateTime,new Date(ask.CreateTime).getTime(),r.eventTime);
       if (new Date(ask.CreateTime).getTime() < r.eventTime){

@@ -1,5 +1,5 @@
 import DB from '../components/db';
-import { TMsg, AskTable, Msg } from "../class/if";
+import { TMsg, AskTable, SendData } from "../class/if";
 import AskSettlement from '../class/AskSettlement';
 import Matt from '../components/mqtt';
 import CurPrice from '../components/CurPrice';
@@ -7,10 +7,11 @@ import LimitPrice from '../components/LimitPrice';
 
 export default class SettleProce {
   private db:DB = new DB();
-  private matt:Matt = new Matt();
+  private matt:Matt; 
   private clts:AskSettlement[]=[];
   constructor(){
     console.log('SettleProce Created!!');
+    this.matt = new Matt(this);
   }
   pushAsk(ask:AskTable):void {
     const ids = [ask.id];
@@ -42,6 +43,13 @@ export default class SettleProce {
       return;
     }
   }
+  async getPrice(s:SendData){
+    await Promise.all(
+      this.clts.map(async (clt)=>{
+        await clt.Accept(s);
+      })
+    )
+  }
   async updateAskStatus(ids:number[]):Promise<void>{
     const sql = `update AskTable set ProcStatus = 1 where id in (${ids.join(',')})`;
     console.log('updateAskStatus:',sql);
@@ -62,7 +70,7 @@ export default class SettleProce {
         await this.updateAskStatus(ids);
       }
     }
-    this.matt.Clients = this.clts;
+    //this.matt.Clients = this.clts;
     //console.log('init getAsk end.');
   }
 }
