@@ -21,7 +21,7 @@ export default abstract class AskSettlement {
       return;
     }
     if(this.list.indexOf(ask) === -1 ) this.list.push(ask);
-    console.log('Add list',this.list);
+    // console.log('Add list',this.list);
   }
   public Remove(ask:AskTable):void{
     const idx = this.list.indexOf(ask);
@@ -29,7 +29,7 @@ export default abstract class AskSettlement {
   }
   public RemoveFromList(){
     let chkdo:boolean=false;
-    console.log('RemoveFromLise',this.removelist);
+    console.log('RemoveFromLise',JSON.stringify(this.removelist));
     this.removelist.forEach((ask)=>{
       this.Remove(ask);
       chkdo=true;
