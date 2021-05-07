@@ -4,11 +4,13 @@ import AskSettlement from '../class/AskSettlement';
 import Matt from '../components/mqtt';
 import CurPrice from '../components/CurPrice';
 import LimitPrice from '../components/LimitPrice';
+import ChannelManagement from '../class/ChannelManagement';
 
 export default class SettleProce {
   private db:DB = new DB();
   private matt:Matt; 
   private clts:AskSettlement[]=[];
+  private CM:ChannelManagement = new ChannelManagement();
   constructor(){
     console.log('SettleProce Created!!');
     this.matt = new Matt(this);
@@ -24,9 +26,9 @@ export default class SettleProce {
     console.log('idenKey:',idenKey);
     if (!AskSettlement.Identify[idenKey]){
       if (ask.AskType === 0) {
-        this.clts.push(new CurPrice(this.db, ask));
+        this.clts.push(new CurPrice(this.db, ask, this));
       } else if(ask.AskType === 1) {
-        this.clts.push(new LimitPrice(this.db, ask));
+        this.clts.push(new LimitPrice(this.db, ask, this));
       }
     } else {
       this.clts.forEach((clt:AskSettlement)=>{
@@ -72,5 +74,11 @@ export default class SettleProce {
     }
     //this.matt.Clients = this.clts;
     //console.log('init getAsk end.');
+  }
+  RegisterChannel(name:string,ws:WebSocket,UserID?:number){
+    this.CM.Register(name,ws,UserID);
+  }
+  SendMessage(name:string, message:string, opt:WebSocket | number){ // ws:WebSocket | UserID
+    this.CM.Send(name, message, opt )
   }
 }

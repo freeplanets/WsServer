@@ -2,10 +2,11 @@ import AskSettlement from '../class/AskSettlement';
 import { SendData, AskTable, Msg, ErrCode } from '../class/if';
 import DataBaseIF from '../class/DataBaseIF';
 import { Connection } from 'mariadb';
+import SettleProc from '../components/SettleProc';
 
 export default class CurPrice extends AskSettlement {
-  constructor(db:DataBaseIF<Connection>, ask:AskTable){
-    super(db, ask.Code, ask.AskType);
+  constructor(db:DataBaseIF<Connection>, ask:AskTable, SP:SettleProc){
+    super(db, ask.Code, ask.AskType, SP);
     this.Add(ask);
   }
   async Accept(r:SendData){

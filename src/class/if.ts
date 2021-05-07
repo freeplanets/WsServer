@@ -119,3 +119,8 @@ export interface TableData {
   keys?: string[];
   fields?: KeyVal[];
 }
+export interface ChannelT {
+  readonly Name:string;
+  register(ws:WebSocket,UserID?:number):void;
+  send(message:string, opt: WebSocket | number):void; // ws:WebSocket | UserID
+}

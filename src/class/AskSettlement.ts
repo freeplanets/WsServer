@@ -1,6 +1,7 @@
 import { AskTable, SendData, ObjectIdentify, Msg, ErrCode, DbAns } from './if';
 import DataBaseIF from '../class/DataBaseIF';
 import { Connection } from 'mariadb';
+import SettleProc from '../components/SettleProc'
 
 export default abstract class AskSettlement {
   protected list:AskTable[]=[];
@@ -9,7 +10,7 @@ export default abstract class AskSettlement {
   protected IdentifyCode:string;
   protected prices:SendData[]=[];
   protected inProcess:boolean=false;
-  constructor(protected db:DataBaseIF<Connection>, protected Code:string, AskType:number){
+  constructor(protected db:DataBaseIF<Connection>, protected Code:string, AskType:number,protected SP:SettleProc){
     this.IdentifyCode = `${Code}${AskType}`;
     AskSettlement.Identify[this.IdentifyCode] = true;
   }
@@ -51,6 +52,7 @@ export default abstract class AskSettlement {
         where id = ${ask.id}`;
         console.log('Settle:',sql);
         this.db.query(sql).then((msg=>{
+          this.SP.SendMessage('AskChannel', JSON.stringify(ask), ask.UserID);
           resolve(msg);
         })).catch(err=>{
           console.log('Settle error:',err);
