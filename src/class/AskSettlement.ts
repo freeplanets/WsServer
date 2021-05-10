@@ -52,7 +52,10 @@ export default abstract class AskSettlement {
         where id = ${ask.id}`;
         console.log('Settle:',sql);
         this.db.query(sql).then((msg=>{
-          this.SP.SendMessage('AskChannel', JSON.stringify(ask), ask.UserID);
+          if(msg.ErrNo === ErrCode.PASS){
+            ask.ProcStatus = 2;
+            this.SP.SendMessage('AskChannel', JSON.stringify(ask), ask.UserID);
+          }
           resolve(msg);
         })).catch(err=>{
           console.log('Settle error:',err);

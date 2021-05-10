@@ -1,3 +1,4 @@
+import WebSocket from 'ws';
 import { ChannelT } from './if';
 
 interface WSMemberWithID {
@@ -14,7 +15,7 @@ export default class AskChannel implements ChannelT {
     return this.name;
   }
   register(ws:WebSocket,UserID:number){
-    this.members.push({UserID, ws});
+    if(this.members.indexOf({UserID, ws})=== -1) this.members.push({UserID, ws});
   }
   send(message:string, UserID:number){
     try {

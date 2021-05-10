@@ -13,20 +13,13 @@ const options:WebSocket.ServerOptions = {
   port: port,
 }
 
-const noop = () => {};
-const heartbeat = (ws:WebSocket,data:Buffer) => {
-   const str = String.fromCharCode.apply(null, data.toJSON().data);
-   console.log('heartbeat', ws.readyState, str); 
-};
-
 const server = new WebSocket.Server(options)
 
 server.on('open',(arg?:any)=>{
   console.log('connected', arg);
 });
 
-server.on('connection',(ws:WebSocket,req:IncomingMessage)=>{
-  ws.on('pong', heartbeat);
+server.on('connection',(ws:WebSocket, req:IncomingMessage)=>{
   const ip = req.socket.remoteAddress;
   const port = req.socket.remotePort;
   const curClient = `${ip}:${port}`;
@@ -46,7 +39,13 @@ server.on('connection',(ws:WebSocket,req:IncomingMessage)=>{
         SP.pushAsk(tmpAsk);
       }
     } else {
-      console.log('Create Channel:',strdata.split(':')[1]);
+      const chInfo = strdata.split(':');
+      const chname = chInfo[1];
+      const UserID:number = chInfo[2] ? parseInt(chInfo[2]) : 0;
+      console.log('Create Channel:', chname);
+      if(chname){
+        SP.RegisterChannel(chname, ws, UserID);
+      }
     } 
     /*
     server.clients.forEach((client:WebSocket)=>{
@@ -58,14 +57,6 @@ server.on('connection',(ws:WebSocket,req:IncomingMessage)=>{
   });
 });
 
-const interval = setInterval(()=>{
-  server.clients.forEach((ws)=>{
-    if(ws.readyState === WebSocket.OPEN ) ws.terminate();
-    ws.ping(noop);
-  });
-},30000);
-
 server.on('close',(me:WebSocket.Server)=>{
   console.log('disconnected', me);
-  clearInterval(interval);
 });

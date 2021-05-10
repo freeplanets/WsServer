@@ -1,3 +1,4 @@
+import WebSocket from 'ws';
 import { ChannelT } from './if';
 
 export default class AChannel implements ChannelT {
@@ -10,7 +11,7 @@ export default class AChannel implements ChannelT {
     return this.name;
   }
   register(ws:WebSocket){
-    this.members.push(ws);
+    if(this.members.indexOf(ws)===-1) this.members.push(ws);
   }
   send(message:string, ws:WebSocket){
     try {

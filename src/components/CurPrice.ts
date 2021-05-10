@@ -14,6 +14,7 @@ export default class CurPrice extends AskSettlement {
     // if(this.removelist.length>0) this.RemoveFromList();
     // console.log('Accept',this.list.length,this.inProcess);
     if(this.inProcess) return;
+    let pMark = false;
     this.inProcess = true;
     await Promise.all(
       this.list.map(async (ask:AskTable) => {
@@ -30,12 +31,17 @@ export default class CurPrice extends AskSettlement {
             this.removelist.push(ask);
             console.log('Accecpt add removelist:',JSON.stringify(this.removelist));
           }
+        } else {
+          pMark = true;
         }
       })      
     )
     if(this.removelist.length>0){
       console.log('Accept before RemoveFormList');
       this.RemoveFromList();
+    } else {
+      this.inProcess = false;
     }
+    if(pMark) this.inProcess = false;    
   }
 }

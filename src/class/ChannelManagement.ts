@@ -1,3 +1,4 @@
+import WebSocket from 'ws';
 import { ChannelT } from './if';
 import AChannel from './AChannel';
 import AskChannel from './AskChannel';
@@ -5,7 +6,7 @@ import AskChannel from './AskChannel';
 export default class ChannelManagement {
   private childs:ChannelT[]=[];
   constructor(){}
-  Register(name:string,ws:WebSocket,UserID?:number){
+  Register(name:string, ws:WebSocket, UserID?:number){
     let f = this.childs.find(chd => chd.Name === name);
     if(f){
       f.register(ws);

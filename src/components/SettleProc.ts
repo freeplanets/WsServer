@@ -1,3 +1,4 @@
+import WebSocket from 'ws';
 import DB from '../components/db';
 import { TMsg, AskTable, SendData } from "../class/if";
 import AskSettlement from '../class/AskSettlement';
@@ -75,7 +76,7 @@ export default class SettleProce {
     //this.matt.Clients = this.clts;
     //console.log('init getAsk end.');
   }
-  RegisterChannel(name:string,ws:WebSocket,UserID?:number){
+  RegisterChannel(name:string, ws:WebSocket, UserID?:number){
     this.CM.Register(name,ws,UserID);
   }
   SendMessage(name:string, message:string, opt:WebSocket | number){ // ws:WebSocket | UserID

@@ -1,3 +1,5 @@
+import WebSocket from 'ws';
+
 export const enum ErrCode {
   PASS = 0,
   LESS_MIN_HAND = 1,
@@ -122,5 +124,5 @@ export interface TableData {
 export interface ChannelT {
   readonly Name:string;
   register(ws:WebSocket,UserID?:number):void;
-  send(message:string, opt: WebSocket | number):void; // ws:WebSocket | UserID
+  send(message:string, opt: WebSocket|number):void; // ws:WebSocket | UserID
 }
