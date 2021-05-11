@@ -15,8 +15,12 @@ const options:WebSocket.ServerOptions = {
 
 const server = new WebSocket.Server(options)
 
-server.on('open',(arg?:any)=>{
-  console.log('connected', arg);
+server.on('error',(ws:WebSocket,error:Error)=>{
+  console.log('error:',error);
+})
+
+server.on('open',(ws:WebSocket)=>{
+  console.log('connected', ws.readyState);
 });
 
 server.on('connection',(ws:WebSocket, req:IncomingMessage)=>{

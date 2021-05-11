@@ -12,6 +12,7 @@ export default class LimitPrice extends AskSettlement {
   async Accept(r:SendData){
     if(this.Code !== r.symbol) return;
     if(this.inProcess) return;
+    let pMark = false;
     this.inProcess = true;
     await Promise.all(
       this.list.map(async (ask:AskTable) => {
@@ -29,10 +30,14 @@ export default class LimitPrice extends AskSettlement {
             if(msg.ErrNo === ErrCode.PASS) {
               this.removelist.push(ask);
             }
+          } else {
+            pMark = true;
           }
         }
       })
     )
     if(this.removelist.length > 0) this.RemoveFromList();
+    else this.inProcess = false;
+    if(pMark) this.inProcess = false;
   }
 }
