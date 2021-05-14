@@ -18,7 +18,8 @@ export default abstract class AskSettlement {
     console.log('Add Ask:', this.IdentifyCode ,`${ask.Code}${ask.AskType}`);
     if(this.IdentifyCode !== `${ask.Code}${ask.AskType}`) return;
     if(ask.ProcStatus > 2) {
-      this.Remove(ask);
+      //this.Remove(ask);
+      this.removelist.push(ask);
       return;
     }
     if(this.list.indexOf(ask) === -1 ) this.list.push(ask);
