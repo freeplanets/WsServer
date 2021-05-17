@@ -8,11 +8,11 @@ const SP = new SettleProc();
 SP.getAsks();
 // let SP:SettleProc;
 
-const port:number = process.env.SERVER_PORT ? parseInt(process.env.SERVER_PORT, 10) : 3001;
+const port:number = process.env.SERVER_PORT ? parseInt(process.env.SERVER_PORT, 10) : 4001;
 const options:WebSocket.ServerOptions = {
   port: port,
 }
-
+console.log('port:',options);
 const server = new WebSocket.Server(options)
 
 server.on('error',(ws:WebSocket,error:Error)=>{
