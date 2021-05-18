@@ -12,9 +12,9 @@ export default class SettleProce {
   private matt:Matt; 
   private clts:AskSettlement[]=[];
   private CM:ChannelManagement = new ChannelManagement();
-  constructor(){
+  constructor(client?:string){
     console.log('SettleProce Created!!');
-    this.matt = new Matt(this);
+    this.matt = new Matt(this, client);
   }
   pushAsk(ask:AskTable):void {
     const ids = [ask.id];

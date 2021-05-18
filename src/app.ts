@@ -4,7 +4,7 @@ import { IncomingMessage } from 'node:http';
 import WebSocket from 'ws';
 
 dotenv.config()
-const SP = new SettleProc();
+const SP = new SettleProc(process.env.MATT_USER);
 SP.getAsks();
 // let SP:SettleProc;
 

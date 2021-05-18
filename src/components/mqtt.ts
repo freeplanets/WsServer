@@ -16,8 +16,9 @@ class Mqtt {
   private client;
   private clientId:string;
   private clients:AskSettlement[]=[];
-  constructor(private SP:SettleProc){
-    this.clientId = 'dataprovider@kingbet';
+  constructor(private SP:SettleProc, client?:string){
+    if(client) this.clientId = client;
+    else this.clientId = 'dataprovider@kingbet';
     this.client = new AWSMqttClient({
       region: AWS.config.region,
       credentials: AWS.config.credentials,
@@ -66,12 +67,17 @@ class Mqtt {
     try {
       return JSON.parse(str);
     } catch(err) {
+      const tmp:any = str;
+      const newstr = String.fromCharCode.apply(null, tmp);
+      if(newstr === 'leave') return;
       console.log('JSON Parse Error:', str, err);
+      /*
       if(!key){
         const tmp:any = str;
         const newstr = String.fromCharCode.apply(null, tmp);
         return this.JsonParse(newstr,1);
       }
+      */
       return;
     }
   }
