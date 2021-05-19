@@ -71,8 +71,11 @@ export interface AskTable {
   Fee?: number; // 手續費
   AskFee: number; // 手續費率
   AskPrice: number; // 下單價格
-  AskCredit?: number; // 下單時暫扣的信用額度
-  Credit?: number; // 信用額度
+  LeverCredit?: number; // 下單時暫扣的信用額度
+  ExtCredit?: number; // 下單後變動的信用額度,只能增加
+  Lever?:number;
+  LongT?:number;
+  ShortT?:number;
   ProcStatus: number;  // 0 等待處理, 1 處理中, 2 成交, 3 取消
   CreateTime: number; // 建單時間
   DealTime?: number; // 成交時間
