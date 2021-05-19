@@ -43,7 +43,7 @@ server.on('connection',(ws:WebSocket, req:IncomingMessage)=>{
         SP.pushAsk(tmpAsk);
       }
     } else {
-      const chInfo = strdata.split(':');
+      const chInfo = strdata.split(':');  // SetChannel:channelName:?UserID
       const chname = chInfo[1];
       const UserID:number = chInfo[2] ? parseInt(chInfo[2]) : 0;
       console.log('Create Channel:', chname);

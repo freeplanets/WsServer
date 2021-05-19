@@ -1,7 +1,8 @@
 import { AskTable, SendData, ObjectIdentify, Msg, ErrCode, DbAns } from './if';
 import DataBaseIF from '../class/DataBaseIF';
 import { Connection } from 'mariadb';
-import SettleProc from '../components/SettleProc'
+import SettleProc from '../components/SettleProc';
+import Credit from '../components/Credit';
 
 export default abstract class AskSettlement {
   protected list:AskTable[]=[];
@@ -10,6 +11,7 @@ export default abstract class AskSettlement {
   protected IdentifyCode:string;
   protected prices:SendData[]=[];
   protected inProcess:boolean=false;
+  protected credit:Credit = new Credit();
   constructor(protected db:DataBaseIF<Connection>, protected Code:string, AskType:number,protected SP:SettleProc){
     this.IdentifyCode = `${Code}${AskType}`;
     AskSettlement.Identify[this.IdentifyCode] = true;
@@ -42,6 +44,9 @@ export default abstract class AskSettlement {
       console.log('RemoveFromList.', this.inProcess, new Date().getTime());    
     } 
   }
+  protected SendToApiSvr(ask:AskTable):void {
+    this.SP.SendMessage('',JSON.stringify(ask),1);
+  }
   protected async Settle(ask:AskTable):Promise<Msg> {
     return new Promise((resolve,reject)=>{
       let msg:Msg = { ErrNo: ErrCode.DB_QUERY_ERROR };
@@ -49,7 +54,7 @@ export default abstract class AskSettlement {
         Qty = ${ask.Qty},
         Price = ${ask.Price},
         DealTime = ${ask.DealTime},
-        ProcStatus = 2 
+        ProcStatus = 2
         where id = ${ask.id}`;
         console.log('Settle:',sql);
         this.db.query(sql).then((msg=>{
