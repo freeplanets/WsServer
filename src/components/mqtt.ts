@@ -4,6 +4,7 @@ import config from './config';
 import { SendData, ReceivedData } from '../class/if'
 import AskSettlement from '../class/AskSettlement';
 import SettleProc from "./SettleProc";
+import SettleProcDB from './SettleProcDB';
 //import AWSMqttClient from 'aws-mqtt/lib/NodeClient';
 
 const AWSMqttClient	= require('aws-mqtt/lib/NodeClient');
@@ -16,7 +17,7 @@ class Mqtt {
   private client;
   private clientId:string;
   private clients:AskSettlement[]=[];
-  constructor(private SP:SettleProc, client?:string){
+  constructor(private SP:SettleProc | SettleProcDB, client?:string){
     if(client) this.clientId = client;
     else this.clientId = 'dataprovider@kingbet';
     this.client = new AWSMqttClient({

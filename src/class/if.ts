@@ -62,9 +62,10 @@ export interface AskTable {
   UserID: number;
   UpId: number;
   ItemID: number;
+  ItemType: number; // 1買多商品, 2買空商品
   Code: string;
   AskType: number; // 0 市價, 1 限價
-  BuyType: number; // 0 買(多)單, 1 賣(空)單
+  BuyType: number; // 0 買單, 1 賣單
   Qty: number;
   Price?: number; // 建倉價格
   Amount: number; // USDT金額
@@ -74,13 +75,14 @@ export interface AskTable {
   LeverCredit?: number; // 下單時暫扣的信用額度
   ExtCredit?: number; // 下單後變動的信用額度,只能增加
   Lever?:number;
-  LongT?:number;
-  ShortT?:number;
+  StopGain?:number;     // 獲利平倉比
+  StopLose?:number;     // 損失平倉保証金比
   ProcStatus: number;  // 0 等待處理, 1 處理中, 2 成交, 3 取消
   CreateTime: number; // 建單時間
   DealTime?: number; // 成交時間
   ModifyTime?: number; // 修改時間
-  SetID?: number; // 平倉對象ID
+  SetID?: number; // 平倉對象ID -> System下單
+  USetID?: number;  // 平倉對象ID -> User下單
 }
 export interface DealTable {
   id: number;
@@ -128,4 +130,5 @@ export interface ChannelT {
   readonly Name:string;
   register(ws:WebSocket,UserID?:number):void;
   send(message:string, opt: WebSocket|number):void; // ws:WebSocket | UserID
+  remove(ws:WebSocket):void;
 }

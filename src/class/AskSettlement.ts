@@ -1,6 +1,4 @@
-import { AskTable, SendData, ObjectIdentify, Msg, ErrCode, DbAns } from './if';
-import DataBaseIF from '../class/DataBaseIF';
-import { Connection } from 'mariadb';
+import { AskTable, SendData, ObjectIdentify } from './if';
 import SettleProc from '../components/SettleProc';
 import Credit from '../components/Credit';
 
@@ -12,7 +10,7 @@ export default abstract class AskSettlement {
   protected prices:SendData[]=[];
   protected inProcess:boolean=false;
   protected credit:Credit = new Credit();
-  constructor(protected db:DataBaseIF<Connection>, protected Code:string, AskType:number,protected SP:SettleProc){
+  constructor(protected Code:string, AskType:number,protected SP:SettleProc){
     this.IdentifyCode = `${Code}${AskType}`;
     AskSettlement.Identify[this.IdentifyCode] = true;
   }
@@ -44,40 +42,9 @@ export default abstract class AskSettlement {
       console.log('RemoveFromList.', this.inProcess, new Date().getTime());    
     } 
   }
-  protected SendToApiSvr(ask:AskTable):void {
+  protected Settle(ask:AskTable):void {
+    ask.ProcStatus = 2;
     this.SP.SendMessage('',JSON.stringify(ask),1);
-  }
-  protected async Settle(ask:AskTable):Promise<Msg> {
-    return new Promise((resolve,reject)=>{
-      let msg:Msg = { ErrNo: ErrCode.DB_QUERY_ERROR };
-      const sql = `update AskTable set 
-        Qty = ${ask.Qty},
-        Price = ${ask.Price},
-        DealTime = ${ask.DealTime},
-        ProcStatus = 2
-        where id = ${ask.id}`;
-        console.log('Settle:',sql);
-        this.db.query(sql).then((msg=>{
-          if(msg.ErrNo === ErrCode.PASS){
-            ask.ProcStatus = 2;
-            this.SP.SendMessage('AskChannel', JSON.stringify(ask), ask.UserID);
-          }
-          resolve(msg);
-        })).catch(err=>{
-          console.log('Settle error:',err);
-          msg.ErrNo = ErrCode.DB_QUERY_ERROR;
-          msg.error = err;
-          resolve(msg);
-        });
-        /*
-      msg = await this.db.query(sql);
-      if(msg.ErrNo === ErrCode.PASS){
-        const ans:DbAns = msg.data as DbAns;
-        if(ans.affectedRows>0) return msg
-      }
-      return msg;
-      */
-    });
   }
   public abstract Accept(r:SendData):Promise<void>;
 }

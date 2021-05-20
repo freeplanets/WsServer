@@ -25,4 +25,9 @@ export default class ChannelManagement {
       f.send(message, opt);
     }
   }
+  Remove(ws:WebSocket):void {
+    this.childs.forEach((chs)=>{
+      chs.remove(ws);
+    })
+  }
 }

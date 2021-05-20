@@ -32,4 +32,13 @@ export default class AskChannel implements ChannelT {
       console.log('AskChannel error', typeof(UserID), err);
     }
   }
+  remove(ws:WebSocket):void {
+    this.members.every((itm,idx)=>{
+      if(itm.ws === ws) {
+        console.log('AskChannels remove', itm.UserID, idx);
+        this.members.splice(idx,1);
+        return false;
+      }
+    });
+  }  
 }

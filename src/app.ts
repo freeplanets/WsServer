@@ -50,7 +50,11 @@ server.on('connection',(ws:WebSocket, req:IncomingMessage)=>{
       if(chname){
         SP.RegisterChannel(chname, ws, UserID);
       }
-    } 
+    }
+    ws.on('close',( code:number, reason:string)=>{
+      SP.RemoveFromChannel(ws);
+      //console.log(`client close =>  ${code},${reason},${ws.readyState}`);
+    })
     /*
     server.clients.forEach((client:WebSocket)=>{
       if (client.readyState === WebSocket.OPEN) {

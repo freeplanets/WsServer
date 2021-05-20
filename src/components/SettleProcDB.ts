@@ -1,13 +1,13 @@
 import WebSocket from 'ws';
 import DB from '../components/db';
 import { TMsg, AskTable, SendData } from "../class/if";
-import AskSettlement from '../class/AskSettlement';
+import AskSettlement from '../class/AskSettlementDB';
 import Matt from '../components/mqtt';
-import CurPrice from '../components/CurPrice';
-import LimitPrice from '../components/LimitPrice';
+import CurPrice from '../components/CurPriceDB';
+import LimitPrice from '../components/LimitPriceDB';
 import ChannelManagement from '../class/ChannelManagement';
 
-export default class SettleProce {
+export default class SettleProceDB {
   private db:DB = new DB();
   private matt:Matt; 
   private clts:AskSettlement[]=[];
@@ -27,9 +27,9 @@ export default class SettleProce {
     console.log('idenKey:',idenKey);
     if (!AskSettlement.Identify[idenKey]){
       if (ask.AskType === 0) {
-        this.clts.push(new CurPrice(ask, this));
+        this.clts.push(new CurPrice(this.db, ask, this));
       } else if(ask.AskType === 1) {
-        this.clts.push(new LimitPrice(ask, this));
+        this.clts.push(new LimitPrice(this.db, ask, this));
       }
     } else {
       this.clts.forEach((clt:AskSettlement)=>{
