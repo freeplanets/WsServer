@@ -2,9 +2,9 @@ import AskSettlement from '../class/AskSettlement';
 import { SendData, AskTable } from '../class/if';
 import SettleProc from '../components/SettleProc';
 
-export default class CurPrice extends AskSettlement {
+export default class LeverCheck extends AskSettlement {
   constructor(ask:AskTable, SP:SettleProc){
-    super(ask.Code, ask.AskType, SP);
+    super(ask.Code, 2, SP);
     this.Add(ask);
   }
   async Accept(r:SendData){
@@ -15,16 +15,13 @@ export default class CurPrice extends AskSettlement {
     let pMark = false;
     this.inProcess = true;
     this.list.forEach((ask:AskTable) => {
-      console.log(this.IdentifyCode,ask.id,ask.CreateTime,new Date(ask.CreateTime).getTime(),r.eventTime);
-      if(new Date(ask.CreateTime).getTime() < r.eventTime){
-        console.log("do");
-        const price = parseFloat(r.currentClose);
-        if(ask.BuyType === 0) {
-          ask.Qty = parseFloat((ask.Amount / price).toFixed(8));
-        } else {
-          ask.Amount = ask.Qty * price;
-        }
+      const price = parseFloat(r.currentClose);
+      const Gain = (price - ask.Price) * ask.Lever * ask.ItemType;
+      const TotalCredit = ask.Amount + ask.ExtCredit;
+      const LoseRate = (TotalCredit+Gain)/TotalCredit;
+      if( ask.Price/Gain > ask.StopGain || LoseRate < ask.StopLose) {
         ask.Price = price;
+        ask.Amount = ask.Qty * price;
         ask.DealTime = r.eventTime;
         this.Settle(ask);
         this.removelist.push(ask);

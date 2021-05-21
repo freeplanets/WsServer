@@ -2,6 +2,8 @@ import { AskTable, SendData, ObjectIdentify } from './if';
 import SettleProc from '../components/SettleProc';
 import Credit from '../components/Credit';
 
+const ApiChannel = 'AskCreator';
+
 export default abstract class AskSettlement {
   protected list:AskTable[]=[];
   protected removelist:AskTable[]=[];
@@ -15,8 +17,10 @@ export default abstract class AskSettlement {
     AskSettlement.Identify[this.IdentifyCode] = true;
   }
   public Add(ask:AskTable):void{
-    console.log('Add Ask:', this.IdentifyCode ,`${ask.Code}${ask.AskType}`);
-    if(this.IdentifyCode !== `${ask.Code}${ask.AskType}`) return;
+    let key = ask.AskType;
+    if(ask.SetID || ask.USetID) key = 2
+    console.log('Add Ask:', this.IdentifyCode ,`${ask.Code}${key}`);
+    if(this.IdentifyCode !== `${ask.Code}${key}`) return;
     if(ask.ProcStatus > 2) {
       //this.Remove(ask);
       this.removelist.push(ask);
@@ -44,7 +48,7 @@ export default abstract class AskSettlement {
   }
   protected Settle(ask:AskTable):void {
     ask.ProcStatus = 2;
-    this.SP.SendMessage('',JSON.stringify(ask),1);
+    this.SP.SendMessage(ApiChannel, JSON.stringify(ask), 1);
   }
   public abstract Accept(r:SendData):Promise<void>;
 }

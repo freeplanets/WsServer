@@ -5,6 +5,7 @@ import AskSettlement from '../class/AskSettlement';
 import Matt from '../components/mqtt';
 import CurPrice from '../components/CurPrice';
 import LimitPrice from '../components/LimitPrice';
+import LeverCheck from '../components/LeverCheck';
 import ChannelManagement from '../class/ChannelManagement';
 
 export default class SettleProce {
@@ -26,7 +27,9 @@ export default class SettleProce {
     const idenKey = `${ask.Code}${ask.AskType}`;
     console.log('idenKey:',idenKey);
     if (!AskSettlement.Identify[idenKey]){
-      if (ask.AskType === 0) {
+      if (ask.SetID || ask.USetID) {
+        this.clts.push(new LeverCheck(ask, this));
+      } if (ask.AskType === 0) {
         this.clts.push(new CurPrice(ask, this));
       } else if(ask.AskType === 1) {
         this.clts.push(new LimitPrice(ask, this));
