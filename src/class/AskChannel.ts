@@ -17,12 +17,14 @@ export default class AskChannel implements ChannelT {
   register(ws:WebSocket,UserID:number){
     if(this.members.indexOf({UserID, ws})=== -1) this.members.push({UserID, ws});
   }
-  send(message:string, UserID:number){
+  send(message:string, UserID:number):boolean{
+    let doMessage = false;
     try {
       const f = this.members.find(mb => mb.UserID === UserID);
       if(f){
         if(f.ws.readyState === WebSocket.OPEN){
           f.ws.send(message);
+          doMessage = true;
         } else {
           const idx = this.members.indexOf(f);
           this.members.splice(idx,1);
@@ -31,6 +33,7 @@ export default class AskChannel implements ChannelT {
     } catch(err) {
       console.log('AskChannel error', typeof(UserID), err);
     }
+    return doMessage;
   }
   remove(ws:WebSocket):void {
     this.members.every((itm,idx)=>{

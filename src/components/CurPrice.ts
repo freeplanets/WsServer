@@ -26,8 +26,8 @@ export default class CurPrice extends AskSettlement {
         }
         ask.Price = price;
         ask.DealTime = r.eventTime;
-        this.Settle(ask);
-        this.removelist.push(ask);
+        const isSettle = this.Settle(ask);
+        if (isSettle) this.removelist.push(ask);
       } else {
         pMark = true;
       }

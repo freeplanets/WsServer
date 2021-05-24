@@ -1,8 +1,6 @@
-import { AskTable, SendData, ObjectIdentify } from './if';
-import SettleProc from '../components/SettleProc';
+import { AskTable, SendData, ObjectIdentify,WsMsg } from './if';
+import SettleProc,{ ApiChannel, ClientChannel } from '../components/SettleProc';
 import Credit from '../components/Credit';
-
-const ApiChannel = 'AskCreator';
 
 export default abstract class AskSettlement {
   protected list:AskTable[]=[];
@@ -21,8 +19,10 @@ export default abstract class AskSettlement {
     if(ask.SetID || ask.USetID) key = 2
     console.log('Add Ask:', this.IdentifyCode ,`${ask.Code}${key}`);
     if(this.IdentifyCode !== `${ask.Code}${key}`) return;
-    if(ask.ProcStatus > 2) {
+    if(ask.ProcStatus >= 2) {
       //this.Remove(ask);
+      this.SP.SendAsk(ClientChannel, ask, ask.UserID);
+      // this.SP.SendMessage(ClientChannel,JSON.stringify(ask), ask.UserID);
       this.removelist.push(ask);
       return;
     }
@@ -46,9 +46,10 @@ export default abstract class AskSettlement {
       console.log('RemoveFromList.', this.inProcess, new Date().getTime());    
     } 
   }
-  protected Settle(ask:AskTable):void {
+  protected Settle(ask:AskTable):boolean {
     ask.ProcStatus = 2;
-    this.SP.SendMessage(ApiChannel, JSON.stringify(ask), 1);
+    return this.SP.SendAsk(ApiChannel, ask, 1);
+    // return this.SP.SendMessage(ApiChannel, JSON.stringify(ask), 1);
   }
   public abstract Accept(r:SendData):Promise<void>;
 }

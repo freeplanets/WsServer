@@ -1,12 +1,15 @@
 import WebSocket from 'ws';
 import DB from '../components/db';
-import { TMsg, AskTable, SendData } from "../class/if";
+import { TMsg, AskTable, SendData, WsMsg, FuncKey } from "../class/if";
 import AskSettlement from '../class/AskSettlement';
 import Matt from '../components/mqtt';
 import CurPrice from '../components/CurPrice';
 import LimitPrice from '../components/LimitPrice';
 import LeverCheck from '../components/LeverCheck';
 import ChannelManagement from '../class/ChannelManagement';
+
+export const ApiChannel = 'AskCreator';
+export const ClientChannel = 'AskChannel';
 
 export default class SettleProce {
   private db:DB = new DB();
@@ -40,7 +43,60 @@ export default class SettleProce {
       })
     }
   }
-  JsonParse(str:string):AskTable | undefined{
+  AcceptMessage(strdata:string, ws:WebSocket):void {
+    const msg = this.JsonParse(strdata);
+    console.log('AcceptMessage', msg);
+    if(msg.Func === FuncKey.SET_CHANNEL){
+      if(msg.ChannelName) {
+        this.RegisterChannel(msg.ChannelName, ws, msg.UserID);
+      }
+    } else {
+      if(msg.Asks) {
+        if(Array.isArray(msg.Asks)){
+          msg.Asks.forEach(ask => {
+            this.pushAsk(ask);
+          })
+        } else {
+          this.pushAsk(msg.Asks);
+        }
+      }
+      if(msg.Ask) {
+        this.pushAsk(msg.Ask);
+      }
+      if(msg.AskToClient){
+        this.pushAsk(msg.AskToClient);
+      }
+      if(msg.Message) {
+        console.log ('Message from client:', msg.Message);
+      }
+    }
+  }
+  AddAsk(strdata:string):void {
+    const tmpAsk = this.JParse(strdata);
+    if(tmpAsk){
+      if(Array.isArray(tmpAsk)){
+        tmpAsk.forEach(ask=>{
+          this.pushAsk(ask);
+        })
+      } else {
+        this.pushAsk(tmpAsk);
+      }
+    }
+  }
+  JsonParse(str:string):WsMsg {
+    let msg:WsMsg;
+    try {
+      msg = JSON.parse(str);
+      return msg;
+    } catch( err ) {
+      console.log('SettleProc JSON parse error:', err);
+      msg = {
+        error: 'JSON parse error!!',
+      }
+      return msg;
+    }
+  }
+  JParse(str:string):AskTable | AskTable[] | undefined{
     if (str.search('AskType')===-1) return;
     try {
       return JSON.parse(str);
@@ -57,7 +113,7 @@ export default class SettleProce {
     )
   }
   async updateAskStatus(ids:number[]):Promise<void>{
-    const sql = `update AskTable set ProcStatus = 1 where id in (${ids.join(',')})`;
+    const sql = `update AskTable set ProcStatus = 1 where id in (${ids.join(',')}) and ProcStatus = 0`;
     console.log('updateAskStatus:',sql);
     await this.db.query(sql);
   }
@@ -80,10 +136,17 @@ export default class SettleProce {
     //console.log('init getAsk end.');
   }
   RegisterChannel(name:string, ws:WebSocket, UserID?:number){
+    console.log('SP RegisterChannel:', name, UserID);
     this.CM.Register(name,ws,UserID);
   }
-  SendMessage(name:string, message:string, opt:WebSocket | number){ // ws:WebSocket | UserID
-    this.CM.Send(name, message, opt )
+  SendAsk(name:string, ask:AskTable, opt:WebSocket|number):boolean {
+    const msg:WsMsg= {
+      Ask: ask
+    }
+    return this.CM.Send(name, JSON.stringify(msg), opt);
+  }  
+  SendMessage(name:string, message:string, opt:WebSocket | number):boolean { // ws:WebSocket | UserID
+    return this.CM.Send(name, message, opt )
   }
   RemoveFromChannel(ws:WebSocket):void{
     this.CM.Remove(ws);

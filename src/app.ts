@@ -2,6 +2,7 @@ import dotenv from 'dotenv';
 import SettleProc from './components/SettleProc';
 import { IncomingMessage } from 'node:http';
 import WebSocket from 'ws';
+import { WsMsg, FuncKey } from './class/if';
 
 dotenv.config()
 const SP = new SettleProc(process.env.MATT_USER);
@@ -30,18 +31,21 @@ server.on('connection',(ws:WebSocket, req:IncomingMessage)=>{
   // console.log('connection:',req.socket);
   console.log('%s is connected',curClient);
   // mqtt.Clients = server.clients;
-  ws.send('Welcome ' + curClient);
+  const msg:WsMsg = {
+    Message : 'Welcome ' + curClient, 
+  }
+  // ws.send('Welcome ' + curClient);
+  ws.send(JSON.stringify(msg));
 
   ws.on('message',(data:WebSocket.Data)=>{
     //console.log('data:',data,typeof data);
-    const strdata = data.toString(); 
+    const strdata = data.toString();
+    SP.AcceptMessage(strdata,ws);
+    /*
     console.log('received: %s from %s', strdata, curClient);
     const find = strdata.search('SetChannel');
     if (find === -1) {
-      const tmpAsk = SP.JsonParse(strdata);
-      if(tmpAsk){
-        SP.pushAsk(tmpAsk);
-      }
+      SP.AddAsk(strdata);
     } else {
       const chInfo = strdata.split(':');  // SetChannel:channelName:?UserID
       const chname = chInfo[1];
@@ -51,6 +55,7 @@ server.on('connection',(ws:WebSocket, req:IncomingMessage)=>{
         SP.RegisterChannel(chname, ws, UserID);
       }
     }
+    */
     ws.on('close',( code:number, reason:string)=>{
       SP.RemoveFromChannel(ws);
       //console.log(`client close =>  ${code},${reason},${ws.readyState}`);

@@ -1,6 +1,6 @@
 import WebSocket from 'ws';
 import DB from '../components/db';
-import { TMsg, AskTable, SendData } from "../class/if";
+import { TMsg, AskTable, SendData, WsMsg } from "../class/if";
 import AskSettlement from '../class/AskSettlementDB';
 import Matt from '../components/mqtt';
 import CurPrice from '../components/CurPriceDB';

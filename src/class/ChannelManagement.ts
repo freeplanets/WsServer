@@ -19,11 +19,13 @@ export default class ChannelManagement {
       this.childs.push(f);
     }
   }
-  Send(name:string, message:string, opt:WebSocket | number){
+  Send(name:string, message:string, opt:WebSocket | number):boolean{
+    let doSend = false;
     const f = this.childs.find(chd => chd.Name === name);
     if(f){
-      f.send(message, opt);
+      doSend = f.send(message, opt);
     }
+    return doSend;
   }
   Remove(ws:WebSocket):void {
     this.childs.forEach((chs)=>{

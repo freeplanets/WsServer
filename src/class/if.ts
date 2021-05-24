@@ -1,6 +1,6 @@
 import WebSocket from 'ws';
 
-export const enum ErrCode {
+export enum ErrCode {
   PASS = 0,
   LESS_MIN_HAND = 1,
   OVER_MAX_HAND = 2,
@@ -17,6 +17,20 @@ export const enum ErrCode {
   DB_QUERY_ERROR = 13,
   TRY_CATCH_ERROR = 14,
   NO_DATA_FOUND = 15,
+}
+export enum FuncKey {
+  SET_CHANNEL = 'SetChannel',
+}
+export interface WsMsg {
+  Func?: FuncKey;
+  Asks?:AskTable | AskTable[];
+  Ask?:AskTable;
+  AskToClient?: AskTable
+  Balance?:number;
+  Message?:string;
+  ChannelName?:string;
+  UserID?:number;
+  [key:string]:any;
 }
 export interface DbAns  {
   affectedRows: number;
@@ -129,6 +143,6 @@ export interface TableData {
 export interface ChannelT {
   readonly Name:string;
   register(ws:WebSocket,UserID?:number):void;
-  send(message:string, opt: WebSocket|number):void; // ws:WebSocket | UserID
+  send(message:string, opt: WebSocket|number):boolean; // ws:WebSocket | UserID
   remove(ws:WebSocket):void;
 }

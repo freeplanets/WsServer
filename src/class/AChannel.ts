@@ -13,12 +13,14 @@ export default class AChannel implements ChannelT {
   register(ws:WebSocket){
     if(this.members.indexOf(ws)===-1) this.members.push(ws);
   }
-  send(message:string, ws:WebSocket){
+  send(message:string, ws:WebSocket):boolean{
+    let doMessage = false;
     try {
       this.members.forEach((mb)=>{
         if(mb !== ws){
           if(mb.readyState === WebSocket.OPEN){
             mb.send(message);
+            doMessage = true;
           } else {
             this.removelist.push(mb);       
           }
@@ -28,6 +30,7 @@ export default class AChannel implements ChannelT {
     } catch(err) {
       console.log('AChannel send error:', typeof(ws), err);
     }
+    return doMessage;
   }
   private removeMember(){
     this.removelist.forEach((rm)=>{
