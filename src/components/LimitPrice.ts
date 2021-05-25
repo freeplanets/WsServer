@@ -13,11 +13,11 @@ export default class LimitPrice extends AskSettlement {
     let pMark = false;
     this.inProcess = true;
       this.list.forEach((ask:AskTable) => {
-        console.log(this.IdentifyCode,ask.id,ask.CreateTime,new Date(ask.CreateTime).getTime(),r.eventTime);
+        // console.log(this.IdentifyCode,ask.id,ask.CreateTime,new Date(ask.CreateTime).getTime(),r.eventTime);
         if (new Date(ask.CreateTime).getTime() < r.eventTime){
           const price = parseFloat(r.currentClose);
           const key = ask.BuyType ?  1 : -1;
-          console.log('LimitPrice', ask.AskPrice, price, (price - ask.AskPrice)*key);
+          // console.log('LimitPrice', ask.AskPrice, price, (price - ask.AskPrice)*key);
           if ((price - ask.AskPrice)*key >= 0) { //58798.64 58470.93
             ask.Price = ask.AskPrice;
             ask.AskPrice = price;
