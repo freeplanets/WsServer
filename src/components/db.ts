@@ -18,16 +18,14 @@ export default class db implements DatabaseIF<Connection> {
   public conn:Connection | undefined;
   constructor(){}
   public async createConnection():Promise<Connection|undefined>{
-    if(!this.conn){
-      try {
-        this.conn = await mariadb.createConnection(this.config);
-        return this.conn;
-      } catch ( err ) {
-        console.log('Create Connection error:', err);
-        return;
-      }
+    let conn: Connection | undefined;
+    try {
+      conn = await mariadb.createConnection(this.config);
+      this.conn = conn;
+    } catch ( err ) {
+      console.log('Create Connection error:', err);
     }
-    return this.conn;
+    return conn;
   }
   async begintrans():Promise<Msg> {
     const msg:Msg = { ErrNo: ErrCode.PASS };

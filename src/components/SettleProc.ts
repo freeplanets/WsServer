@@ -45,7 +45,7 @@ export default class SettleProce {
   }
   AcceptMessage(strdata:string, ws:WebSocket):void {
     const msg = this.JsonParse(strdata);
-    console.log('AcceptMessage', msg);
+    // console.log('AcceptMessage', msg);
     if(msg.Func === FuncKey.SET_CHANNEL){
       if(msg.ChannelName) {
         this.RegisterChannel(msg.ChannelName, ws, msg.UserID);
@@ -89,7 +89,9 @@ export default class SettleProce {
       msg = JSON.parse(str);
       return msg;
     } catch( err ) {
-      console.log('SettleProc JSON parse error:', err);
+      console.log('SettleProc JSON parse error:');
+      console.log( str );
+      console.log( err );
       msg = {
         error: 'JSON parse error!!',
       }
