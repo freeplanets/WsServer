@@ -45,30 +45,45 @@ export default class SettleProce {
   }
   AcceptMessage(strdata:string, ws:WebSocket):void {
     const msg = this.JsonParse(strdata);
-    // console.log('AcceptMessage', msg);
+    console.log('AcceptMessage', msg);
     if(msg.Func === FuncKey.SET_CHANNEL){
-      if(msg.ChannelName) {
-        this.RegisterChannel(msg.ChannelName, ws, msg.UserID);
+      switch(msg.Func) {
+        case FuncKey.SET_CHANNEL:
+          if(msg.ChannelName) {
+            this.RegisterChannel(msg.ChannelName, ws, msg.UserID);
+          }
+          break;
       }
     } else {
-      if(msg.Asks) {
-        if(Array.isArray(msg.Asks)){
-          msg.Asks.forEach(ask => {
-            this.pushAsk(ask);
-          })
-        } else {
-          this.pushAsk(msg.Asks);
-        }
+      this.doNoFunc(msg);
+    }
+  }
+  doNoFunc(msg:WsMsg) {
+    console.log('doNoFunc', msg);
+    let UserID:number|undefined;
+    if(msg.Asks) {
+      if(Array.isArray(msg.Asks)){
+        msg.Asks.forEach(ask => {
+          UserID = ask.UserID;
+          this.pushAsk(ask);
+        })
+      } else {
+        UserID = msg.Asks.UserID;
+        this.pushAsk(msg.Asks);
       }
-      if(msg.Ask) {
-        this.pushAsk(msg.Ask);
-      }
-      if(msg.AskToClient){
-        this.pushAsk(msg.AskToClient);
-      }
-      if(msg.Message) {
-        console.log ('Message from client:', msg.Message);
-      }
+      delete msg.Asks;
+    }
+    if(msg.Ask) {
+      UserID = msg.Ask.UserID;
+      this.pushAsk(msg.Ask);
+      delete msg.Ask;
+    }
+    if(UserID && (typeof(msg.Balance) === 'number' || msg.LedgerTotal) ){
+      console.log('Send to Client:', msg);
+      this.CM.Send(ClientChannel, JSON.stringify(msg), UserID);
+    }
+    if(msg.Message) {
+      console.log ('Message from client:', msg.Message);
     }
   }
   AddAsk(strdata:string):void {
@@ -145,7 +160,7 @@ export default class SettleProce {
     const msg:WsMsg= {
       Ask: ask
     }
-    return this.CM.Send(name, JSON.stringify(msg), opt);
+    return this.SendMessage(name, JSON.stringify(msg), opt);
   }  
   SendMessage(name:string, message:string, opt:WebSocket | number):boolean { // ws:WebSocket | UserID
     return this.CM.Send(name, message, opt )

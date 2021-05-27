@@ -25,8 +25,9 @@ export interface WsMsg {
   Func?: FuncKey;
   Asks?:AskTable | AskTable[];
   Ask?:AskTable;
-  AskToClient?: AskTable
+  // AskToClient?: AskTable
   Balance?:number;
+  LedgerTotal?: any;
   Message?:string;
   ChannelName?:string;
   UserID?:number;

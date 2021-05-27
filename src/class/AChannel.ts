@@ -11,7 +11,9 @@ export default class AChannel implements ChannelT {
     return this.name;
   }
   register(ws:WebSocket){
-    if(this.members.indexOf(ws)===-1) this.members.push(ws);
+    const idx = this.members.indexOf(ws);
+    if(idx === -1) this.members.push(ws);
+    else this.members.splice(idx, 1, ws);
   }
   send(message:string, ws:WebSocket):boolean{
     let doMessage = false;
