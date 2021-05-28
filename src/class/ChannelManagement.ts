@@ -9,14 +9,19 @@ export default class ChannelManagement {
   Register(name:string, ws:WebSocket, UserID?:number){
     let f = this.childs.find(chd => chd.Name === name);
     if(f){
-      f.register(ws);
+      console.log('Register Check1');
+      f.register(ws, UserID);
     } else {
+      console.log('Register Check2');
       if(UserID){
+        console.log('Register Check3');
         f = new AskChannel(name, ws, UserID);
       } else {
+        console.log('Register Check4');
         f = new AChannel(name, ws);
-      }
+      }     
       this.childs.push(f);
+      console.log('Register Check5', this.childs.length); 
     }
   }
   Send(name:string, message:string, opt:WebSocket | number):boolean{

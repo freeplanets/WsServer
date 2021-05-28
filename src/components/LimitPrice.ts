@@ -21,11 +21,18 @@ export default class LimitPrice extends AskSettlement {
           if ((price - ask.AskPrice)*key >= 0) { //58798.64 58470.93
             ask.Price = ask.AskPrice;
             ask.AskPrice = price;
+            if (ask.Amount) {
+              ask.Qty = parseFloat((ask.Amount / price).toFixed(8));
+            } else {
+              ask.Amount = parseFloat((ask.Qty * price).toFixed(2));
+            }
+            /*
             if(ask.BuyType === 0 ) {
               ask.Qty = parseFloat((ask.Amount / price).toFixed(8));
             } else {
               ask.Amount = ask.Qty * price;
             }
+            */
             ask.DealTime = r.eventTime;
             const isSettle = this.Settle(ask);
             if (isSettle) this.removelist.push(ask);

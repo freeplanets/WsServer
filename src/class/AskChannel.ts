@@ -15,9 +15,34 @@ export default class AskChannel implements ChannelT {
     return this.name;
   }
   register(ws:WebSocket,UserID:number){
-    const idx = this.members.indexOf({ UserID, ws });
-    if( idx === -1) this.members.push({ UserID, ws });
-    else this.members.splice(idx, 1, { UserID, ws })
+    /*
+    const idToCancel:number[]=[];
+    this.members.forEach((itm,idx)=>{
+      if(itm.ws.readyState !== itm.ws.OPEN) idToCancel.push(idx);
+    })
+    idToCancel.sort(function(a,b) { return b-a; });
+    idToCancel.forEach(idx=>{
+      this.members.splice(idx,1);
+    });
+    this.members.push({ UserID, ws });
+    */
+    console.log('AskChannel member countB:', this.members.length);
+    this.members.forEach(itm=>{
+      console.log('list ws:', this.Name, itm.UserID);
+    })
+    const f = this.members.find(mb=>mb.UserID === UserID);
+    if (f) {
+      if(f.ws.readyState !== f.ws.OPEN) {
+        f.ws = ws;
+        console.log('AskChannel change ws', UserID);
+      }
+    } else {
+      this.members.push({ UserID, ws });
+    }
+    console.log('AskChannel member countA:', this.members.length);
+    this.members.forEach(itm=>{
+      console.log('list ws:', this.Name, itm.UserID);
+    })
   }
   send(message:string, UserID:number):boolean{
     let doMessage = false;

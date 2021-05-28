@@ -5,15 +5,15 @@ export default class AChannel implements ChannelT {
   private members:WebSocket[]=[];
   private removelist:WebSocket[]=[];
   constructor(private name:string,ws:WebSocket){
-    this.members.push(ws);
+    // this.members.push(ws);
+    this.register(ws);
   }
   get Name():string {
     return this.name;
   }
   register(ws:WebSocket){
-    const idx = this.members.indexOf(ws);
-    if(idx === -1) this.members.push(ws);
-    else this.members.splice(idx, 1, ws);
+    if(this.members.indexOf(ws) === -1) this.members.push(ws);
+    console.log('AChannel member count:', this.members.length);
   }
   send(message:string, ws:WebSocket):boolean{
     let doMessage = false;

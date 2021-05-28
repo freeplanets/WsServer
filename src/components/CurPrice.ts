@@ -19,11 +19,16 @@ export default class CurPrice extends AskSettlement {
       if(new Date(ask.CreateTime).getTime() < r.eventTime){
         console.log("do");
         const price = parseFloat(r.currentClose);
-        if(ask.BuyType === 0) {
+        if(ask.Amount) {
           ask.Qty = parseFloat((ask.Amount / price).toFixed(8));
         } else {
-          ask.Amount = ask.Qty * price;
+          ask.Amount = parseFloat((ask.Qty * price).toFixed(2));
         }
+        /*
+        if(ask.BuyType === 0) {
+          ask.Qty = parseFloat((ask.Amount / price).toFixed(8));
+        }
+        */
         ask.Price = price;
         ask.DealTime = r.eventTime;
         const isSettle = this.Settle(ask);
