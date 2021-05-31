@@ -27,21 +27,20 @@ export default class SettleProce {
   }
   private addAsk(ask:AskTable):void{
     console.log('static check:',AskSettlement.Identify);
-    const idenKey = `${ask.Code}${ask.AskType}`;
+    const idenKey = `${ask.Code}${ask.SetID ? AskSettlement.LeverKey : ask.AskType}`;
     console.log('idenKey:',idenKey);
     if (!AskSettlement.Identify[idenKey]){
-      if (ask.SetID || ask.USetID) {
+      if (ask.SetID) {
         this.clts.push(new LeverCheck(ask, this));
-      } if (ask.AskType === 0) {
+      } else if (ask.AskType === 0) {
         this.clts.push(new CurPrice(ask, this));
       } else if(ask.AskType === 1) {
         this.clts.push(new LimitPrice(ask, this));
       }
-    } else {
-      this.clts.forEach((clt:AskSettlement)=>{
-        clt.Add(ask);
-      })
     }
+    this.clts.forEach((clt:AskSettlement)=>{
+      clt.Add(ask);
+    })
   }
   AcceptMessage(strdata:string, ws:WebSocket):void {
     const msg = this.JsonParse(strdata);

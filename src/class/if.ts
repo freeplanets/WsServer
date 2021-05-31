@@ -21,6 +21,10 @@ export enum ErrCode {
 export enum FuncKey {
   SET_CHANNEL = 'SetChannel',
 }
+export enum PriceCheckType {
+  CurPrice = 0,
+  LimitPrice = 1,
+}
 export interface WsMsg {
   Func?: FuncKey;
   Asks?:AskTable | AskTable[];

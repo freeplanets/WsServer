@@ -48,7 +48,7 @@ export default class AskChannel implements ChannelT {
     let doMessage = false;
     try {
       const f = this.members.find(mb => mb.UserID === UserID);
-      console.log('check1', this.members.length, UserID, f);
+      console.log('check1', this.members.length, UserID);
       if(f){
         console.log('check2');
         if(f.ws.readyState === f.ws.OPEN){

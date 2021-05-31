@@ -1,11 +1,15 @@
 import AskSettlement from '../class/AskSettlement';
-import { SendData, AskTable } from '../class/if';
+import { SendData, AskTable, PriceCheckType } from '../class/if';
 import SettleProc from '../components/SettleProc';
 
 export default class LimitPrice extends AskSettlement {
   constructor(ask:AskTable, SP:SettleProc){
     super(ask.Code, ask.AskType, SP);
     this.Add(ask);
+  }
+  Add(ask:AskTable) {
+    if(ask.AskType !== PriceCheckType.LimitPrice) return;
+    super.Add(ask);
   }
   async Accept(r:SendData){
     if(this.Code !== r.symbol) return;
