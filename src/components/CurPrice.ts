@@ -35,6 +35,7 @@ export default class CurPrice extends AskSettlement {
         */
         ask.Price = price;
         ask.DealTime = r.eventTime;
+        console.log('CurPrice Settle:', JSON.stringify(ask));
         const isSettle = this.Settle(ask);
         if (isSettle) this.removelist.push(ask);
       } else {

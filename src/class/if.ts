@@ -27,9 +27,8 @@ export enum PriceCheckType {
 }
 export interface WsMsg {
   Func?: FuncKey;
-  Asks?:AskTable | AskTable[];
+  Asks?: AskTable | AskTable[];
   Ask?:AskTable;
-  // AskToClient?: AskTable
   Balance?:number;
   LedgerTotal?: any;
   Message?:string;

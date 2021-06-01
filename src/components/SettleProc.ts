@@ -44,7 +44,7 @@ export default class SettleProce {
   }
   AcceptMessage(strdata:string, ws:WebSocket):void {
     const msg = this.JsonParse(strdata);
-    console.log('AcceptMessage', msg);
+    // console.log('AcceptMessage', msg);
     if(msg.Func === FuncKey.SET_CHANNEL){
       switch(msg.Func) {
         case FuncKey.SET_CHANNEL:
