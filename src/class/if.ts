@@ -25,6 +25,10 @@ export enum PriceCheckType {
   CurPrice = 0,
   LimitPrice = 1,
 }
+export enum Channels {
+  ASK = 'AskChannel',
+  PUB = 'PublicChannel',
+}
 export interface WsMsg {
   Func?: FuncKey;
   Asks?: AskTable | AskTable[];

@@ -1,7 +1,7 @@
 import AWS from 'aws-sdk';
 // import WebSocket from 'ws';
 import config from './config';
-import { SendData, ReceivedData } from '../class/if'
+import { SendData, ReceivedData, Channels, WsMsg, FuncKey } from '../class/if'
 import AskSettlement from '../class/AskSettlement';
 import SettleProc from "./SettleProc";
 import SettleProcDB from './SettleProcDB';
@@ -17,9 +17,12 @@ class Mqtt {
   private client;
   private clientId:string;
   private clients:AskSettlement[]=[];
+  private chPub = config.topics.announcement;
+  private chMe:string;
   constructor(private SP:SettleProc | SettleProcDB, client?:string){
     if(client) this.clientId = client;
     else this.clientId = 'dataprovider@kingbet';
+    this.chMe = `${config.topics.room}${this.clientId}`; 
     this.client = new AWSMqttClient({
       region: AWS.config.region,
       credentials: AWS.config.credentials,
@@ -36,11 +39,22 @@ class Mqtt {
       this.addLogEntry('Successfully connected to AWS MQTT Broker!:-)')
       this.subscribe(config.topics.announcement)				// 訂閱 公告頻道
       this.subscribe(config.topics.tick)					// 訂閱 報價頻道
-      this.subscribe(config.topics.room + this.clientId)			// 訂閱 私人頻道 可發佈訊息
-      this.client.publish(config.topics.room + this.clientId, 'enter')	// 連線成功時 發佈 enter 訊息至私人頻道
+      this.subscribe(this.chMe)			// 訂閱 私人頻道 可發佈訊息
+      // this.client.publish(this.chMe, 'enter')	// 連線成功時 發佈 enter 訊息至私人頻道
+      this.publish(this.chMe, 'enter');
+      /*
+      const wsg:WsMsg = {
+        Func: FuncKey.SET_CHANNEL,
+        ChannelName: this.chMe,
+        UserID: 0
+      }
+      this.client.publish(this.chPub,JSON.stringify(wsg));
+      */
     })
     this.client.on('message', async (topic:string, message:string) => {
-      //this.addLogEntry(`${topic} => ${message}`)
+      if(topic === this.chPub ) {
+        this.addLogEntry(`on meseage: ${topic} => ${message}`);
+      }
       const data:ReceivedData|undefined = this.JsonParse(message);
       if(data){
         const senddata:SendData = {
@@ -63,6 +77,10 @@ class Mqtt {
     this.client.on('offline', () => {
       this.addLogEntry('Went offline:-(')
     })
+  }
+  publish(topic:string,message:string) {
+    this.addLogEntry(`publish: ${topic} => ${message}`);
+    this.client.publish(topic, message);
   }
   JsonParse(str:string, key?:number):ReceivedData|undefined{
     try {

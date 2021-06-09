@@ -12,7 +12,7 @@ export default class db implements DatabaseIF<Connection> {
     password: process.env.MDPASSWORD,
     database: process.env.MDDATABASE,
     port: process.env.MDPORT ? parseInt(process.env.MDPORT, 10) : 3306,
-    timezone: "Asia/Taipei",
+    // timezone: "Asia/Taipei",
     charset: "UTF8"  
   }
   public conn:Connection | undefined;

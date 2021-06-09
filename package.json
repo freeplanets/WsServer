@@ -5,6 +5,7 @@
   "main": "dist/app.js",
   "scripts": {
     "serve": "nodemon src/app.ts",
+    "back": "node  --trace-warnings -r ts-node/register -r tsconfig-paths/register ./src/app.ts",
     "start": "ts-node src/app.ts",
     "build": "tsc --project ./",
     "test": "echo \"Error: no test specified\" && exit 1"
