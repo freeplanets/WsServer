@@ -20,7 +20,7 @@ export default class LimitPrice extends AskSettlement {
         // console.log(this.IdentifyCode,ask.id,ask.CreateTime,new Date(ask.CreateTime).getTime(),r.eventTime);
         if (new Date(ask.CreateTime).getTime() < r.eventTime){
           const price = parseFloat(r.currentClose);
-          const key = ask.BuyType ?  1 : -1;
+          const key = (ask.BuyType ?  1 : -1) * ask.ItemType;
           // console.log('LimitPrice', ask.AskPrice, price, (price - ask.AskPrice)*key);
           if ((price - ask.AskPrice)*key >= 0) { //58798.64 58470.93
             ask.Price = ask.AskPrice;
