@@ -28,7 +28,7 @@ export default class ChannelManagement {
     let doSend = false;
     const f = this.childs.find(chd => chd.Name === name);
     if(f){
-      console.log('SettleProc Send',name,message,opt,'<',this.childs.length,'>');
+      console.log('SettleProc Send', name, message, opt, '<', this.childs.length, '>');
       doSend = f.send(message, opt);
     }
     return doSend;

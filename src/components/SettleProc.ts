@@ -79,7 +79,8 @@ export default class SettleProce {
     }
     if(UserID && (typeof(msg.Balance) === 'number' || msg.LedgerTotal) ){
       console.log('Send to Client:', msg);
-      this.CM.Send(ClientChannel, JSON.stringify(msg), UserID);
+      // this.CM.Send(ClientChannel, JSON.stringify(msg), UserID);
+      this.SendMessage(ClientChannel, JSON.stringify(msg), UserID);
     }
     if(msg.Message) {
       console.log ('Message from client:', msg.Message);

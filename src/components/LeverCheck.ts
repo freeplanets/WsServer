@@ -1,6 +1,7 @@
+import AskChannel from '../class/AskChannel';
 import AskSettlement from '../class/AskSettlement';
 import { SendData, AskTable } from '../class/if';
-import SettleProc from '../components/SettleProc';
+import SettleProc, { ClientChannel } from '../components/SettleProc';
 
 export default class LeverCheck extends AskSettlement {
   constructor(ask:AskTable, SP:SettleProc){
@@ -12,6 +13,7 @@ export default class LeverCheck extends AskSettlement {
       this.removelist.push(ask);
       return;      
     }
+    this.SP.SendAsk(ClientChannel, ask, ask.UserID);
     super.Add(ask);
     // console.log('LeverCheck Add removelist:', this.removelist.length, JSON.stringify(this.removelist));
   }

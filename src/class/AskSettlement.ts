@@ -1,4 +1,4 @@
-import { AskTable, SendData, ObjectIdentify,WsMsg } from './if';
+import { AskTable, SendData, ObjectIdentify } from './if';
 import SettleProc,{ ApiChannel, ClientChannel } from '../components/SettleProc';
 import Credit from '../components/Credit';
 
@@ -18,8 +18,8 @@ export default abstract class AskSettlement {
   public Add(ask:AskTable):void{
     let key = ask.AskType;
     if(ask.SetID) key = AskSettlement.LeverKey;
-    console.log('Add Ask:', this.IdentifyCode ,`${ask.Code}${key}`);
     if(this.IdentifyCode !== `${ask.Code}${key}`) return;
+    console.log('Add Ask:', this.IdentifyCode , `${ask.Code}${key}`, ask.id);
     if(ask.ProcStatus >= 2) {
       //this.Remove(ask);
       this.SP.SendAsk(ClientChannel, ask, ask.UserID);

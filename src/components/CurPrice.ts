@@ -43,7 +43,7 @@ export default class CurPrice extends AskSettlement {
       }
     })
     if(this.removelist.length>0){
-      console.log('Accept before RemoveFormList');
+      // console.log('Accept before RemoveFormList');
       this.RemoveFromList();
     } else {
       this.inProcess = false;
