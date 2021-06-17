@@ -26,14 +26,15 @@ export default class LeverCheck extends AskSettlement {
     this.inProcess = true;
     this.list.forEach((ask:AskTable) => {
       const price = parseFloat(r.currentClose);
-      const Gain = (price - ask.AskPrice) * ask.Lever * ask.ItemType * ask.Qty;
-      const TotalCredit = ask.LeverCredit + ask.ExtCredit;
-      const LoseRate = (TotalCredit+Gain)/TotalCredit;
+      // const Gain = (price - ask.AskPrice) * ask.Lever * ask.ItemType * ask.Qty;
+      // const TotalCredit = ask.LeverCredit + ask.ExtCredit;
+      // const LoseRate = (TotalCredit+Gain)/TotalCredit;
       // console.log('Lever check:', price, Gain, ask.AskPrice, TotalCredit, ((Gain/ask.LeverCredit)).toFixed(2), (LoseRate).toFixed(2), ask.StopGain, ask.StopLose);
       // console.log('check', Gain/ask.LeverCredit > ask.StopGain, LoseRate < (1-ask.StopLose));
-      if( Gain/ask.LeverCredit > ask.StopGain || LoseRate < (1-ask.StopLose)) {
+      // if( Gain/ask.LeverCredit > ask.StopGain || LoseRate < (1-ask.StopLose)) {
+      if ((price - ask.GainPrice)*ask.ItemType > 0 || (price - ask.StopLose)*ask.ItemType < 0) {
         ask.Price = price;
-        ask.Amount = Gain;
+        ask.Amount = price * ask.Qty;
         ask.DealTime = r.eventTime;
         // console.log('LeverCheck Settle:',JSON.stringify(ask));
         const isSettle = this.Settle(ask);

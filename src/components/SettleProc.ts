@@ -27,10 +27,10 @@ export default class SettleProce {
   }
   private addAsk(ask:AskTable):void{
     console.log('static check:',AskSettlement.Identify);
-    const idenKey = `${ask.Code}${ask.SetID ? AskSettlement.LeverKey : ask.AskType}`;
+    const idenKey = `${ask.Code}${ask.SetID || ask.USetID ? AskSettlement.LeverKey : ask.AskType}`;
     console.log('idenKey:',idenKey);
     if (!AskSettlement.Identify[idenKey]){
-      if (ask.SetID) {
+      if (ask.SetID || ask.USetID) {
         this.clts.push(new LeverCheck(ask, this));
       } else if (ask.AskType === 0) {
         this.clts.push(new CurPrice(ask, this));

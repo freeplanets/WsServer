@@ -17,7 +17,7 @@ export default abstract class AskSettlement {
   }
   public Add(ask:AskTable):void{
     let key = ask.AskType;
-    if(ask.SetID) key = AskSettlement.LeverKey;
+    if(ask.SetID || ask.USetID) key = AskSettlement.LeverKey;
     if(this.IdentifyCode !== `${ask.Code}${key}`) return;
     console.log('Add Ask:', this.IdentifyCode , `${ask.Code}${key}`, ask.id);
     if(ask.ProcStatus >= 2) {
