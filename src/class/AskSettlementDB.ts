@@ -33,7 +33,7 @@ export default abstract class AskSettlementDB {
   }
   public RemoveFromList(){
     let chkdo:boolean=false;
-    console.log('RemoveFromLise',JSON.stringify(this.removelist));
+    console.log('RemoveFromList',JSON.stringify(this.removelist));
     this.removelist.forEach((ask)=>{
       this.Remove(ask);
       chkdo=true;

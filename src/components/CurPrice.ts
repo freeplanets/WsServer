@@ -19,7 +19,7 @@ export default class CurPrice extends AskSettlement {
     let pMark = false;
     this.inProcess = true;
     this.list.forEach((ask:AskTable) => {
-      console.log(this.IdentifyCode,ask.id,ask.CreateTime,new Date(ask.CreateTime).getTime(),r.eventTime);
+      // console.log(this.IdentifyCode,ask.id,ask.CreateTime,new Date(ask.CreateTime).getTime(),r.eventTime);
       if(new Date(ask.CreateTime).getTime() < r.eventTime){
         console.log("do");
         const price = parseFloat(r.currentClose);

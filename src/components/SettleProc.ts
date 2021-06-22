@@ -58,7 +58,7 @@ export default class SettleProce {
     }
   }
   doNoFunc(msg:WsMsg) {
-    console.log('doNoFunc', msg);
+    // console.log('doNoFunc', msg);
     let UserID:number|undefined;
     if(msg.Asks) {
       if(Array.isArray(msg.Asks)){
