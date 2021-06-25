@@ -55,7 +55,7 @@ export default class SettleProceDB {
   }
   async updateAskStatus(ids:number[]):Promise<void>{
     const sql = `update AskTable set ProcStatus = 1 where id in (${ids.join(',')})`;
-    console.log('updateAskStatus:',sql);
+    // console.log('updateAskStatus:',sql);
     await this.db.query(sql);
   }
   async getAsks(){

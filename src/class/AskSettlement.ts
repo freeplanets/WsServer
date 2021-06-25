@@ -41,7 +41,7 @@ export default abstract class AskSettlement {
   }
   public RemoveFromList(){
     let chkdo:boolean=false;
-    console.log('RemoveFromList',JSON.stringify(this.removelist));
+    // console.log('RemoveFromList',JSON.stringify(this.removelist));
     this.removelist.forEach((ask)=>{
       this.Remove(ask);
       chkdo=true;
@@ -49,7 +49,7 @@ export default abstract class AskSettlement {
     if(chkdo){
       this.removelist = [];
       this.inProcess = false;
-      console.log('RemoveFromList.', this.inProcess, new Date().getTime());    
+      // console.log('RemoveFromList.', this.inProcess, new Date().getTime());    
     } 
   }
   protected Settle(ask:AskTable):boolean {
