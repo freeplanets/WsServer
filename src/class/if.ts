@@ -27,6 +27,7 @@ export enum PriceCheckType {
 }
 export enum Channels {
   ASK = 'AskChannel',
+  ADMIN = 'AdminChannel',
   PUB = 'PublicChannel',
 }
 export interface WsMsg {
@@ -154,6 +155,6 @@ export interface TableData {
 export interface ChannelT {
   readonly Name:string;
   register(ws:WebSocket,UserID?:number):void;
-  send(message:string, opt: WebSocket|number):boolean; // ws:WebSocket | UserID
+  send(message:string, opt?: WebSocket|number):boolean; // ws:WebSocket | UserID
   remove(ws:WebSocket):void;
 }

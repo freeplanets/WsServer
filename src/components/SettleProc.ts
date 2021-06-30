@@ -1,6 +1,6 @@
 import WebSocket from 'ws';
 import DB from '../components/db';
-import { TMsg, AskTable, SendData, WsMsg, FuncKey } from "../class/if";
+import { TMsg, AskTable, SendData, WsMsg, FuncKey, Channels } from "../class/if";
 import AskSettlement from '../class/AskSettlement';
 import Matt from '../components/mqtt';
 import CurPrice from '../components/CurPrice';
@@ -24,6 +24,9 @@ export default class SettleProce {
     const ids = [ask.id];
     this.addAsk(ask);
     this.updateAskStatus(ids);
+    if (ask.Lever > 0 && (ask.USetID || ask.SetID)) {
+      this.SendAsk(Channels.ADMIN, ask, 0);
+    }
   }
   private addAsk(ask:AskTable):void{
     console.log('static check:',AskSettlement.Identify);

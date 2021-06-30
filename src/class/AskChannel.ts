@@ -44,7 +44,11 @@ export default class AskChannel implements ChannelT {
       console.log('list ws:', this.Name, itm.UserID);
     })
   }
-  send(message:string, UserID:number):boolean{
+  send(message:string, UserID?:number):boolean{
+    if(UserID) return this.SendToSomeOne(message,UserID);
+    return this.SendToAll(message);
+  }
+  private SendToSomeOne(message:string, UserID:number):boolean {
     let doMessage = false;
     try {
       const f = this.members.find(mb => mb.UserID === UserID);
@@ -68,6 +72,17 @@ export default class AskChannel implements ChannelT {
       console.log('AskChannel error', typeof(UserID), err);
     }
     return doMessage;
+  }
+  SendToAll(message:string):boolean {
+    try {
+      this.members.forEach(mbr=>{
+        mbr.ws.send(message);
+      })
+      return true;
+    } catch(err) {
+      console.log('AskChannel SendToAll err:', err);
+      return false;
+    }
   }
   remove(ws:WebSocket):void {
     this.members.every((itm,idx)=>{
