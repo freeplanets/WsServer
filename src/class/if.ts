@@ -19,7 +19,9 @@ export enum ErrCode {
   NO_DATA_FOUND = 15,
 }
 export enum FuncKey {
-  SET_CHANNEL = 'SetChannel',
+	SET_CHANNEL = 'SetChannel',
+	CLIENT_INFO = 'ClientInfo',
+  MESSAGE = 'sendMessage',
 }
 export enum PriceCheckType {
   CurPrice = 0,

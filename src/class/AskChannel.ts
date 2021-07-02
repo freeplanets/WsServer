@@ -44,8 +44,9 @@ export default class AskChannel implements ChannelT {
       console.log('list ws:', this.Name, itm.UserID);
     })
   }
-  send(message:string, UserID?:number):boolean{
-    if(UserID) return this.SendToSomeOne(message,UserID);
+  send(message:string, UserID?:number):boolean {
+    // console.log('AskChannel Send', message, UserID);
+    if(UserID) return this.SendToSomeOne(message, UserID);
     return this.SendToAll(message);
   }
   private SendToSomeOne(message:string, UserID:number):boolean {

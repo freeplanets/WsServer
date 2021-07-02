@@ -48,6 +48,23 @@ export default class SettleProce {
   AcceptMessage(strdata:string, ws:WebSocket):void {
     const msg = this.JsonParse(strdata);
     // console.log('AcceptMessage', msg);
+    switch(msg.Func) {
+      case FuncKey.SET_CHANNEL:
+        if(msg.ChannelName) {
+          this.RegisterChannel(msg.ChannelName, ws, msg.UserID);
+        }
+        break;
+      case FuncKey.MESSAGE:
+        // console.log(`AcceptMessage ${msg.Func}`, msg);
+        if (msg.ChannelName && msg.Message) this.SendMessage(msg.ChannelName, msg.Message, 0);
+        break;
+      case FuncKey.CLIENT_INFO:
+        console.log(`AcceptMessage ${msg.Func}`, msg);
+        break;
+      default:
+        this.doNoFunc(msg);
+    }
+    /*
     if(msg.Func === FuncKey.SET_CHANNEL){
       switch(msg.Func) {
         case FuncKey.SET_CHANNEL:
@@ -59,6 +76,7 @@ export default class SettleProce {
     } else {
       this.doNoFunc(msg);
     }
+    */
   }
   doNoFunc(msg:WsMsg) {
     // console.log('doNoFunc', msg);
