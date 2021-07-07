@@ -77,7 +77,12 @@ export default class AskChannel implements ChannelT {
   SendToAll(message:string):boolean {
     try {
       this.members.forEach(mbr=>{
-        mbr.ws.send(message);
+        // console.log('SendToAll:', this.Name, mbr.UserID, message);
+        if(mbr.ws.readyState === WebSocket.OPEN){
+          mbr.ws.send(message);
+        } else {
+          console.log(`${mbr.UserID} closed!!!`);
+        }
       })
       return true;
     } catch(err) {
