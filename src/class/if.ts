@@ -22,6 +22,7 @@ export enum FuncKey {
 	SET_CHANNEL = 'SetChannel',
 	CLIENT_INFO = 'ClientInfo',
   MESSAGE = 'sendMessage',
+  SAVE_MESSAGE = 'saveMessage',
 }
 export enum PriceCheckType {
   CurPrice = 0,
@@ -29,6 +30,7 @@ export enum PriceCheckType {
 }
 export enum Channels {
   ASK = 'AskChannel',
+  API_SERVER = 'AskCreator',
   ADMIN = 'AdminChannel',
   PUB = 'PublicChannel',
 }

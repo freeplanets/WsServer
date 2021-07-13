@@ -37,7 +37,7 @@ export default abstract class AskSettlement {
     const idx = this.list.findIndex(itm=>itm.id === ask.id);
     // const idx = this.list.indexOf(ask);
     if( idx !== -1 ) this.list.splice(idx, 1);
-    console.log('Remove', this.list.length, JSON.stringify(this.list));
+    // console.log('Remove', this.list.length, JSON.stringify(this.list));
   }
   public RemoveFromList(){
     let chkdo:boolean=false;

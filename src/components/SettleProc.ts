@@ -99,7 +99,7 @@ export default class SettleProce {
       delete msg.Ask;
     }
     if(UserID && (typeof(msg.Balance) === 'number' || msg.LedgerTotal) ){
-      console.log('Send to Client:', msg);
+      // console.log('Send to Client:', msg);
       // this.CM.Send(ClientChannel, JSON.stringify(msg), UserID);
       this.SendMessage(ClientChannel, JSON.stringify(msg), UserID);
     }
