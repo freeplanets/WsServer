@@ -40,7 +40,7 @@ server.on('connection',(ws:WebSocket, req:IncomingMessage)=>{
   ws.on('message',(data:WebSocket.Data)=>{
     //console.log('data:',data,typeof data);
     const strdata = data.toString();
-    SP.AcceptMessage(strdata,ws);
+    SP.AcceptMessage(strdata, ws);
     /*
     console.log('received: %s from %s', strdata, curClient);
     const find = strdata.search('SetChannel');
