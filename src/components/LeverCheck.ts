@@ -1,6 +1,6 @@
 import AskChannel from '../class/AskChannel';
-import AskSettlement from '../class/AskSettlement';
-import { SendData, AskTable } from '../class/if';
+import AskSettlement from '../aclass/AskSettlement';
+import { SendData, AskTable } from '../interface/if';
 import SettleProc, { ClientChannel } from '../components/SettleProc';
 
 export default class LeverCheck extends AskSettlement {

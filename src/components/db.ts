@@ -1,7 +1,8 @@
 import dotenv from 'dotenv';
 import mariadb,{ ConnectionConfig, Connection} from 'mariadb';
-import { ErrCode, Msg } from '../class/if';
-import DatabaseIF from '../class/DataBaseIF';
+import { Msg } from '../interface/if';
+import { ErrCode } from '../interface/ENum';
+import DatabaseIF from '../interface/DataBaseIF';
 
 dotenv.config();
 

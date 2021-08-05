@@ -1,6 +1,7 @@
-import AskSettlement from '../class/AskSettlementDB';
-import { SendData, AskTable, Msg, ErrCode } from '../class/if';
-import DataBaseIF from '../class/DataBaseIF';
+import AskSettlement from '../aclass/AskSettlementDB';
+import { SendData, AskTable, Msg } from '../interface/if';
+import { ErrCode } from '../interface/ENum';
+import DataBaseIF from '../interface/DataBaseIF';
 import { Connection } from 'mariadb';
 import SettleProc from '../components/SettleProcDB';
 
@@ -20,7 +21,6 @@ export default class CurPrice extends AskSettlement {
       this.list.map(async (ask:AskTable) => {
         console.log(this.IdentifyCode,ask.id,ask.CreateTime,new Date(ask.CreateTime).getTime(),r.eventTime);
         if(new Date(ask.CreateTime).getTime() < r.eventTime){
-          console.log("do");
           const price = parseFloat(r.currentClose);
           ask.Qty = parseFloat((ask.Amount / price).toFixed(8));
           ask.Price = price;

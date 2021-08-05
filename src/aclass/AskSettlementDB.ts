@@ -1,5 +1,6 @@
-import { AskTable, SendData, ObjectIdentify, Msg, ErrCode, DbAns } from './if';
-import DataBaseIF from '../class/DataBaseIF';
+import { AskTable, SendData, ObjectIdentify, Msg } from '../interface/if';
+import { ErrCode } from '../interface/ENum';
+import DataBaseIF from '../interface/DataBaseIF';
 import { Connection } from 'mariadb';
 import SettleProc from '../components/SettleProcDB';
 import Credit from '../components/Credit';

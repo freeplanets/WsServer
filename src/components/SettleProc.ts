@@ -1,7 +1,8 @@
 import WebSocket from 'ws';
 import DB from '../components/db';
-import { TMsg, AskTable, SendData, WsMsg, FuncKey, Channels } from "../class/if";
-import AskSettlement from '../class/AskSettlement';
+import { TMsg, AskTable, SendData, WsMsg } from "../interface/if";
+import { FuncKey, Channels} from '../interface/ENum';
+import AskSettlement from '../aclass/AskSettlement';
 import Matt from '../components/mqtt';
 import CurPrice from '../components/CurPrice';
 import LimitPrice from '../components/LimitPrice';

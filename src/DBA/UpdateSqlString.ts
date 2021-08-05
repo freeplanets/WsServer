@@ -1,5 +1,5 @@
 import ASetSql from "./ASetSql";
-import { KeyVal, TableData } from "../class/if";
+import { KeyVal, TableData } from "../interface/if";
 export default class UpdateSqlString extends ASetSql<TableData> {
   public getSql(t: TableData): string {
     const keys: string[] = [];

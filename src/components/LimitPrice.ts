@@ -1,5 +1,6 @@
-import AskSettlement from '../class/AskSettlement';
-import { SendData, AskTable, PriceCheckType } from '../class/if';
+import AskSettlement from '../aclass/AskSettlement';
+import { SendData, AskTable } from '../interface/if';
+import { PriceCheckType } from '../interface/ENum';
 import SettleProc from '../components/SettleProc';
 
 export default class LimitPrice extends AskSettlement {

@@ -1,5 +1,5 @@
-import { Msg, AskTable } from './if';
-import DataBaseIF from './DataBaseIF';
+import { Msg, AskTable } from '../interface/if';
+import DataBaseIF from '../interface/DataBaseIF';
 import {Connection} from 'mariadb';
 
 export default abstract class Settlement {

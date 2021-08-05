@@ -1,4 +1,4 @@
-import { AskTable, SendData, ObjectIdentify } from './if';
+import { AskTable, SendData, ObjectIdentify } from '../interface/if';
 import SettleProc,{ ApiChannel, ClientChannel } from '../components/SettleProc';
 import Credit from '../components/Credit';
 

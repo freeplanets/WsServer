@@ -1,5 +1,5 @@
 import { Connection } from "mariadb";
-import { DbAns } from "../class/if";
+import { DbAns } from "../interface/if";
 
 export default class Credit {
     constructor(){}

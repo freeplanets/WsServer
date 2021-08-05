@@ -1,5 +1,5 @@
 import ASetSql from "./ASetSql";
-import { KeyVal, TableData} from "../class/if";
+import { KeyVal, TableData} from "../interface/if";
 import UpdateSqlString from "./UpdateSqlString";
 export default class RemoveSqlString extends ASetSql<TableData> {
   private static uss: UpdateSqlString = new UpdateSqlString();

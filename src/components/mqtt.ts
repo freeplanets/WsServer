@@ -1,8 +1,9 @@
 import AWS from 'aws-sdk';
 // import WebSocket from 'ws';
 import config from './config';
-import { SendData, ReceivedData, Channels, WsMsg, FuncKey } from '../class/if'
-import AskSettlement from '../class/AskSettlement';
+import { SendData, ReceivedData } from '../interface/if';
+// import {  Channels, FuncKey } from '../interface/ENum';
+import AskSettlement from '../aclass/AskSettlement';
 import SettleProc from "./SettleProc";
 import SettleProcDB from './SettleProcDB';
 //import AWSMqttClient from 'aws-mqtt/lib/NodeClient';

@@ -1,5 +1,6 @@
-import AskSettlement from '../class/AskSettlement';
-import { SendData, AskTable, PriceCheckType } from '../class/if';
+import AskSettlement from '../aclass/AskSettlement';
+import { SendData, AskTable } from '../interface/if';
+import { PriceCheckType } from '../interface/ENum';
 import SettleProc from '../components/SettleProc';
 
 export default class CurPrice extends AskSettlement {
@@ -21,7 +22,6 @@ export default class CurPrice extends AskSettlement {
     this.list.forEach((ask:AskTable) => {
       // console.log(this.IdentifyCode,ask.id,ask.CreateTime,new Date(ask.CreateTime).getTime(),r.eventTime);
       if(new Date(ask.CreateTime).getTime() < r.eventTime){
-        console.log("do");
         const price = parseFloat(r.currentClose);
         if(ask.Amount) {
           ask.Qty = parseFloat((ask.Amount / price).toFixed(8));

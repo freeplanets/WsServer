@@ -1,7 +1,7 @@
 import ADBA from "./ADBA";
 import AddSqlString from "./AddSqlString";
 import ASetSql from "./ASetSql";
-import { TableData } from "../class/if";
+import { TableData } from "../interface/if";
 import RemoveSqlString from "./RemoveSqlString";
 import UpdateSqlString from "./UpdateSqlString";
 

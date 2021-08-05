@@ -1,5 +1,5 @@
 import WebSocket from 'ws';
-import { ChannelT } from './if';
+import { ChannelT } from '../interface/if';
 import AChannel from './AChannel';
 import AskChannel from './AskChannel';
 

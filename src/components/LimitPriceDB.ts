@@ -1,6 +1,7 @@
-import AskSettlement from '../class/AskSettlementDB';
-import { SendData, AskTable, Msg, ErrCode } from '../class/if';
-import DataBaseIF from '../class/DataBaseIF';
+import AskSettlement from '../aclass/AskSettlementDB';
+import { SendData, AskTable, Msg } from '../interface/if';
+import { ErrCode } from '../interface/ENum';
+import DataBaseIF from '../interface/DataBaseIF';
 import { Connection } from 'mariadb';
 import SettleProc from '../components/SettleProcDB';
 

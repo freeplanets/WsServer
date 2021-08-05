@@ -1,6 +1,7 @@
-import Settlement from '../class/Settlememt';
-import { Msg, AskTable, ErrCode } from '../class/if';
-import DataBaseIF from '../class/DataBaseIF';
+import Settlement from '../aclass/Settlememt';
+import { Msg, AskTable } from '../interface/if';
+import { ErrCode } from '../interface/ENum';
+import DataBaseIF from '../interface/DataBaseIF';
 import { Connection } from 'mariadb';
 
 class Settle extends Settlement {

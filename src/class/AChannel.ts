@@ -1,5 +1,5 @@
 import WebSocket from 'ws';
-import { ChannelT } from './if';
+import { ChannelT } from '../interface/if';
 
 export default class AChannel implements ChannelT {
   private members:WebSocket[]=[];
@@ -15,17 +15,21 @@ export default class AChannel implements ChannelT {
     if(this.members.indexOf(ws) === -1) this.members.push(ws);
     console.log('AChannel member count:', this.members.length);
   }
-  send(message:string, ws:WebSocket):boolean{
+  send(message:string, ws?:WebSocket):boolean{
     let doMessage = false;
     try {
       this.members.forEach((mb)=>{
-        if(mb !== ws){
-          if(mb.readyState === WebSocket.OPEN){
-            mb.send(message);
-            doMessage = true;
+        if(mb.readyState === WebSocket.OPEN){
+          if(ws) {
+            if(mb !== ws){
+              mb.send(message);
+              doMessage = true;            
+            }
           } else {
-            this.removelist.push(mb);       
+            mb.send(message);
           }
+        } else {
+          this.removelist.push(mb);       
         }
       })
       if(this.removelist.length>0) this.removeMember;
