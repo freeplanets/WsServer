@@ -21,6 +21,7 @@ export default class LimitPriceManager extends AAskManager {
 						ask.Amount = parseFloat((ask.Qty * price).toFixed(2));
 					}
 					ask.DealTime = priceTick.ticktime;
+					this.Settle(ask);
 					// const isSettle = this.Settle(ask);
 					// if (isSettle) this.removelist.push(ask);
 				}

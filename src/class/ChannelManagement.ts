@@ -9,26 +9,32 @@ export default class ChannelManagement {
   Register(name:string, ws:WebSocket, UserID?:number){
     let f = this.childs.find(chd => chd.Name === name);
     if(f){
-      console.log('Register Check1');
+      // console.log('Register Check1');
       f.register(ws, UserID);
     } else {
-      console.log('Register Check2');
+      // console.log('Register Check2');
       if(UserID){
-        console.log('Register Check3');
+        // console.log('Register Check3');
         f = new AskChannel(name, ws, UserID);
       } else {
-        console.log('Register Check4');
+        // console.log('Register Check4');
         f = new AChannel(name, ws);
       }     
       this.childs.push(f);
-      console.log('Register Check5', this.childs.length); 
+      // console.log('Register Check5', this.childs.length); 
     }
+    /*
+    console.log('TotalChannels:', this.childs.length);
+    this.childs.forEach(mb=>{
+      console.log('Total Channel Name:', mb.Name)
+    })
+    */
   }
-  Send(name:string, message:string, opt:WebSocket | number):boolean{
+  Send(name:string, message:string, opt?:WebSocket | number):boolean{
     let doSend = false;
     const f = this.childs.find(chd => chd.Name === name);
     if(f){
-      // console.log('SettleProc Send', name, message, opt, '<', this.childs.length, '>');
+      // console.log('ChannelManagement send', name, message, opt, `<${this.childs.length}>`);
       doSend = f.send(message, opt);
     }
     return doSend;

@@ -26,26 +26,30 @@ export default class AskChannel implements ChannelT {
     });
     this.members.push({ UserID, ws });
     */
-    console.log('AskChannel member countB:', this.members.length);
+    // console.log(`Channel ${this.name} member countB:`, this.members.length);
+    /*
     this.members.forEach(itm=>{
-      console.log('list ws:', this.Name, itm.UserID);
+      console.log(`${this.name} list ws:`, itm.UserID);
     })
+    */
     const f = this.members.find(mb=>mb.UserID === UserID);
     if (f) {
       if(f.ws.readyState !== f.ws.OPEN) {
         f.ws = ws;
-        console.log('AskChannel change ws', UserID);
+        // console.log(`Channel ${this.name} change ws`, UserID);
       }
     } else {
       this.members.push({ UserID, ws });
     }
-    console.log('AskChannel member countA:', this.members.length);
+    // console.log(`Channel ${this.name} member countA:`, this.members.length);
+    /*
     this.members.forEach(itm=>{
-      console.log('list ws:', this.Name, itm.UserID);
+      console.log(`${this.name} list ws:`, itm.UserID);
     })
+    */
   }
   send(message:string, UserID?:number):boolean {
-    // console.log('AskChannel Send', message, UserID);
+    console.log(`Channel ${this.name} Send:`, UserID, message);
     if(UserID) return this.SendToSomeOne(message, UserID);
     return this.SendToAll(message);
   }

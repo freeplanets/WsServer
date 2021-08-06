@@ -39,7 +39,7 @@ export default class MarketTickDB {
 			this.table.query('currencyPair').eq(currencyPair).where('ticktime').gt(ts).sort(SortOrder.ascending).exec().then(res=>{
 				let pt:PriceTick[] = [];
 				if (Array.isArray(res)) {
-					const timechk:number[]=[];
+					// const timechk:number[]=[];
 					pt = res.map(itm=>{
 						const tmp:PriceTick = {
 							code: itm.currencyPair,
@@ -47,10 +47,10 @@ export default class MarketTickDB {
 							lastVol: itm.lastVol ? parseFloat(itm.lastVol) : 0,
 							ticktime: itm.ticktime ? itm.ticktime : 0,
 						}
-						timechk.push(tmp.ticktime);
+						// timechk.push(tmp.ticktime);
 						return tmp;
 					})
-					console.log(ts, res.count, res.lastKey, timechk.length, JSON.stringify(timechk));
+					// console.log(new Date().toLocaleTimeString(), ts, res.count, JSON.stringify(timechk));
 					resolve(pt);
 				} else {
 					resolve(pt);

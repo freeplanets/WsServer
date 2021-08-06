@@ -18,6 +18,7 @@ export default class MarketPriceManager extends AAskManager {
         }
         ask.Price = price;
         ask.DealTime = priceTick.ticktime;
+        this.Settle(ask);
         // console.log('CurPrice Settle:', JSON.stringify(ask));
         // const isSettle = this.Settle(ask);	
 			}		

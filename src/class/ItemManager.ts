@@ -1,9 +1,10 @@
-import { AskTable, ItemInfo, PriceTick } from '../interface/if';
+import { AskTable, ItemInfo } from '../interface/if';
 import AAskManager from '../aclass/AAskManager';
 import AutoSettleManager from './AutoSettleManager';
 import MarketPriceManager from './MarketPriceManager';
 import LimitPriceManager from './LimitPriceManager';
 import MarketTickDB from './MarketTickDB';
+import TotalManager from './TotalManager';
 
 export default class ItemManager {
 	protected list:AAskManager[] = [];
@@ -12,7 +13,7 @@ export default class ItemManager {
 	// private id:number;
 	private tsForGetData = 0;
 	private marketTick;
-	constructor(info: ItemInfo, mt:MarketTickDB) {
+	constructor(private TM:TotalManager, info: ItemInfo, mt:MarketTickDB) {
 		this.marketTick = mt;
 		// this.id = info.id;
 		this.code = info.Code;
@@ -32,21 +33,21 @@ export default class ItemManager {
 		if (!AAskManager.Identify[IdentifyCode]) {
 			switch(key) {
 				case 1:
-					this.list.push(new LimitPriceManager(this.Code, key));
+					this.list.push(new LimitPriceManager(this.TM, this.Code, key));
 					break;
 				case AAskManager.LeverKey:
-					this.list.push(new AutoSettleManager(this.Code, key));
+					this.list.push(new AutoSettleManager(this.TM, this.Code, key));
 					break;
 				default:
-					this.list.push(new MarketPriceManager(this.Code, key));
+					this.list.push(new MarketPriceManager(this.TM, this.Code, key));
 			}
 		}
 		this.list.forEach(manager=>{
 			manager.Add(ask);
 		})
 		if(this.tsForGetData === 0) {
-			// this.tsForGetData = new Date(ask.CreateTime).getTime();
-			this.checkForNext(new Date().getTime());
+			this.tsForGetData = new Date().getTime();
+			this.checkForNext(this.tsForGetData);
 		}
 	}
 	private getData(ts:number) {
@@ -70,19 +71,19 @@ export default class ItemManager {
 		})
 		if(chkLength > 0) {
 			if(ts < this.tsForGetData) ts = this.tsForGetData;
-			this.wait(1000);
+			this.wait(2000);
 			this.getData(ts);
 		} else {
 			this.tsForGetData = 0;
 		}
 	}
 	private wait(v:number) {
-    console.log(new Date().toLocaleString());
+    // console.log(new Date().toLocaleString());
     const start = new Date().getTime();
     let conter = 1
     while(conter < v) {
       conter = new Date().getTime() - start;
     }
-    console.log(new Date().toLocaleString(), conter);		
+    // console.log(new Date().toLocaleString(), conter);		
 	}
 }

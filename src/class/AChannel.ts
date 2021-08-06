@@ -13,7 +13,7 @@ export default class AChannel implements ChannelT {
   }
   register(ws:WebSocket){
     if(this.members.indexOf(ws) === -1) this.members.push(ws);
-    console.log('AChannel member count:', this.members.length);
+    // console.log(`Channel ${this.name} member count:`, this.members.length);
   }
   send(message:string, ws?:WebSocket):boolean{
     let doMessage = false;

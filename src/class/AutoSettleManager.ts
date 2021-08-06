@@ -16,6 +16,7 @@ export default class AutoSettleManager extends AAskManager {
 					ask.Price = price;
 					ask.Amount = price * ask.Qty;
 					ask.DealTime = priceTick.ticktime;
+					this.Settle(ask);
 					// console.log('LeverCheck Settle:',JSON.stringify(ask));
 					// const isSettle = this.Settle(ask);
 					// if (isSettle) this.removelist.push(ask);
