@@ -49,7 +49,7 @@ export default class AskChannel implements ChannelT {
     */
   }
   send(message:string, UserID?:number):boolean {
-    console.log(`Channel ${this.name} Send:`, UserID, message);
+    // console.log(`Channel ${this.name} Send:`, UserID, message);
     if(UserID) return this.SendToSomeOne(message, UserID);
     return this.SendToAll(message);
   }
@@ -57,11 +57,11 @@ export default class AskChannel implements ChannelT {
     let doMessage = false;
     try {
       const f = this.members.find(mb => mb.UserID === UserID);
-      // console.log('check1', this.members.length, UserID);
       if(f){
         // console.log('check2');
+        console.log('check1', this.members.length, UserID);       
         if(f.ws.readyState === f.ws.OPEN){
-          // console.log('check3');
+          console.log('check3', message, typeof(message));
           f.ws.send(message);
           doMessage = true;
         } else {
@@ -69,9 +69,7 @@ export default class AskChannel implements ChannelT {
           this.members.splice(idx,1);
         }
       } else {
-        this.members.forEach(itm=>{
-          console.log('list ws:', this.Name, itm.UserID);
-        })
+        console.log(`AskChannel User:${UserID} offline!`);
       }  
     } catch(err) {
       console.log('AskChannel error', typeof(UserID), err);

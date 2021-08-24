@@ -13,6 +13,7 @@ export interface WsMsg extends AnyMsg {
   Message?:string;
   ChannelName?:string;
   UserID?:number;
+  SendTo?:number | number[];
 }
 export interface DbAns  {
   affectedRows: number;

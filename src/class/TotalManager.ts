@@ -14,6 +14,7 @@ export default class TotalManager extends ATotalManager {
 	private mt:MarketTickDB = new MarketTickDB();
 	AcceptMessage(msg:string, ws:WebSocket) {
 		const ans = this.toJSON<WsMsg>(msg);
+		// console.log('TotalManager AcceptMessage:', JSON.stringify(ans));
 		switch(ans.Func) {
 			case FuncKey.SET_CHANNEL:
 				if (ans.ChannelName) {
@@ -24,7 +25,22 @@ export default class TotalManager extends ATotalManager {
 				console.log(`AcceptMessage ${ans.Func}`, msg);
 				break;
 			case FuncKey.MESSAGE:
-				if (ans.ChannelName && ans.Message) this.SendMessage(ans.ChannelName, ans.Message);
+				if (ans.ChannelName && ans.Message) {
+					const channel = ans.ChannelName;
+					const message = ans.Message;
+					let UserID = 0;
+					if (ans.SendTo) {
+						if (Array.isArray(ans.SendTo)) {
+							ans.SendTo.forEach((id) => {
+								this.SendMessage(channel, message, id);
+							});
+							return;
+						} else {
+							UserID = ans.SendTo;
+						}
+					}
+					this.SendMessage(ans.ChannelName, ans.Message, UserID);
+				};
 				break;
 			case FuncKey.SAVE_MESSAGE:
 				break;
@@ -52,7 +68,7 @@ export default class TotalManager extends ATotalManager {
 			this.AddAsk(wsg.Asks);
 		}
 		if(wsg.UserID) {
-			console.log('TotalManager', wsg.UserID, JSON.stringify(wsg));
+			// console.log('TotalManager', wsg.UserID, JSON.stringify(wsg));
 			this.SendMessage(Channels.ASK, JSON.stringify(wsg), wsg.UserID);
 		} else {
 			console.log('welcome:', JSON.stringify(wsg));
@@ -114,6 +130,7 @@ export default class TotalManager extends ATotalManager {
 		this.SendMessage(Channels.API_SERVER, JSON.stringify(wsg), 0);
 	}
   SendMessage(name:string, message:string, opt?:WebSocket | number):boolean { // ws:WebSocket | UserID
+		// console.log('TotalManager SenMessage:', opt);
     return this.CM.Send(name, message, opt )
   }
   RemoveFromChannel(ws:WebSocket):void{

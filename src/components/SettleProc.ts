@@ -57,7 +57,13 @@ export default class SettleProce {
         break;
       case FuncKey.MESSAGE:
         // console.log(`AcceptMessage ${msg.Func}`, msg);
-        if (msg.ChannelName && msg.Message) this.SendMessage(msg.ChannelName, msg.Message, 0);
+        if (msg.ChannelName && msg.Message) {
+          let UserID = 0;
+          if (msg.UserID) {
+            UserID = msg.UserID;
+          }
+          this.SendMessage(msg.ChannelName, msg.Message, UserID);
+        };
         break;
       case FuncKey.CLIENT_INFO:
         console.log(`AcceptMessage ${msg.Func}`, msg);
