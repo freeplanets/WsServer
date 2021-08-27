@@ -44,6 +44,10 @@ export default class TotalManager extends ATotalManager {
 				break;
 			case FuncKey.SAVE_MESSAGE:
 				break;
+			case FuncKey.EMERGENCY_CLOSE:
+				console.log(ans.Func);
+				this.emergencyClose();
+				break;
 			case FuncKey.GET_CRYPTOITEM_CODE_DISTINCT:
 				if(ans.data) {
 					const items:ItemInfo[] = ans.data;
@@ -136,4 +140,9 @@ export default class TotalManager extends ATotalManager {
   RemoveFromChannel(ws:WebSocket):void{
     this.CM.Remove(ws);
   }
+	emergencyClose() {
+		this.list.forEach((itm) => {
+			itm.emergencyClose();
+		});
+	}
 }

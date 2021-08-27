@@ -6,7 +6,11 @@ export default class LimitPriceManager extends AAskManager {
     if(ask.AskType === 1 && !ask.USetID && !ask.SetID){
       super.Add(ask);
     }
-  }	
+  }
+	emergencyClose() {
+		this.list = [];
+		console.log('LimitPriceManager emergencyClose:', this.list.length);
+	}	
 	AcceptPrice(priceTick: PriceTick) {
 		this.list.forEach((ask) => {
 			if (new Date(ask.CreateTime).getTime() < priceTick.ticktime){

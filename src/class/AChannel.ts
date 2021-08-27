@@ -20,7 +20,7 @@ export default class AChannel implements ChannelT {
     try {
       this.members.forEach((mb)=>{
         if (mb.readyState === WebSocket.OPEN) {
-          console.log('AChannel send', typeof message, message);
+          // console.log('AChannel send', typeof message, message);
           if (ws) {
             if (mb !== ws) {
               mb.send(message);

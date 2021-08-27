@@ -7,6 +7,9 @@ export default class AutoSettleManager extends AAskManager {
       super.Add(ask);
     }
   }
+	emergencyClose() {
+		console.log('AutoSettleManager emergencyClose', this.list.length);
+	}
 	AcceptPrice(priceTick: PriceTick) {
     this.list.forEach((ask) => {
       const price = priceTick.lastPrice;

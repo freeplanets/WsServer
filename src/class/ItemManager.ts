@@ -86,4 +86,9 @@ export default class ItemManager {
     }
     // console.log(new Date().toLocaleString(), conter);		
 	}
+	emergencyClose() {
+		this.list.forEach((itm) => {
+			itm.emergencyClose();
+		});
+	}
 }

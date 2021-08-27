@@ -7,6 +7,10 @@ export default class MarketPriceManager extends AAskManager {
       super.Add(ask);
     }
   }
+  emergencyClose() {
+    this.list = [];
+    console.log('MarketPriceManager emergencyClose:', this.list.length);
+  }
 	AcceptPrice(priceTick: PriceTick) {
 		this.list.forEach(ask=>{
       if(new Date(ask.CreateTime).getTime() < priceTick.ticktime){
