@@ -46,7 +46,7 @@ export default class TotalManager extends ATotalManager {
 				break;
 			case FuncKey.EMERGENCY_CLOSE:
 				console.log(ans.Func);
-				this.emergencyClose();
+				this.emergencyClose(ans.Asks);
 				break;
 			case FuncKey.GET_CRYPTOITEM_CODE_DISTINCT:
 				if(ans.data) {
@@ -142,9 +142,23 @@ export default class TotalManager extends ATotalManager {
   RemoveFromChannel(ws:WebSocket):void{
     this.CM.Remove(ws);
   }
-	emergencyClose() {
+	emergencyClose(asks?:AskTable | AskTable[]) {
 		this.list.forEach((itm) => {
 			itm.emergencyClose();
 		});
+		if(asks) {
+			const msg:WsMsg = {};
+			if(Array.isArray(asks)) {
+				asks.forEach((ask) => {
+					msg.Asks = ask;
+					this.SendMessage(Channels.ASK, JSON.stringify(msg), ask.UserID);
+				})	
+			} else {
+				msg.Asks = asks;
+				this.SendMessage(Channels.ASK, JSON.stringify(msg), asks.UserID);
+			}
+			msg.Asks = asks;
+			this.SendMessage(Channels.ADMIN, JSON.stringify(msg), 0);
+		}
 	}
 }

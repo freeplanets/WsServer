@@ -7,13 +7,13 @@ export interface WsMsg extends AnyMsg {
   Func?: FuncKey;
   data?: any;
   Asks?: AskTable | AskTable[];
-  Ask?:AskTable;
-  Balance?:number;
+  Ask?: AskTable;
+  Balance?: number;
   LedgerTotal?: any;
-  Message?:string;
-  ChannelName?:string;
-  UserID?:number;
-  SendTo?:number | number[];
+  Message?: string;
+  ChannelName?: string;
+  UserID?: number;
+  SendTo?: number | number[];
 }
 export interface DbAns  {
   affectedRows: number;
