@@ -22,7 +22,9 @@ const server = new WebSocket.Server(options)
 server.setMaxListeners(1000);
 // console.log('defaultMaxListeners:', server.getMaxListeners());
 server.on('error',(ws:WebSocket,error:Error)=>{
-  console.log('error:',error);
+  const maxltner = ws.getMaxListeners();
+  console.log('MaxListeners', maxltner);
+  console.log('error:', error);
 })
 
 server.on('open',(ws:WebSocket)=>{

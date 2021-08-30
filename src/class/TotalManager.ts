@@ -74,8 +74,10 @@ export default class TotalManager extends ATotalManager {
 		if(wsg.UserID) {
 			// console.log('TotalManager', wsg.UserID, JSON.stringify(wsg));
 			this.SendMessage(Channels.ASK, JSON.stringify(wsg), wsg.UserID);
+			this.SendMessage(Channels.ADMIN, JSON.stringify(wsg), 0);
 		} else {
-			console.log('welcome:', JSON.stringify(wsg));
+			this.SendMessage(Channels.ADMIN, JSON.stringify(wsg), 0);
+			// console.log('welcome:', JSON.stringify(wsg));
 		}
 	}
 	private AddAsk(ask:AskTable | AskTable[]){
