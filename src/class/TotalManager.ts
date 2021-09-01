@@ -64,20 +64,24 @@ export default class TotalManager extends ATotalManager {
 		}
 	}
 	doNoFunc(wsg:WsMsg) {
-		// console.log('doNoFunc:', wsg);
-		if(wsg.Ask) {
-			this.AddSingleAsk(wsg.Ask);
-		}
-		if(wsg.Asks) {
-			this.AddAsk(wsg.Asks);
-		}
-		if(wsg.UserID) {
-			// console.log('TotalManager', wsg.UserID, JSON.stringify(wsg));
-			this.SendMessage(Channels.ASK, JSON.stringify(wsg), wsg.UserID);
-			this.SendMessage(Channels.ADMIN, JSON.stringify(wsg), 0);
+		if (wsg.ChannelName) {
+			console.log('doNoFunc with ChannelName:', wsg);
+			this.SendMessage(wsg.ChannelName, JSON.stringify(wsg));
 		} else {
-			this.SendMessage(Channels.ADMIN, JSON.stringify(wsg), 0);
-			// console.log('welcome:', JSON.stringify(wsg));
+			if(wsg.Ask) {
+				this.AddSingleAsk(wsg.Ask);
+			}
+			if(wsg.Asks) {
+				this.AddAsk(wsg.Asks);
+			}
+			if(wsg.UserID) {
+				// console.log('TotalManager', wsg.UserID, JSON.stringify(wsg));
+				this.SendMessage(Channels.ASK, JSON.stringify(wsg), wsg.UserID);
+				this.SendMessage(Channels.ADMIN, JSON.stringify(wsg), 0);
+			} else {
+				this.SendMessage(Channels.ADMIN, JSON.stringify(wsg), 0);
+				// console.log('welcome:', JSON.stringify(wsg));
+			}	
 		}
 	}
 	private AddAsk(ask:AskTable | AskTable[]){
