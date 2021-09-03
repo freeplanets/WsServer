@@ -61,7 +61,7 @@ export default class AskChannel implements ChannelT {
         // console.log('check2');
         console.log('check1', this.members.length, UserID);       
         if(f.ws.readyState === f.ws.OPEN){
-          console.log('check3', message, typeof(message));
+          // console.log('check3', message, typeof(message));
           f.ws.send(message);
           doMessage = true;
         } else {

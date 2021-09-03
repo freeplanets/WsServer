@@ -24,10 +24,10 @@ export default abstract class AAskManager {
 	abstract AcceptPrice(priceTick:PriceTick):void;
 	abstract emergencyClose():void;
 	private removeFromList(ask:AskTable) {
-		console.log(`${this.IdentifyCode} removeFromList:`, this.list.length, this.settleList.length, JSON.stringify(ask));
+		// console.log(`${this.IdentifyCode} removeFromList:`, this.list.length, this.settleList.length, JSON.stringify(ask));
 		this.removeFromAskArray(ask, this.list);
 		this.removeFromAskArray(ask, this.settleList);
-		console.log(`${this.IdentifyCode} removeFromList:`, ask.id, this.list.length, this.settleList.length);
+		// console.log(`${this.IdentifyCode} removeFromList:`, ask.id, this.list.length, this.settleList.length);
 	}
 	private addToList(ask:AskTable) {
 		//const fIdx = this.list.findIndex(itm=>itm.id === ask.id);
