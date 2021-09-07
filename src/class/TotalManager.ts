@@ -66,6 +66,7 @@ export default class TotalManager extends ATotalManager {
 	doNoFunc(wsg:WsMsg) {
 		// console.log('doNoFunc:', wsg);
 		if (wsg.ChannelName) {
+			// console.log('doNoFunc has ChannelName', JSON.stringify(wsg));
 			this.SendMessage(wsg.ChannelName, JSON.stringify(wsg));
 		} else {
 			if(wsg.Ask) {
