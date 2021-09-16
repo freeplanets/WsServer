@@ -5,10 +5,8 @@ export function JsonParse<T extends AnyMsg>(str:string):T {
 		msg = JSON.parse(str);
 		return msg;
 	} catch( err ) {
-		console.log('SettleProc JSON parse error:');
-		console.log( str );
-		console.log( err );
-		msg = err
+		console.log('SettleProc JSON parse error:', str, ', Error:', err);
+		msg = err as T;
 		return msg;
 	}
 }

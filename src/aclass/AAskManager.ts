@@ -51,7 +51,9 @@ export default abstract class AAskManager {
 			if(f.DealTime && ask.DealTime) {
 				if ((f.DealTime - ask.DealTime) > 2000){
 					ask = f;
-					chk = true;
+					// chk = true;
+					console.log(`${this.IdentifyCode} SettleListChk:`, ask.id, ask.ProcStatus, JSON.stringify(ask));
+					this.TM.SendAsk(Channels.API_SERVER, ask);					
 				}
 			}
 		} else {
