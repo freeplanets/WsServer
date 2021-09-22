@@ -91,4 +91,9 @@ export default class ItemManager {
 			itm.emergencyClose();
 		});
 	}
+	ReSettleWhenApiServerOn() {
+		this.list.forEach((itm) => {
+			itm.ReSettleWhenApiServerOn();
+		})
+	}
 }

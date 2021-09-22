@@ -49,7 +49,7 @@ export default abstract class AAskManager {
 		const f = this.settleList.find(itm=>itm.id === ask.id);
 		if(f) {
 			if(f.DealTime && ask.DealTime) {
-				if ((f.DealTime - ask.DealTime) > 2000){
+				if ((ask.DealTime - f.DealTime) > 2000){
 					ask = f;
 					// chk = true;
 					console.log(`${this.IdentifyCode} SettleListChk:`, ask.id, ask.ProcStatus, JSON.stringify(ask));
@@ -70,5 +70,11 @@ export default abstract class AAskManager {
 		}
     // return this.SP.SendAsk(ApiChannel, ask, 1);
     // return this.SP.SendMessage(ApiChannel, JSON.stringify(ask), 1);
-  }	
+  }
+	ReSettleWhenApiServerOn() {
+		this.settleList.map(ask => {
+			console.log(`${this.IdentifyCode} Resettle when api serve no`, ask.id, JSON.stringify(ask));
+			this.TM.SendAsk(Channels.API_SERVER, ask);
+		})
+	}	
 }

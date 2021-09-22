@@ -120,6 +120,9 @@ export default class TotalManager extends ATotalManager {
 		if(name === Channels.API_SERVER) {
 			// When Api_Server set channel send getItems message
 			this.SendForItemInfo();
+			this.list.map(itm => {
+				itm.ReSettleWhenApiServerOn();
+			})
 		}		
   }
   SendAsk(name:string, ask:AskTable, opt?:WebSocket|number):boolean {
