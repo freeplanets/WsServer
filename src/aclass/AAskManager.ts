@@ -1,6 +1,7 @@
 import { AskTable, PriceTick, ObjectIdentify } from '../interface/if';
 import { Channels } from '../interface/ENum';
-import TotalManager from '../class/TotalManager';
+// import TotalManager from '../class/TotalManager';
+import { ATotalManager } from './ATotalManager';
 
 export default abstract class AAskManager {
   public static Identify:ObjectIdentify={};
@@ -8,7 +9,7 @@ export default abstract class AAskManager {
 	protected list:AskTable[]=[];
 	protected settleList:AskTable[]=[];
 	public static LeverKey = 2;
-  constructor(protected TM:TotalManager, protected Code:string, AskType:number){
+  constructor(protected TM:ATotalManager, protected Code:string, AskType:number){
     this.IdentifyCode = `${Code}${AskType}`;
     AAskManager.Identify[this.IdentifyCode] = true;
   }

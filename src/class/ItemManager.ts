@@ -4,7 +4,8 @@ import AutoSettleManager from './AutoSettleManager';
 import MarketPriceManager from './MarketPriceManager';
 import LimitPriceManager from './LimitPriceManager';
 import MarketTickDB from './MarketTickDB';
-import TotalManager from './TotalManager';
+// import TotalManager from './TotalManager';
+import { ATotalManager } from "../aclass/ATotalManager";
 
 export default class ItemManager {
 	protected list:AAskManager[] = [];
@@ -13,7 +14,7 @@ export default class ItemManager {
 	// private id:number;
 	private tsForGetData = 0;
 	private marketTick;
-	constructor(private TM:TotalManager, info: ItemInfo, mt:MarketTickDB) {
+	constructor(private TM:ATotalManager, info: ItemInfo, mt:MarketTickDB) {
 		this.marketTick = mt;
 		// this.id = info.id;
 		this.code = info.Code;

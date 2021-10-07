@@ -17,10 +17,16 @@ export interface MarketTick extends AnyDocument {
 	exchange?: string;
 	lastVol?: string;
 	ticktime?: number;
+	lastTradeId?: number;
+	// originalData?: object;
 }
 
 export default class MarketTickDB {
 	private table:ModelType<MarketTick>;
+	private lastTradeId = 0;
+	private noDataMark = 0;
+	private noDataAlert = false;
+	private noDataSec = 60000;	// miniSec
 	constructor() {
 		const options:DynamoDB.ClientConfiguration = {
 			accessKeyId: process.env.AWS_ACCESS_KEY_ID,
@@ -31,16 +37,24 @@ export default class MarketTickDB {
 		Dynamoose.aws.ddb.set(ddb);
 		this.table = Dynamoose.model('uccpay-dev-MarketTick', this.Schema);
 	}
+	get NoData() {
+		return this.noDataAlert;
+	}
 	getData(currencyPair:string,ts:number=0){
 		return new Promise<PriceTick[]>((resolve, reject)=>{
 			//const cond = this.getCondition(currencyPair, ts);
 			// console.log('Condition:', JSON.stringify(cond));
 
-			this.table.query('currencyPair').eq(currencyPair).where('ticktime').gt(ts).sort(SortOrder.ascending).exec().then(res=>{
+			this.table.query('currencyPair').eq(currencyPair).where('ticktime').gt(ts).where('lastTradeId').gt(this.lastTradeId).sort(SortOrder.ascending).exec().then(res=>{
 				let pt:PriceTick[] = [];
-				if (Array.isArray(res)) {
+				if (Array.isArray(res) && res.count > 0) {
 					// const timechk:number[]=[];
+					// console.log('get MarketTick:', res, res.count);
 					pt = res.map(itm=>{
+						// console.log('TickData:', itm.lastTradeId, '>', itm);
+						if(itm.lastTradeId) {
+							if(itm.lastTradeId > this.lastTradeId) this.lastTradeId = itm.lastTradeId;
+						}
 						const tmp:PriceTick = {
 							code: itm.currencyPair,
 							lastPrice: itm.lastPrice ? parseFloat(itm.lastPrice) : 0,
@@ -51,8 +65,16 @@ export default class MarketTickDB {
 						return tmp;
 					})
 					// console.log(new Date().toLocaleTimeString(), ts, res.count, JSON.stringify(timechk));
+					this.noDataAlert = false;
+					this.noDataMark = 0;
 					resolve(pt);
 				} else {
+					if(!this.noDataMark) {
+						this.noDataMark = new Date().getTime();
+					} else {
+						const sec = new Date().getTime();
+						if ((sec - this.noDataMark) > this.noDataSec) this.noDataAlert = true;
+					}
 					resolve(pt);
 				}
 			}).catch(err => {
@@ -72,7 +94,9 @@ export default class MarketTickDB {
 			ticktime: {	type: Number,	rangeKey: true },
 			lastPrice: { type: String },
 			lastVol: { type: String },
-			exchange: { type: String }
+			exchange: { type: String },
+			lastTradeId: { type: Number },
+			// originalData: { type: Object },
 		});
 	}
 }
