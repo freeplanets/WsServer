@@ -2,11 +2,11 @@ import WebSocket from "ws";
 import { ATotalManager } from "../aclass/ATotalManager";
 // import ChannelManagement from '../class/ChannelManagement';
 import ItemManager from './ItemManager';
-import { AskTable, WsMsg, ItemInfo } from "../interface/if";
+import { AskTable, WsMsg, ItemInfo, PriceTick } from "../interface/if";
 import { FuncKey, Channels } from "../interface/ENum";
 import { JsonParse } from './Func';
 import MarketTickDB from "./MarketTickDB";
-import { WsClient } from "../app";
+import { WsClient } from "./WsClient";
 
 export default class MsgManager extends ATotalManager {
 	// private CM: ChannelManagement = new ChannelManagement();
@@ -156,5 +156,8 @@ export default class MsgManager extends ATotalManager {
 			msg.Asks = asks;
 			this.SendMessage(Channels.ADMIN, JSON.stringify(msg), 0);
 		}
+	}
+	SavePriceTick(data:PriceTick[]){
+		console.log('savepriceTick', JSON.stringify(data));
 	}
 }

@@ -30,7 +30,7 @@ export default class ItemManager {
 		if(ask.Code !== this.Code) return;
 		const key = ask.USetID || ask.SetID ? AAskManager.LeverKey : ask.AskType;
 		const IdentifyCode = `${this.Code}${key}`;
-		console.log('AddAsk:', IdentifyCode);
+		// console.log('AddAsk:', IdentifyCode);
 		if (!AAskManager.Identify[IdentifyCode]) {
 			switch(key) {
 				case 1:
@@ -60,6 +60,7 @@ export default class ItemManager {
 				})
 				this.tsForGetData = itm.ticktime;
 			})
+			this.TM.SavePriceTick(res);
 			this.checkForNext(ts);			
 		}).catch(err=>{
 			console.log('ItemManager getData error', err);

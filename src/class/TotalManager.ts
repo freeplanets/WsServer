@@ -2,7 +2,7 @@ import WebSocket from "ws";
 import { ATotalManager } from "../aclass/ATotalManager";
 // import ChannelManagement from '../class/ChannelManagement';
 import ItemManager from './ItemManager';
-import { AskTable, WsMsg, ItemInfo } from "../interface/if";
+import { AskTable, WsMsg, ItemInfo, PriceTick } from "../interface/if";
 import { FuncKey, Channels } from "../interface/ENum";
 import { JsonParse } from './Func';
 import MarketTickDB from "./MarketTickDB";
@@ -168,5 +168,12 @@ export default class TotalManager extends ATotalManager {
 			msg.Asks = asks;
 			this.SendMessage(Channels.ADMIN, JSON.stringify(msg), 0);
 		}
+	}
+	SavePriceTick(data:PriceTick[]) {
+		const msg:WsMsg = {
+			Func: FuncKey.SAVE_PRICETICK,
+			data,
+		}
+		this.SendMessage(Channels.API_SERVER, JSON.stringify(msg), 0);
 	}
 }
