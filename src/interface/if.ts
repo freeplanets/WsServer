@@ -137,7 +137,7 @@ export interface PriceTick {
   code?:string;
 	lastPrice: number;
 	lastVol: number;
-	ticktime: number;  
+	ticktime: number;
 }
 
 export interface ItemInfo {

@@ -20,10 +20,15 @@ export interface MarketTick extends AnyDocument {
 	lastTradeId?: number;
 	// originalData?: object;
 }
-
+interface lastID {
+	lastTradeId: number;
+}
+interface ItemLastID {
+	[key:string]: lastID;
+}
 export default class MarketTickDB {
 	private table:ModelType<MarketTick>;
-	private lastTradeId = 0;
+	private Item:ItemLastID = {};
 	private noDataMark = 0;
 	private noDataAlert = false;
 	private noDataSec = 60000;	// miniSec
@@ -44,8 +49,10 @@ export default class MarketTickDB {
 		return new Promise<PriceTick[]>((resolve, reject)=>{
 			//const cond = this.getCondition(currencyPair, ts);
 			// console.log('Condition:', JSON.stringify(cond));
-
-			this.table.query('currencyPair').eq(currencyPair).where('ticktime').gt(ts).where('lastTradeId').gt(this.lastTradeId).sort(SortOrder.ascending).exec().then(res=>{
+			if(!this.Item[currencyPair]){
+				this.Item[currencyPair] = { lastTradeId: 0 };
+			}
+			this.table.query('currencyPair').eq(currencyPair).where('ticktime').gt(ts).where('lastTradeId').gt(this.Item[currencyPair].lastTradeId).sort(SortOrder.ascending).exec().then(res=>{
 				let pt:PriceTick[] = [];
 				if (Array.isArray(res) && res.count > 0) {
 					// const timechk:number[]=[];
@@ -53,7 +60,7 @@ export default class MarketTickDB {
 					pt = res.map(itm=>{
 						// console.log('TickData:', itm.lastTradeId, '>', itm);
 						if(itm.lastTradeId) {
-							if(itm.lastTradeId > this.lastTradeId) this.lastTradeId = itm.lastTradeId;
+							if(itm.lastTradeId > this.Item[currencyPair].lastTradeId) this.Item[currencyPair].lastTradeId = itm.lastTradeId;
 						}
 						const tmp:PriceTick = {
 							code: itm.currencyPair,

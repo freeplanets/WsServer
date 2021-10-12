@@ -53,8 +53,8 @@ export default class ItemManager {
 	}
 	private getData(ts:number) {
 		this.marketTick.getData(this.currencypair, ts).then(res=>{
+			// console.log('getData:', this.currencypair, ts, JSON.stringify(res));
 			res.forEach(itm=>{
-				// console.log('getData:', JSON.stringify(itm));
 				this.list.forEach(mag=>{
 					mag.AcceptPrice(itm);
 				})
