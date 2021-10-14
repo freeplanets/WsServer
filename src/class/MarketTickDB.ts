@@ -69,6 +69,7 @@ export default class MarketTickDB {
 							ticktime: itm.ticktime ? itm.ticktime : 0,
 						}
 						// timechk.push(tmp.ticktime);
+						// console.log('tick:', tmp);
 						return tmp;
 					})
 					// console.log(new Date().toLocaleTimeString(), ts, res.count, JSON.stringify(timechk));
