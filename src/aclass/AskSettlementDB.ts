@@ -1,5 +1,5 @@
 import { AskTable, SendData, ObjectIdentify, Msg } from '../interface/if';
-import { ErrCode } from '../interface/ENum';
+import { ErrCode, Channels } from '../interface/ENum';
 import DataBaseIF from '../interface/DataBaseIF';
 import { Connection } from 'mariadb';
 import SettleProc from '../components/SettleProcDB';
@@ -61,7 +61,7 @@ export default abstract class AskSettlementDB {
         this.db.query(sql).then((msg=>{
           if(msg.ErrNo === ErrCode.PASS){
             ask.ProcStatus = 2;
-            this.SP.SendMessage('AskChannel', JSON.stringify(ask), ask.UserID);
+            this.SP.SendMessage(Channels.ASK, JSON.stringify(ask), ask.UserID);
           }
           resolve(msg);
         })).catch(err=>{

@@ -34,11 +34,11 @@ export enum PriceCheckType {
   LimitPrice = 1,
 }
 export enum Channels {
-  ASK = 'AskChannel',
+  ASK = 'Ask',
   API_SERVER = 'AskCreator',
   SETTLE_SERVER = "SettleServer",
-  ADMIN = 'AdminChannel',
-  PUB = 'PublicChannel',
-  MEMBER = "MemberChannel",
-  SERVICE = "ServiceChannel",
+  ADMIN = 'Admin',
+  PUB = 'Public',
+  MEMBER = "Member",
+  SERVICE = "Service",
 }

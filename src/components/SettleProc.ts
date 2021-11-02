@@ -9,8 +9,8 @@ import LimitPrice from '../components/LimitPrice';
 import LeverCheck from '../components/LeverCheck';
 import ChannelManagement from '../class/ChannelManagement';
 
-export const ApiChannel = 'AskCreator';
-export const ClientChannel = 'AskChannel';
+export const ApiChannel = Channels.API_SERVER;
+export const ClientChannel = Channels.ASK;
 
 export default class SettleProce {
   private db:DB = new DB();
