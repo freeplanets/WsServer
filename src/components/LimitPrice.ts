@@ -27,9 +27,9 @@ export default class LimitPrice extends AskSettlement {
             ask.Price = ask.AskPrice;
             ask.AskPrice = price;
             if (ask.Amount) {
-              ask.Qty = parseFloat((ask.Amount / price).toFixed(8));
+              ask.Qty = parseFloat((ask.Amount / ask.Price).toFixed(8));
             } else {
-              ask.Amount = parseFloat((ask.Qty * price).toFixed(2));
+              ask.Amount = parseFloat((ask.Qty * ask.Price).toFixed(2));
             }
             /*
             if(ask.BuyType === 0 ) {

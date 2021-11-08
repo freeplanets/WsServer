@@ -39,8 +39,11 @@ export default class LeverCheck extends AskSettlement {
       // }
       if (ask.isUserSettle || (price - ask.GainPrice)*ask.ItemType > 0 || (price - ask.LosePrice)*ask.ItemType < 0) {
         console.log('Lever check:', price, ask.GainPrice, ask.LosePrice, ask.ItemType, (price - ask.GainPrice)*ask.ItemType, (price - ask.StopLose)*ask.ItemType);
-        ask.Price = price;
-        ask.Amount = price * ask.Qty;
+        let settlePrice = price;
+        if((price - ask.GainPrice)*ask.ItemType > 0) settlePrice = parseFloat(ask.GainPrice.toFixed(2));
+        if((price - ask.LosePrice)*ask.ItemType < 0) settlePrice = parseFloat(ask.LosePrice.toFixed(2));
+        ask.Price = settlePrice;
+        ask.Amount = parseFloat((settlePrice * ask.Qty).toFixed(2));
         ask.DealTime = r.eventTime;
         // console.log('LeverCheck Settle:',JSON.stringify(ask));
         const isSettle = this.Settle(ask);
