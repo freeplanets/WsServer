@@ -56,7 +56,7 @@ export default class MarketTickDB {
 				let pt:PriceTick[] = [];
 				if (Array.isArray(res) && res.count > 0) {
 					// const timechk:number[]=[];
-					// console.log('get MarketTick:', res, res.count);
+					// console.log('get MarketTick:', currencyPair, res, res.count);
 					pt = res.map(itm=>{
 						// console.log('TickData:', itm.lastTradeId, '>', itm);
 						if(itm.lastTradeId) {

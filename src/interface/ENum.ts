@@ -20,7 +20,7 @@ export enum ErrCode {
 export enum FuncKey {
 	SET_CHANNEL = 'SetChannel',
 	CLIENT_INFO = 'ClientInfo',
-  MESSAGE = 'sendMessage',
+  MESSAGE = 'Message',
   SAVE_MESSAGE = 'saveMessage',
   EMERGENCY_CLOSE = "emergencyClose",
   GET_CRYPTOITEM_LEVER = 'getCryptoItemLever',

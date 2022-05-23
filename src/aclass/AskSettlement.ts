@@ -52,8 +52,8 @@ export default abstract class AskSettlement {
       // console.log('RemoveFromList.', this.inProcess, new Date().getTime());    
     } 
   }
-  protected Settle(ask:AskTable):boolean {
-    ask.ProcStatus = 2;
+  protected Settle(ask:AskTable, status = 2):boolean {
+    ask.ProcStatus = status;
     return this.SP.SendAsk(ApiChannel, ask, 1);
     // return this.SP.SendMessage(ApiChannel, JSON.stringify(ask), 1);
   }
