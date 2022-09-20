@@ -83,6 +83,7 @@ export interface AskTable {
   SetID: number; // 平倉對象ID -> System下單
   USetID: number;  // 平倉對象ID -> User下單
   isUserSettle: number; // 會員平倉
+  ChoicePrice?: number; // 有利價
 }
 export interface DealTable {
   id: number;

@@ -9,6 +9,7 @@ export default abstract class AAskManager {
 	protected list:AskTable[]=[];
 	protected settleList:AskTable[]=[];
 	public static LeverKey = 2;
+	public static ChoiceKey = 3;	//有利價
   constructor(protected TM:ATotalManager, protected Code:string, AskType:number){
     this.IdentifyCode = `${Code}${AskType}`;
     AAskManager.Identify[this.IdentifyCode] = true;

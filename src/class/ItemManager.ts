@@ -3,6 +3,7 @@ import AAskManager from '../aclass/AAskManager';
 import AutoSettleManager from './AutoSettleManager';
 import MarketPriceManager from './MarketPriceManager';
 import LimitPriceManager from './LimitPriceManager';
+import ChoicePriceManager from './ChoicePriceManager';
 import MarketTickDB from './MarketTickDB';
 // import TotalManager from './TotalManager';
 import { ATotalManager } from "../aclass/ATotalManager";
@@ -28,7 +29,10 @@ export default class ItemManager {
 	}
 	AddAsk(ask:AskTable) {
 		if(ask.Code !== this.Code) return;
-		const key = ask.USetID || ask.SetID ? AAskManager.LeverKey : ask.AskType;
+		let key = ask.USetID || ask.SetID ? AAskManager.LeverKey : ask.AskType;
+		if (!key && ask.ChoicePrice) {
+			key = AAskManager.ChoiceKey;
+		}
 		const IdentifyCode = `${this.Code}${key}`;
 		// console.log('AddAsk:', IdentifyCode);
 		if (!AAskManager.Identify[IdentifyCode]) {
@@ -38,6 +42,9 @@ export default class ItemManager {
 					break;
 				case AAskManager.LeverKey:
 					this.list.push(new AutoSettleManager(this.TM, this.Code, key));
+					break;
+				case AAskManager.ChoiceKey:
+					this.list.push(new ChoicePriceManager(this.TM, this.Code, key));
 					break;
 				default:
 					this.list.push(new MarketPriceManager(this.TM, this.Code, key));

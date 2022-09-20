@@ -21,7 +21,7 @@ server.on('connection',(ws:WebSocket,req:IncomingMessage)=>{
   const ip = req.socket.remoteAddress;
   const port = req.socket.remotePort;
   const curClient = `${ip}${port}`;
-  console.log('%s is connected',curClient);
+  // console.log('%s is connected',curClient);
   // mqtt.Clients = server.clients;
   ws.send('Welcome ' + curClient);
 

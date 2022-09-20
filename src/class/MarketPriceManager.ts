@@ -3,7 +3,7 @@ import { PriceTick, AskTable } from '../interface/if';
 
 export default class MarketPriceManager extends AAskManager {
   Add(ask:AskTable) {
-    if(ask.AskType === 0 && !ask.USetID && !ask.SetID){
+    if(ask.AskType === 0 && !ask.ChoicePrice && !ask.USetID && !ask.SetID){
       super.Add(ask);
     }
   }

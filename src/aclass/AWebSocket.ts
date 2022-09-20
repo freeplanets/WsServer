@@ -21,7 +21,7 @@ export default abstract class AWebSocket {
 			const ip = req.socket.remoteAddress;
 			const port = req.socket.remotePort;
 			const curClient = `${ip}:${port}`;
-			console.log('%s is connected',curClient);
+			// console.log('%s is connected',curClient);
 			const msg = {
 				Message : 'Welcome ' + curClient, 
 			}

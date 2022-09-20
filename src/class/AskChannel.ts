@@ -95,7 +95,7 @@ export default class AskChannel implements ChannelT {
   remove(ws:WebSocket):void {
     this.members.every((itm,idx)=>{
       if(itm.ws === ws) {
-        console.log('AskChannels remove', itm.UserID, idx);
+        // console.log('AskChannels remove', itm.UserID, idx);
         this.members.splice(idx,1);
         return false;
       }

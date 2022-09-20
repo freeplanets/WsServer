@@ -17,7 +17,7 @@ const options:ServerOptions = {
 console.log('port:',options);
 const server = new WebSocket.Server(options)
 console.log('defaultMaxListeners:', server.getMaxListeners());
-server.setMaxListeners(100);
+server.setMaxListeners(0);
 console.log('defaultMaxListeners:', server.getMaxListeners());
 server.on('error',(ws:WebSocket,error:Error)=>{
   const maxltner = ws.getMaxListeners();
@@ -33,7 +33,7 @@ server.on('connection',(ws:WebSocket, req:IncomingMessage)=>{
   const ip = req.socket.remoteAddress;
   const port = req.socket.remotePort;
   const curClient = `${ip}:${port}`;
-  console.log('%s is connected',curClient);
+  // console.log('%s is connected',curClient);
   const msg:WsMsg = {
     Message : 'Welcome ' + curClient, 
   }
