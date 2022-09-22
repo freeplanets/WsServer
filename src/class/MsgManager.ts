@@ -18,7 +18,7 @@ export default class MsgManager extends ATotalManager {
 	}
 	AcceptMessage(msg:string) {
 		const ans = this.toJSON<WsMsg>(msg);
-		// console.log('TotalManager AcceptMessage:', JSON.stringify(ans));
+		console.log('TotalManager AcceptMessage:', JSON.stringify(ans));
 		switch(ans.Func) {
 			case FuncKey.CLIENT_INFO:
 				console.log(`AcceptMessage ${ans.Func}`, msg);

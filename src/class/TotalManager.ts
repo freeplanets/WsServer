@@ -55,6 +55,7 @@ export default class TotalManager extends ATotalManager {
 				}
 				break;
 			case FuncKey.GET_UNFINISHED_ASKS:
+				// console.log('do:', FuncKey.GET_UNFINISHED_ASKS);
 				if(ans.data) {
 					this.AddAsk(ans.data)
 				}
@@ -86,6 +87,7 @@ export default class TotalManager extends ATotalManager {
 		}
 	}
 	private AddAsk(ask:AskTable | AskTable[]){
+		// console.log('do AddAsk');
 		if(Array.isArray(ask)) {
 			ask.forEach(itm=>{
 				this.AddSingleAsk(itm);
@@ -95,7 +97,9 @@ export default class TotalManager extends ATotalManager {
 		}
 	}
 	private AddSingleAsk(ask:AskTable) {
+		// console.log('do AddSingleAsk');
 		this.list.forEach(itmgr=>{
+			// console.log('AddAsk', ask);
 			itmgr.AddAsk(ask);
 		})
 	}

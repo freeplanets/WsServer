@@ -57,6 +57,7 @@ export default class ChoicePriceManager extends AAskManager {
 		const orderTime = new Date(ask.CreateTime).getTime();
 		const toGarbageIdx:number[] = [];
 		let pTick:PriceTick | undefined;
+		// console.log('chkPrice:', ask.id, ask.CreateTime, orderTime, lastTick.ticktime, lastTick.lastPrice, this.PriceList.length);
 		if (lastTick.ticktime - orderTime > sec) {
 			this.PriceList.forEach((tick, idx) => {
 				if (idx !== lastIdx) {
@@ -64,7 +65,7 @@ export default class ChoicePriceManager extends AAskManager {
 						toGarbageIdx.push(idx);
 					} else {
 						if (!pTick) pTick = tick;
-						else if (ask.BuyType === 1) {
+						else if (ask.BuyType === 0) {
 							if (pTick.lastPrice < tick.lastPrice) pTick = tick;
 						} else {
 							if (pTick.lastPrice > tick.lastPrice) pTick = tick;
