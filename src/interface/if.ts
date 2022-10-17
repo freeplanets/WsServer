@@ -143,4 +143,5 @@ export interface PriceTick {
 
 export interface ItemInfo {
   Code: string;
+  StayLimit:number;
 }

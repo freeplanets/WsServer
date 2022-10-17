@@ -1,7 +1,14 @@
 import AAskManager from "../aclass/AAskManager";
+import { ATotalManager } from "../aclass/ATotalManager";
 import { PriceTick, AskTable } from "../interface/if";
 
 export default class AutoSettleManager extends AAskManager {
+	private StayLimit = 0; // 留倉天數
+	constructor(protected TM:ATotalManager, protected Code:string, AskType:number, StayLimit = 0) {
+		super(TM, Code, AskType);
+		this.StayLimit = StayLimit * 24 * 60 * 60 * 1000 ;	// 天數 -> days * 24 * 60 * 60 * 1000 微秒
+		console.log('AutoSettleManager set StayLimit:', this.StayLimit);
+	}
 	Add(ask:AskTable) {
     if( ask.USetID || ask.SetID){
       super.Add(ask);
@@ -13,8 +20,11 @@ export default class AutoSettleManager extends AAskManager {
 	AcceptPrice(priceTick: PriceTick) {
     this.list.forEach((ask) => {
       const price = priceTick.lastPrice;
-			if(new Date(ask.CreateTime).getTime() < priceTick.ticktime){
-				if (ask.isUserSettle || (price - ask.GainPrice)*ask.ItemType > 0 || (price - ask.LosePrice)*ask.ItemType < 0) {
+			const cTime = new Date(ask.CreateTime).getTime()
+			// console.log('timecheck:', priceTick.ticktime, cTime, this.StayLimit, priceTick.ticktime - cTime);
+			if( cTime < priceTick.ticktime){
+				if (ask.isUserSettle || (price - ask.GainPrice)*ask.ItemType > 0 
+					|| (price - ask.LosePrice)*ask.ItemType < 0 || (this.StayLimit > 0 && priceTick.ticktime - cTime > this.StayLimit)) {
 					// console.log('Lever check:', price, ask.GainPrice, ask.LosePrice, ask.ItemType, (price - ask.GainPrice)*ask.ItemType, (price - ask.StopLose)*ask.ItemType);
 					ask.Price = price;
 					ask.Amount = price * ask.Qty;

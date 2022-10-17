@@ -15,10 +15,13 @@ export default class ItemManager {
 	// private id:number;
 	private tsForGetData = 0;
 	private marketTick;
+	private StayLimit = 0;
 	constructor(private TM:ATotalManager, info: ItemInfo, mt:MarketTickDB) {
 		this.marketTick = mt;
 		// this.id = info.id;
+		console.log('ItemInfo', info);
 		this.code = info.Code;
+		this.StayLimit = info.StayLimit;
 		let tmp = info.Code;
 		const fIdx = tmp.indexOf('/');
 		if(fIdx<0) this.currencypair = tmp.replace('USDT', '/USDT');
@@ -41,7 +44,7 @@ export default class ItemManager {
 					this.list.push(new LimitPriceManager(this.TM, this.Code, key));
 					break;
 				case AAskManager.LeverKey:
-					this.list.push(new AutoSettleManager(this.TM, this.Code, key));
+					this.list.push(new AutoSettleManager(this.TM, this.Code, key, this.StayLimit));
 					break;
 				case AAskManager.ChoiceKey:
 					this.list.push(new ChoicePriceManager(this.TM, this.Code, key));
