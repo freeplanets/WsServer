@@ -14,7 +14,7 @@ export default class TotalManager extends ATotalManager {
 	private mt:MarketTickDB = new MarketTickDB();
 	AcceptMessage(msg:string, ws:WebSocket) {
 		const ans = this.toJSON<WsMsg>(msg);
-		// console.log('TotalManager AcceptMessage:', JSON.stringify(ans));
+		console.log('TotalManager AcceptMessage:', JSON.stringify(ans));
 		switch(ans.Func) {
 			case FuncKey.SET_CHANNEL:
 				if (ans.ChannelName) {
@@ -106,11 +106,18 @@ export default class TotalManager extends ATotalManager {
 	private setItems(itms:ItemInfo[]) {
 		if (Array.isArray(itms)) {
 			itms.forEach(itm=>{
+				const f = this.list.find(itmMg => itmMg.Code === itm.Code);
+				if (f) {
+					f.Update(itm);
+				} else {
+					this.list.push(new ItemManager(this, itm, this.mt));	
+				}
+				/*
 				const fIdx = this.list.findIndex(itmMg=>itmMg.Code === itm.Code);
 				if(fIdx === -1){
 					this.list.push(new ItemManager(this, itm, this.mt));
-					// console.log('after add item', this.list.length);
 				}
+				*/
 			})
 			// console.log('list:', this.list.length);
 			this.SendForGetAsks();

@@ -1,8 +1,11 @@
 import AAskManager from '../aclass/AAskManager';
-import { PriceTick, AskTable } from '../interface/if';
+import { PriceTick, AskTable, ItemInfo } from '../interface/if';
 
 export default class MarketPriceManager extends AAskManager {
-  Add(ask:AskTable) {
+  Update(info:ItemInfo): void {
+    return;
+  }
+  add(ask:AskTable) {
     if(ask.AskType === 0 && !ask.ChoicePrice && !ask.USetID && !ask.SetID){
       super.Add(ask);
     }

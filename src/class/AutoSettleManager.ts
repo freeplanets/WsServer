@@ -1,13 +1,24 @@
 import AAskManager from "../aclass/AAskManager";
 import { ATotalManager } from "../aclass/ATotalManager";
-import { PriceTick, AskTable } from "../interface/if";
+import { PriceTick, AskTable, ItemInfo } from "../interface/if";
 
 export default class AutoSettleManager extends AAskManager {
 	private StayLimit = 0; // 留倉天數
 	constructor(protected TM:ATotalManager, protected Code:string, AskType:number, StayLimit = 0) {
 		super(TM, Code, AskType);
-		this.StayLimit = StayLimit * 24 * 60 * 60 * 1000 ;	// 天數 -> days * 24 * 60 * 60 * 1000 微秒
+		this.setStayLimit(StayLimit);
 		console.log('AutoSettleManager set StayLimit:', this.StayLimit);
+	}
+	Update(info: ItemInfo): void {
+			if(typeof info.StayLimit !== undefined) {
+				console.log(this.IdentifyCode, 'old StayLimit:', this.StayLimit);
+				// this.StayLimit = info.StayLimit;
+				this.setStayLimit(info.StayLimit);
+				console.log(this.IdentifyCode, 'new StayLimit:', this.StayLimit);
+			}
+	}
+	private setStayLimit(StayLimit:number) {
+		this.StayLimit = StayLimit * 24 * 60 * 60 * 1000 ;	// 天數 -> days * 24 * 60 * 60 * 1000 微秒
 	}
 	Add(ask:AskTable) {
     if( ask.USetID || ask.SetID){

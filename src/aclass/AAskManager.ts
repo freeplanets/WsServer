@@ -1,4 +1,4 @@
-import { AskTable, PriceTick, ObjectIdentify } from '../interface/if';
+import { AskTable, PriceTick, ObjectIdentify, ItemInfo } from '../interface/if';
 import { Channels } from '../interface/ENum';
 // import TotalManager from '../class/TotalManager';
 import { ATotalManager } from './ATotalManager';
@@ -23,6 +23,7 @@ export default abstract class AAskManager {
 	get length() {
 		return this.list.length;
 	}
+	abstract Update(info:ItemInfo):void;
 	abstract AcceptPrice(priceTick:PriceTick):void;
 	abstract emergencyClose():void;
 	private removeFromList(ask:AskTable) {

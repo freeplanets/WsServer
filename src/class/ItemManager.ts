@@ -27,6 +27,18 @@ export default class ItemManager {
 		if(fIdx<0) this.currencypair = tmp.replace('USDT', '/USDT');
 		else this.currencypair = tmp;
 	}
+	public Update(info:ItemInfo) {
+		if (this.Code === info.Code) {
+			// this.list.forEach((itm) => itm.)
+			console.log('ItemManager update before', this.Code, this.StayLimit);
+			if (typeof info.StayLimit !== undefined) {
+				this.StayLimit = info.StayLimit;
+				this.list.forEach((itm) => itm.Update(info));
+				console.log('ItemManager update', this.StayLimit)
+				// console.log(info);
+			}
+		}
+	}
 	get Code() {
 		return this.code;
 	}

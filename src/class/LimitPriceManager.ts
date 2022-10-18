@@ -1,7 +1,10 @@
 import AAskManager from "../aclass/AAskManager";
-import { PriceTick, AskTable } from "../interface/if";
+import { PriceTick, AskTable, ItemInfo } from "../interface/if";
 
 export default class LimitPriceManager extends AAskManager {
+	Update(info:ItemInfo) {
+		return;
+	}
   Add(ask:AskTable) {
     if(ask.AskType === 1 && !ask.USetID && !ask.SetID){
       super.Add(ask);
