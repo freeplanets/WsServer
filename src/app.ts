@@ -14,7 +14,7 @@ const port:number = process.env.SERVER_PORT ? parseInt(process.env.SERVER_PORT, 
 const options:ServerOptions = {
   port: port,
 }
-console.log('port:',options, 'version: v0.032');
+console.log('port:',options, 'version: v0.033 getData test');
 const server = new WebSocket.Server(options)
 console.log('defaultMaxListeners:', server.getMaxListeners());
 server.setMaxListeners(20);
