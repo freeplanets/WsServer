@@ -12,9 +12,10 @@ export default class TotalManager extends ATotalManager {
 	// private list:ItemManager[]=[];
 	private toJSON = JsonParse;
 	private mt:MarketTickDB = new MarketTickDB();
+	private isInitial = true;
 	AcceptMessage(msg:string, ws:WebSocket) {
 		const ans = this.toJSON<WsMsg>(msg);
-		console.log('TotalManager AcceptMessage:', JSON.stringify(ans));
+		// console.log('TotalManager AcceptMessage:', JSON.stringify(ans));
 		switch(ans.Func) {
 			case FuncKey.SET_CHANNEL:
 				if (ans.ChannelName) {
@@ -57,7 +58,7 @@ export default class TotalManager extends ATotalManager {
 			case FuncKey.GET_UNFINISHED_ASKS:
 				// console.log('do:', FuncKey.GET_UNFINISHED_ASKS);
 				if(ans.data) {
-					this.AddAsk(ans.data)
+					this.AddAsk(ans.data, true)
 				}
 				break;
 			default:
@@ -86,21 +87,21 @@ export default class TotalManager extends ATotalManager {
 			}	
 		}
 	}
-	private AddAsk(ask:AskTable | AskTable[]){
+	private AddAsk(ask:AskTable | AskTable[], initAsk = false){
 		// console.log('do AddAsk');
 		if(Array.isArray(ask)) {
 			ask.forEach(itm=>{
-				this.AddSingleAsk(itm);
+				this.AddSingleAsk(itm, initAsk);
 			})
 		} else {
-			this.AddSingleAsk(ask);
+			this.AddSingleAsk(ask, initAsk);
 		}
 	}
-	private AddSingleAsk(ask:AskTable) {
+	private AddSingleAsk(ask:AskTable, initAsk = false) {
 		// console.log('do AddSingleAsk');
 		this.list.forEach(itmgr=>{
 			// console.log('AddAsk', ask);
-			itmgr.AddAsk(ask);
+			itmgr.AddAsk(ask, initAsk);
 		})
 	}
 	private setItems(itms:ItemInfo[]) {
@@ -130,6 +131,10 @@ export default class TotalManager extends ATotalManager {
     this.CM.Register(name, ws, UserID);
 		if(name === Channels.API_SERVER) {
 			// When Api_Server set channel send getItems message
+			if (this.isInitial) {
+				this.SendDeleteUndealedAsks();
+				this.isInitial = false;
+			}
 			this.SendForItemInfo();
 			this.list.map(itm => {
 				itm.ReSettleWhenApiServerOn();
@@ -143,10 +148,13 @@ export default class TotalManager extends ATotalManager {
     return this.SendMessage(name, JSON.stringify(msg), opt);
   }
 	private SendForItemInfo() {
-		this.SendFuncKey(FuncKey.GET_CRYPTOITEM_CODE_DISTINCT)
+		this.SendFuncKey(FuncKey.GET_CRYPTOITEM_CODE_DISTINCT);
 	}
 	private SendForGetAsks() {
-		this.SendFuncKey(FuncKey.GET_UNFINISHED_ASKS)
+		this.SendFuncKey(FuncKey.GET_UNFINISHED_ASKS);
+	}
+	private SendDeleteUndealedAsks() {
+		this.SendFuncKey(FuncKey.DELETE_UNDEALED_ASKS);
 	}
 	private SendFuncKey(fundkey:FuncKey) {
 		const wsg:WsMsg = {

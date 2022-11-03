@@ -27,6 +27,13 @@ export default class ItemManager {
 		if(fIdx<0) this.currencypair = tmp.replace('USDT', '/USDT');
 		else this.currencypair = tmp;
 	}
+	get TManager() {
+		return this.TM;
+	}
+	set GetDataTimeStamp(n:number) {
+		console.log('set tsForGetData', n);
+		this.tsForGetData = n;
+	}
 	public Update(info:ItemInfo) {
 		if (this.Code === info.Code) {
 			// this.list.forEach((itm) => itm.)
@@ -42,7 +49,7 @@ export default class ItemManager {
 	get Code() {
 		return this.code;
 	}
-	AddAsk(ask:AskTable) {
+	AddAsk(ask:AskTable, initAsk = false) {
 		if(ask.Code !== this.Code) return;
 		let key = ask.USetID || ask.SetID ? AAskManager.LeverKey : ask.AskType;
 		if (!key && ask.ChoicePrice) {
@@ -56,7 +63,7 @@ export default class ItemManager {
 					this.list.push(new LimitPriceManager(this.TM, this.Code, key));
 					break;
 				case AAskManager.LeverKey:
-					this.list.push(new AutoSettleManager(this.TM, this.Code, key, this.StayLimit));
+					this.list.push(new AutoSettleManager(this, this.Code, key, this.StayLimit));
 					break;
 				case AAskManager.ChoiceKey:
 					this.list.push(new ChoicePriceManager(this.TM, this.Code, key));
@@ -66,12 +73,13 @@ export default class ItemManager {
 			}
 		}
 		this.list.forEach(manager=>{
-			manager.Add(ask);
+			manager.Add(ask, initAsk);
 		})
 		if(this.tsForGetData === 0) {
 			this.tsForGetData = new Date().getTime();
-			this.checkForNext(this.tsForGetData);
+			console.log('set tsForGetData from getTime', this.tsForGetData);
 		}
+		this.checkForNext(this.tsForGetData);
 	}
 	private getData(ts:number) {
 		this.marketTick.getData(this.currencypair, ts).then(res=>{

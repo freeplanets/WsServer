@@ -7,6 +7,7 @@ export default class MarketPriceManager extends AAskManager {
   }
   add(ask:AskTable) {
     if(ask.AskType === 0 && !ask.ChoicePrice && !ask.USetID && !ask.SetID){
+      console.log('MarketPriceManager Add Ask', JSON.stringify(ask));
       super.Add(ask);
     }
   }
@@ -28,7 +29,7 @@ export default class MarketPriceManager extends AAskManager {
         this.Settle(ask);
         // console.log('CurPrice Settle:', JSON.stringify(ask));
         // const isSettle = this.Settle(ask);	
-			}		
+			}
 		});
 	}
 }

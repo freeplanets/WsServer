@@ -30,11 +30,11 @@ export default class ChannelManagement {
     })
     */
   }
-  Send(name:string, message:string, opt?:WebSocket | number):boolean{
+  Send(ChannelName:string, message:string, opt?:WebSocket | number):boolean{
     let doSend = false;
-    const f = this.childs.find(chd => chd.Name === name);
+    const f = this.childs.find(chd => chd.Name === ChannelName);
     if(f){
-      // console.log('ChannelManagement send', name, message, opt, `<${this.childs.length}>`);
+      // console.log('ChannelManagement send', ChannelName, message, opt, `<${this.childs.length}>`);
       doSend = f.send(message, opt);
     }
     return doSend;

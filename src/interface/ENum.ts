@@ -28,6 +28,7 @@ export enum FuncKey {
   GET_CRYPTOITEM_CODE_DISTINCT = 'getCryptoItemCodeDistinct',
   GET_UNFINISHED_ASKS = 'getUnFinishedAsks',
   SAVE_PRICETICK = 'savePriceTick',
+  DELETE_UNDEALED_ASKS = "deleteUnDealedAsks",
 }
 export enum PriceCheckType {
   CurPrice = 0,

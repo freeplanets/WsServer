@@ -10,13 +10,15 @@ export default abstract class AAskManager {
 	protected settleList:AskTable[]=[];
 	public static LeverKey = 2;
 	public static ChoiceKey = 3;	//有利價
+	protected initAsk = false;
   constructor(protected TM:ATotalManager, protected Code:string, AskType:number){
     this.IdentifyCode = `${Code}${AskType}`;
     AAskManager.Identify[this.IdentifyCode] = true;
   }
-	Add(ask:AskTable) {
+	Add(ask:AskTable, initAsk = false) {
 		// if (ask.ItemID !== this.ItemID ) return;
-		console.log(this.IdentifyCode, ask.id, ask.AskType,ask.Code, ask.UserID);
+		console.log(this.IdentifyCode, ask.id, ask.AskType,ask.Code, ask.UserID, initAsk);
+		this.initAsk = initAsk;
 		if (ask.ProcStatus > 1 ) this.removeFromList(ask);
 		else this.addToList(ask);
 	}
