@@ -1,6 +1,7 @@
 import { IncomingMessage } from "node:http";
 import WebSocket from "ws";
 import dotenv from 'dotenv';
+
 dotenv.config();
 
 export default abstract class AWebSocket {
@@ -16,6 +17,12 @@ export default abstract class AWebSocket {
 		});
 		this.server.on('open',(ws:WebSocket)=>{
 			console.log('connected:', ws.readyState);	
+		});
+		this.server.on('ping',(ws:WebSocket, args:any[]) => {
+			console.log('onping', ws.readyState, args);
+		});
+		this.server.on('pong', (ws:WebSocket, args:any[])=>{
+			console.log('onpong', ws.readyState, args);
 		});
 		this.server.on('connection',(ws:WebSocket, req:IncomingMessage)=>{
 			const ip = req.socket.remoteAddress;
@@ -41,7 +48,7 @@ export default abstract class AWebSocket {
 		
 		this.server.on('close',(me:WebSocket.Server)=>{
 			console.log('disconnected', me);
-		});		
+		});
 	}
 	protected abstract onMessage(msg:string, ws:WebSocket):void;
 }

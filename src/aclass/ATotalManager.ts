@@ -22,7 +22,8 @@ export abstract class ATotalManager {
 		if (this.intervalID) {
 			const tmp:WsMsg = {
 				Func: FuncKey.MESSAGE,
-				data: new Date().toUTCString()
+				data: new Date().toUTCString(),
+				cnt: this.list.length,
 			}
 			// console.log('ServerInfo', JSON.stringify(tmp));
 			this.CM.Send(Channels.ADMIN, JSON.stringify(tmp));	
