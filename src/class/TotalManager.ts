@@ -13,6 +13,7 @@ export default class TotalManager extends ATotalManager {
 	private toJSON = JsonParse;
 	private mt:MarketTickDB = new MarketTickDB();
 	private isInitial = true;
+	private pingInterval:NodeJS.Timeout | null = null;
 	AcceptMessage(msg:string, ws:WebSocket) {
 		const ans = this.toJSON<WsMsg>(msg);
 		// console.log('TotalManager AcceptMessage:', JSON.stringify(ans));
@@ -136,9 +137,11 @@ export default class TotalManager extends ATotalManager {
 			ws.on('pong', () => {
 				console.log('pong ' + new Date().toLocaleString());
 			})
-			setInterval(() => {
-				ws.ping();
-			}, 60000);
+			if (!this.pingInterval) {
+				this.pingInterval = setInterval(() => {
+					ws.ping();
+				}, 60000);
+			}
 			// When Api_Server set channel send getItems message
 			if (this.isInitial) {
 				this.SendDeleteUndealedAsks();
