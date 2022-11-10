@@ -137,11 +137,13 @@ export default class TotalManager extends ATotalManager {
 			ws.on('pong', () => {
 				console.log('pong ' + new Date().toLocaleString());
 			})
-			if (!this.pingInterval) {
-				this.pingInterval = setInterval(() => {
-					ws.ping();
-				}, 60000);
+			if (this.pingInterval) {
+				console.log('API_SERVER relogin clearInterval' + new Date().toLocaleString());
+				clearInterval(this.pingInterval);
 			}
+			this.pingInterval = setInterval(() => {
+				ws.ping();
+			}, 60000);
 			// When Api_Server set channel send getItems message
 			if (this.isInitial) {
 				this.SendDeleteUndealedAsks();
