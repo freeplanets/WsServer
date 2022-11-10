@@ -1,6 +1,5 @@
 import AAskManager from "../aclass/AAskManager";
 import ItemManager from "./ItemManager";
-import { ATotalManager } from "../aclass/ATotalManager";
 import { PriceTick, AskTable, ItemInfo } from "../interface/if";
 
 export default class AutoSettleManager extends AAskManager {
@@ -13,10 +12,10 @@ export default class AutoSettleManager extends AAskManager {
 	}
 	Update(info: ItemInfo): void {
 			if(typeof info.StayLimit !== undefined) {
-				console.log(this.IdentifyCode, 'old StayLimit:', this.StayLimit);
+				// console.log(this.IdentifyCode, 'old StayLimit:', this.StayLimit);
 				// this.StayLimit = info.StayLimit;
 				this.setStayLimit(info.StayLimit);
-				console.log(this.IdentifyCode, 'new StayLimit:', this.StayLimit);
+				// console.log(this.IdentifyCode, 'new StayLimit:', this.StayLimit);
 			}
 	}
 	private setStayLimit(StayLimit:number) {

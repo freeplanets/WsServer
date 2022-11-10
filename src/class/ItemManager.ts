@@ -37,11 +37,11 @@ export default class ItemManager {
 	public Update(info:ItemInfo) {
 		if (this.Code === info.Code) {
 			// this.list.forEach((itm) => itm.)
-			console.log('ItemManager update before', this.Code, this.StayLimit);
+			// console.log('ItemManager update before', this.Code, this.StayLimit);
 			if (typeof info.StayLimit !== undefined) {
 				this.StayLimit = info.StayLimit;
 				this.list.forEach((itm) => itm.Update(info));
-				console.log('ItemManager update', this.StayLimit)
+				// console.log('ItemManager update', this.StayLimit)
 				// console.log(info);
 			}
 		}
