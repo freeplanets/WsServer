@@ -128,8 +128,17 @@ export default class TotalManager extends ATotalManager {
 	}
   RegisterChannel(name:string, ws:WebSocket, UserID?:number){
     // console.log('TM RegisterChannel:', name, UserID);
-    this.CM.Register(name, ws, UserID);
+		this.CM.Register(name, ws, UserID);
 		if(name === Channels.API_SERVER) {
+			ws.on('ping', () => {
+				console.log('ping');
+			})
+			ws.on('pong', () => {
+				console.log('pong ' + new Date().toLocaleString());
+			})
+			setInterval(() => {
+				ws.ping();
+			}, 60000);
 			// When Api_Server set channel send getItems message
 			if (this.isInitial) {
 				this.SendDeleteUndealedAsks();
@@ -138,8 +147,8 @@ export default class TotalManager extends ATotalManager {
 			this.SendForItemInfo();
 			this.list.map(itm => {
 				itm.ReSettleWhenApiServerOn();
-			})
-		}		
+			});
+		}
   }
   SendAsk(name:string, ask:AskTable, opt?:WebSocket|number):boolean {
     const msg:WsMsg= {
