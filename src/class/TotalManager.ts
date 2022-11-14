@@ -17,6 +17,7 @@ export default class TotalManager extends ATotalManager {
 	AcceptMessage(msg:string, ws:WebSocket) {
 		const ans = this.toJSON<WsMsg>(msg);
 		// console.log('TotalManager AcceptMessage:', JSON.stringify(ans));
+		let isEmergencyClose = true;
 		switch(ans.Func) {
 			case FuncKey.SET_CHANNEL:
 				if (ans.ChannelName) {
@@ -46,9 +47,12 @@ export default class TotalManager extends ATotalManager {
 				break;
 			case FuncKey.SAVE_MESSAGE:
 				break;
+			case FuncKey.DELETE_UNDEALED_ASKS:
+				isEmergencyClose = false;
+				console.log('FuncKey.DELETE_UNDEALED_ASKS', JSON.stringify(ans));
 			case FuncKey.EMERGENCY_CLOSE:
-				console.log(ans.Func);
-				this.emergencyClose(ans.Asks);
+				// console.log(ans.Func);
+				this.emergencyClose(ans.Asks, isEmergencyClose);
 				break;
 			case FuncKey.GET_CRYPTOITEM_CODE_DISTINCT:
 				if(ans.data) {
@@ -183,10 +187,13 @@ export default class TotalManager extends ATotalManager {
   RemoveFromChannel(ws:WebSocket):void{
     this.CM.Remove(ws);
   }
-	emergencyClose(asks?:AskTable | AskTable[]) {
-		this.list.forEach((itm) => {
-			itm.emergencyClose();
-		});
+	emergencyClose(asks?:AskTable | AskTable[], isEmergencyClose = true) {
+		console.log('emergencyClose', isEmergencyClose);
+		if (isEmergencyClose) {
+			this.list.forEach((itm) => {
+				itm.emergencyClose();
+			});
+		}
 		if(asks) {
 			const msg:WsMsg = {};
 			if(Array.isArray(asks)) {

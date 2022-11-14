@@ -23,7 +23,7 @@ export default class AutoSettleManager extends AAskManager {
 	}
 	Add(ask:AskTable, initAsk = false) {
     if( ask.USetID || ask.SetID){
-			console.log('AutoSettleManager Add ask:', initAsk, ':', ask.id);
+			// console.log('AutoSettleManager Add ask:', initAsk, ':', ask.id);
 			if (initAsk && ask.USetID) {
 				const ts = new Date(ask.CreateTime).getTime();
 				if (this.preTs === 0 || ts < this.preTs) {

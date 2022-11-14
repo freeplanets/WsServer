@@ -29,6 +29,8 @@ const server = new WebSocket.Server(options)
 console.log('defaultMaxListeners:', server.getMaxListeners());
 server.setMaxListeners(50);
 console.log('defaultMaxListeners:', server.getMaxListeners());
+
+
 server.on('error',(ws:WebSocket,error:Error)=>{
   const maxltner = ws.getMaxListeners();
   console.log('MaxListeners', maxltner);

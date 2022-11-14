@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import MsgManager from './MsgManager';
 import {Channels} from '../interface/ENum';
 import { WsMsg } from '../interface/if';
+import { ClientRequest, IncomingMessage } from 'node:http';
 
 dotenv.config();
 
@@ -85,6 +86,11 @@ export class WsClient {
         me.createConnection();
       }, 5000);
     });
+    this.ws.on('unexpected-response', (ws: WebSocket, request: ClientRequest, response: IncomingMessage) => {
+      console.log('ClientRequest', ws.readyState);
+      console.log('request:', request);
+      console.log('response:', response);
+    })
   }
 }
 new WsClient(wsSERVER, wsOptions);

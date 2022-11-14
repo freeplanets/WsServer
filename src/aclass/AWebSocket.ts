@@ -18,12 +18,14 @@ export default abstract class AWebSocket {
 		this.server.on('open',(ws:WebSocket)=>{
 			console.log('connected:', ws.readyState);	
 		});
+		/*
 		this.server.on('ping',(ws:WebSocket, args:any[]) => {
 			console.log('onping', ws.readyState, args);
 		});
 		this.server.on('pong', (ws:WebSocket, args:any[])=>{
 			console.log('onpong', ws.readyState, args);
 		});
+		*/
 		this.server.on('connection',(ws:WebSocket, req:IncomingMessage)=>{
 			const ip = req.socket.remoteAddress;
 			const port = req.socket.remotePort;

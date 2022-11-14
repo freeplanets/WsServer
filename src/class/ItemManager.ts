@@ -56,7 +56,7 @@ export default class ItemManager {
 			key = AAskManager.ChoiceKey;
 		}
 		const IdentifyCode = `${this.Code}${key}`;
-		console.log('AddAsk:', IdentifyCode);
+		// console.log('AddAsk:', IdentifyCode);
 		if (!AAskManager.Identify[IdentifyCode]) {
 			switch(key) {
 				case 1:
