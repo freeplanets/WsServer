@@ -65,6 +65,9 @@ export default class TotalManager extends ATotalManager {
 				if(ans.data) {
 					this.AddAsk(ans.data, true)
 				}
+				this.list.map(itm => {
+					itm.ReSettleWhenApiServerOn();
+				});
 				break;
 			default:
 				this.doNoFunc(ans);
@@ -118,15 +121,9 @@ export default class TotalManager extends ATotalManager {
 				} else {
 					this.list.push(new ItemManager(this, itm, this.mt));	
 				}
-				/*
-				const fIdx = this.list.findIndex(itmMg=>itmMg.Code === itm.Code);
-				if(fIdx === -1){
-					this.list.push(new ItemManager(this, itm, this.mt));
-				}
-				*/
 			})
-			// console.log('list:', this.list.length);
-			this.SendForGetAsks();
+			console.log('list:', this.list.length, itms);
+			this.SendForGetAsks();  
 		} else {
 			console.log('Wrong itms', itms);
 		}
@@ -153,10 +150,12 @@ export default class TotalManager extends ATotalManager {
 				this.SendDeleteUndealedAsks();
 				this.isInitial = false;
 			}
+			/*
 			this.SendForItemInfo();
 			this.list.map(itm => {
 				itm.ReSettleWhenApiServerOn();
 			});
+			*/
 		}
   }
   SendAsk(name:string, ask:AskTable, opt?:WebSocket|number):boolean {
@@ -193,15 +192,19 @@ export default class TotalManager extends ATotalManager {
 			this.list.forEach((itm) => {
 				itm.emergencyClose();
 			});
+		} else if (!asks) {
+			this.SendForItemInfo();
 		}
 		if(asks) {
 			const msg:WsMsg = {};
 			if(Array.isArray(asks)) {
 				asks.forEach((ask) => {
+					msg.Func = isEmergencyClose ? FuncKey.EMERGENCY_CLOSE : FuncKey.DELETE_UNDEALED_ASKS;
 					msg.Asks = ask;
 					this.SendMessage(Channels.ASK, JSON.stringify(msg), ask.UserID);
 				})	
 			} else {
+				msg.Func = isEmergencyClose ? FuncKey.EMERGENCY_CLOSE : FuncKey.DELETE_UNDEALED_ASKS;
 				msg.Asks = asks;
 				this.SendMessage(Channels.ASK, JSON.stringify(msg), asks.UserID);
 			}

@@ -54,6 +54,7 @@ server.on('connection',(ws:WebSocket, req:IncomingMessage)=>{
   ws.on('message',(data:Data)=>{
     const strdata = data.toString();
     // SP.AcceptMessage(strdata, ws);
+    // console.log(curClient, strdata);
     ttMg.AcceptMessage(strdata, ws);
     ws.on('close',( code:number, reason:string)=>{
       // SP.RemoveFromChannel(ws);
