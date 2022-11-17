@@ -80,9 +80,11 @@ export default class TotalManager extends ATotalManager {
 			this.SendMessage(wsg.ChannelName, JSON.stringify(wsg));
 		} else {
 			if(wsg.Ask) {
+				// console.log('TT Add Ask:', JSON.stringify(wsg.Ask));
 				this.AddSingleAsk(wsg.Ask);
 			}
 			if(wsg.Asks) {
+				// console.log('TT Add Asks:', JSON.stringify(wsg.Asks));
 				this.AddAsk(wsg.Asks);
 			}
 			if(wsg.UserID) {
@@ -107,10 +109,12 @@ export default class TotalManager extends ATotalManager {
 	}
 	private AddSingleAsk(ask:AskTable, initAsk = false) {
 		// console.log('do AddSingleAsk');
-		this.list.forEach(itmgr=>{
-			// console.log('AddAsk', ask);
-			itmgr.AddAsk(ask, initAsk);
-		})
+		if (ask.ProcStatus < 2) {
+			this.list.forEach(itmgr=>{
+				// console.log('AddAsk', ask);
+				itmgr.AddAsk(ask, initAsk);
+			});
+		}
 	}
 	private setItems(itms:ItemInfo[]) {
 		if (Array.isArray(itms)) {

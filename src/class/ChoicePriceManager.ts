@@ -8,6 +8,7 @@ export default class ChoicePriceManager extends AAskManager {
 	}
   Add(ask:AskTable) {
     if(ask.AskType === 0 && ask.ChoicePrice &&  !ask.USetID && !ask.SetID){
+			console.log('ChoicePrice Add:', JSON.stringify(ask));
       super.Add(ask);
     }
   }

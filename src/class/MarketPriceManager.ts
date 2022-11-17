@@ -5,7 +5,7 @@ export default class MarketPriceManager extends AAskManager {
   Update(info:ItemInfo): void {
     return;
   }
-  add(ask:AskTable) {
+  Add(ask:AskTable) {
     if(ask.AskType === 0 && !ask.ChoicePrice && !ask.USetID && !ask.SetID){
       console.log('MarketPriceManager Add Ask', JSON.stringify(ask));
       super.Add(ask);
@@ -26,7 +26,7 @@ export default class MarketPriceManager extends AAskManager {
         }
         ask.Price = price;
         ask.DealTime = priceTick.ticktime;
-        this.Settle(ask);
+        this.Settle(ask, 'MarketPriceManager');
         // console.log('CurPrice Settle:', JSON.stringify(ask));
         // const isSettle = this.Settle(ask);	
 			}

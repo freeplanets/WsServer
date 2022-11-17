@@ -40,11 +40,11 @@ export default class AutoSettleManager extends AAskManager {
     this.list.forEach((ask) => {
       const price = priceTick.lastPrice;
 			const cTime = new Date(ask.CreateTime).getTime()
-			// console.log('timecheck:', priceTick.ticktime, cTime, this.StayLimit, priceTick.ticktime - cTime);
 			if( cTime < priceTick.ticktime){
 				// console.log('Lever check:', price, ask.GainPrice, ask.LosePrice, ask.ItemType);
 				if (ask.isUserSettle || (price - ask.GainPrice)*ask.ItemType > 0 
 					|| (price - ask.LosePrice)*ask.ItemType < 0 || (this.StayLimit > 0 && priceTick.ticktime - cTime > this.StayLimit)) {
+					console.log('timecheck:', priceTick.ticktime, cTime, this.StayLimit, priceTick.ticktime - cTime);
 					// console.log('Lever check:', price, ask.GainPrice, ask.LosePrice, ask.ItemType, (price - ask.GainPrice)*ask.ItemType, (price - ask.StopLose)*ask.ItemType);
 					ask.Price = price;
 					ask.Amount = price * ask.Qty;
