@@ -25,7 +25,7 @@ const options:ServerOptions = {
   port: port,
   clientTracking: true,
 }
-console.log('port:',options, 'version: v0.044');
+console.log('port:',options, 'version: v0.046');
 const server = new WebSocket.Server(options)
 console.log('defaultMaxListeners:', server.getMaxListeners());
 server.setMaxListeners(50);
