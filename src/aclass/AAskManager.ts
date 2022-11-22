@@ -72,6 +72,7 @@ export default abstract class AAskManager {
 		if(this.SettleListChk(ask)) {
 			console.log(`${this.IdentifyCode + '>' + chk} Settle:`, ask.id, JSON.stringify(ask));
 			this.TM.SendAsk(Channels.API_SERVER, ask);
+			// this.settleList.push(ask);
 		}
     // return this.SP.SendAsk(ApiChannel, ask, 1);
     // return this.SP.SendMessage(ApiChannel, JSON.stringify(ask), 1);

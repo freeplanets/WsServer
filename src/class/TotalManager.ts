@@ -88,7 +88,7 @@ export default class TotalManager extends ATotalManager {
 				this.AddAsk(wsg.Asks);
 			}
 			if(wsg.UserID) {
-				// console.log('TotalManager', wsg.UserID, JSON.stringify(wsg));
+				console.log('TotalManager', wsg.UserID, new Date().toLocaleString(), JSON.stringify(wsg));
 				this.SendMessage(Channels.ASK, JSON.stringify(wsg), wsg.UserID);
 				this.SendMessage(Channels.ADMIN, JSON.stringify(wsg), 0);
 			} else {
@@ -109,12 +109,10 @@ export default class TotalManager extends ATotalManager {
 	}
 	private AddSingleAsk(ask:AskTable, initAsk = false) {
 		// console.log('do AddSingleAsk');
-		if (ask.ProcStatus < 2) {
-			this.list.forEach(itmgr=>{
-				// console.log('AddAsk', ask);
-				itmgr.AddAsk(ask, initAsk);
-			});
-		}
+		this.list.forEach(itmgr=>{
+			// console.log('AddAsk', ask);
+			itmgr.AddAsk(ask, initAsk);
+		});
 	}
 	private setItems(itms:ItemInfo[]) {
 		if (Array.isArray(itms)) {
@@ -146,13 +144,17 @@ export default class TotalManager extends ATotalManager {
 				console.log('API_SERVER relogin clearInterval' + new Date().toLocaleString());
 				clearInterval(this.pingInterval);
 			}
+			/*
 			this.pingInterval = setInterval(() => {
 				ws.ping();
 			}, 60000);
+			*/
 			// When Api_Server set channel send getItems message
 			if (this.isInitial) {
 				this.SendDeleteUndealedAsks();
 				this.isInitial = false;
+			} else {
+				this.SendForItemInfo();
 			}
 			/*
 			this.SendForItemInfo();
