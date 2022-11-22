@@ -193,7 +193,7 @@ export default class SettleProce {
   SendMessage(name:string, message:string, opt:WebSocket | number):boolean { // ws:WebSocket | UserID
     return this.CM.Send(name, message, opt )
   }
-  RemoveFromChannel(ws:WebSocket):void{
-    this.CM.Remove(ws);
+  RemoveFromChannel(UserID:number):void{
+    this.CM.Remove(UserID);
   }
 }

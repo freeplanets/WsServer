@@ -18,7 +18,7 @@ export default class ChannelManagement {
         f = new AskChannel(name, ws, UserID);
       } else {
         // console.log('Register Check4');
-        f = new AChannel(name, ws);
+        f = new AChannel(name, ws, UserID);
       }     
       this.childs.push(f);
       // console.log('Register Check5', this.childs.length); 
@@ -39,9 +39,10 @@ export default class ChannelManagement {
     }
     return doSend;
   }
-  Remove(ws:WebSocket):void {
+  Remove(UserID:number):void {
+  // Remove(ws:WebSocket):void {
     this.childs.forEach((chs)=>{
-      chs.remove(ws);
+      chs.remove(UserID);
     })
   }
 }

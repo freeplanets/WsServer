@@ -144,16 +144,15 @@ export default class TotalManager extends ATotalManager {
 				console.log('API_SERVER relogin clearInterval' + new Date().toLocaleString());
 				clearInterval(this.pingInterval);
 			}
-			/*
 			this.pingInterval = setInterval(() => {
 				ws.ping();
 			}, 60000);
-			*/
 			// When Api_Server set channel send getItems message
 			if (this.isInitial) {
 				this.SendDeleteUndealedAsks();
 				this.isInitial = false;
 			} else {
+				console.log('not init SendForItemInfo');
 				this.SendForItemInfo();
 			}
 			/*
@@ -188,9 +187,6 @@ export default class TotalManager extends ATotalManager {
   SendMessage(name:string, message:string, opt?:WebSocket | number):boolean { // ws:WebSocket | UserID
 		// console.log('TotalManager SenMessage:', opt);
     return this.CM.Send(name, message, opt )
-  }
-  RemoveFromChannel(ws:WebSocket):void{
-    this.CM.Remove(ws);
   }
 	emergencyClose(asks?:AskTable | AskTable[], isEmergencyClose = true) {
 		console.log('emergencyClose', isEmergencyClose);

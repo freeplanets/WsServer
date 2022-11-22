@@ -1,10 +1,5 @@
 import WebSocket from 'ws';
-import { ChannelT } from '../interface/if';
-
-interface WSMemberWithID {
-  UserID:number;
-  ws:WebSocket;
-}
+import { ChannelT, WSMemberWithID } from '../interface/if';
 
 export default class AskChannel implements ChannelT {
   private members:WSMemberWithID[]=[];
@@ -100,13 +95,17 @@ export default class AskChannel implements ChannelT {
       return false;
     }
   }
-  remove(ws:WebSocket):void {
+  remove(UserID:number):void {
+    const idx = this.members.findIndex(itm=> itm.UserID === UserID);
+    if (idx !== -1) this.members.splice(idx,1);
+    /*
     this.members.every((itm,idx)=>{
-      if(itm.ws === ws) {
+      if(itm.UserID === UserID) {
         // console.log('AskChannels remove', itm.UserID, idx);
         this.members.splice(idx,1);
         return false;
       }
     });
+    */
   }  
 }

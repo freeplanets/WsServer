@@ -135,8 +135,8 @@ export default class MsgManager extends ATotalManager {
 		// console.log('TotalManager SenMessage:', opt);
     return this.CM.Send(name, message, opt )
   }
-  RemoveFromChannel(ws:WebSocket):void{
-    this.CM.Remove(ws);
+  RemoveFromChannel(UserID:number):void{
+    this.CM.Remove(UserID);
   }
 	emergencyClose(asks?:AskTable | AskTable[]) {
 		this.list.forEach((itm) => {

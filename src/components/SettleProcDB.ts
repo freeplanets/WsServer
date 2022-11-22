@@ -82,7 +82,7 @@ export default class SettleProceDB {
   SendMessage(name:string, message:string, opt:WebSocket | number){ // ws:WebSocket | UserID
     this.CM.Send(name, message, opt )
   }
-  RemoveFromChannel(ws:WebSocket):void{
-    this.CM.Remove(ws);
+  RemoveFromChannel(UserID:number):void{
+    this.CM.Remove(UserID);
   }
 }

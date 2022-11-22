@@ -39,12 +39,6 @@ export default abstract class AWebSocket {
 			ws.on('message',(data:WebSocket.Data)=>{
 				const strdata = data.toString();
 				this.onMessage(strdata, ws);
-				/*
-				SP.AcceptMessage(strdata, ws);
-				ws.on('close',( code:number, reason:string)=>{
-					SP.RemoveFromChannel(ws);
-				})
-				*/
 			});
 		});
 		

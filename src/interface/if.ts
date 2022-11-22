@@ -131,7 +131,7 @@ export interface ChannelT {
   readonly Name:string;
   register(ws:WebSocket,UserID?:number):void;
   send(message:string, opt?: WebSocket|number):boolean; // ws:WebSocket | UserID
-  remove(ws:WebSocket):void;
+  remove(UserID:number):void;
 }
 
 export interface PriceTick {
@@ -144,4 +144,9 @@ export interface PriceTick {
 export interface ItemInfo {
   Code: string;
   StayLimit:number;
+}
+
+export interface WSMemberWithID {
+  UserID:number;
+  ws:WebSocket;
 }

@@ -45,7 +45,8 @@ server.on('connection',(ws:WebSocket, req:IncomingMessage)=>{
   const ip = req.socket.remoteAddress;
   const port = req.socket.remotePort;
   const curClient = `${ip}:${port}`;
-  // console.log('%s is connected',curClient);
+  console.log('%s is connected',curClient);
+  // console.log('connected', req.socket);
   const msg:WsMsg = {
     Message : 'Welcome ' + curClient, 
   }
@@ -56,9 +57,7 @@ server.on('connection',(ws:WebSocket, req:IncomingMessage)=>{
     // console.log(curClient, strdata);
     ttMg.AcceptMessage(strdata, ws);
     ws.on('close',(chk:any)=>{
-      // SP.RemoveFromChannel(ws);
       console.log('%s %s state:%s is closed', curClient, chk, ws.readyState);
-      ttMg.RemoveFromChannel(ws);
     })
   });
 });
