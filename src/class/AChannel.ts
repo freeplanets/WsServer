@@ -24,7 +24,7 @@ export default class AChannel implements ChannelT {
     // if(this.members.indexOf(ws) === -1) this.members.push(ws);
     console.log(`Channel ${this.name} member count:`, this.members.length);
   }
-  send(message:string, UserID:number):boolean{
+  send(message:string, UserID = 0):boolean{
     let doMessage = false;
     // console.log('AChannel send', UserID, message);
     try {
