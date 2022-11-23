@@ -26,7 +26,7 @@ export default class AChannel implements ChannelT {
   }
   send(message:string, UserID = 0):boolean{
     let doMessage = false;
-    // console.log('AChannel send', UserID, message);
+    console.log('AChannel send', UserID, message);
     try {
       this.members.forEach((mb)=>{
         // console.log('AChannel :', mb.ws.readyState);

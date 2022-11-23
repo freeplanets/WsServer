@@ -146,7 +146,7 @@ export default class TotalManager extends ATotalManager {
 			}
 			this.pingInterval = setInterval(() => {
 				ws.ping();
-			}, 60000);
+			}, 30000);
 			// When Api_Server set channel send getItems message
 			if (this.isInitial) {
 				this.SendDeleteUndealedAsks();
