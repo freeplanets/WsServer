@@ -146,7 +146,14 @@ export default class TotalManager extends ATotalManager {
 			}
 			this.pingInterval = setInterval(() => {
 				ws.ping();
-			}, 30000);
+				const msg:WsMsg = {
+					Func: FuncKey.CONNECTION_CHECK,
+					Message: new Date().toLocaleString(),
+					data: new Date().getTime(),
+				}
+				this.SendMessage(Channels.ASK, JSON.stringify(msg));
+				this.SendMessage(Channels.ADMIN, JSON.stringify(msg));
+			}, 45000);
 			// When Api_Server set channel send getItems message
 			if (this.isInitial) {
 				this.SendDeleteUndealedAsks();
