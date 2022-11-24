@@ -103,8 +103,10 @@ export default class ItemManager {
 		})
 		if(chkLength > 0) {
 			if(ts < this.tsForGetData) ts = this.tsForGetData;
-			this.wait(2000);
-			this.getData(ts);
+			// this.wait(2000);
+			setTimeout(()=>{
+				this.getData(ts);
+			}, 2000);
 		} else {
 			this.tsForGetData = 0;
 		}

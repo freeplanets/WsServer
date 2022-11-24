@@ -18,9 +18,11 @@ export default abstract class AAskManager {
 	Add(ask:AskTable, initAsk = false) {
 		// if (ask.ItemID !== this.ItemID ) return;
 		// console.log(this.IdentifyCode, ask.id, ask.AskType,ask.Code, ask.UserID, initAsk);
+		console.log('Add Ask before', this.IdentifyCode, new Date().toLocaleString(), this.list.length);
 		this.initAsk = initAsk;
 		if (ask.ProcStatus > 1 ) this.removeFromList(ask);
 		else this.addToList(ask);
+		console.log('Add Ask End', this.IdentifyCode, new Date().toLocaleString(), this.list.length);
 	}
 	get length() {
 		return this.list.length;
