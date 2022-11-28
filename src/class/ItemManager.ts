@@ -14,6 +14,7 @@ export default class ItemManager {
 	private code:string;
 	// private id:number;
 	private tsForGetData = 0;
+	private curTs = 0;
 	private marketTick;
 	private StayLimit = 0;
 	private timeout:NodeJS.Timeout | null = null;
@@ -80,22 +81,28 @@ export default class ItemManager {
 			this.tsForGetData = new Date().getTime();
 			console.log('set tsForGetData from getTime', this.tsForGetData);
 		}
-		this.checkForNext(this.tsForGetData);
+		// this.checkForNext(this.tsForGetData);
+		if (!this.timeout) this.timeout = setInterval(()=> {
+			this.getData();
+		}, 2000);
 	}
-	private getData(ts:number) {
-		this.marketTick.getData(this.currencypair, ts).then(res=>{
+	private getData() {
+		if(this.curTs < this.tsForGetData) this.curTs = this.tsForGetData;
+		// console.log('checkForNext:', this.Code, this.curTs, new Date().toLocaleString());
+		this.marketTick.getData(this.currencypair, this.curTs).then(res=>{
 			// console.log('getData:', this.currencypair, ts, JSON.stringify(res));
 			res.forEach(itm=>{
 				this.list.forEach(mag=>{
 					mag.AcceptPrice(itm);
 				})
-				this.tsForGetData = itm.ticktime;
+				// this.tsForGetData = itm.ticktime;
+				this.curTs = itm.ticktime;
 			})
 			if (res.length > 0) {
 				// console.log(this.code, '>', res);
 				this.TM.SavePriceTick(res);
 			}
-			this.checkForNext(ts);
+			// this.checkForNext(ts);
 		}).catch(err=>{
 			console.log('ItemManager getData error', err);
 		})
@@ -111,8 +118,8 @@ export default class ItemManager {
 			// this.getData(ts);			
 			this.timeout = setTimeout(()=>{
 				if (this.timeout) clearTimeout(this.timeout);
-				// console.log('checkForNext:', this.Code, new Date().toLocaleString());
-				this.getData(ts);
+				console.log('checkForNext:', this.Code, ts, new Date().toLocaleString());
+				// this.getData(ts);
 			}, 2000);
 		} else {
 			this.tsForGetData = 0;
