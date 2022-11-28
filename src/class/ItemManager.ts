@@ -16,6 +16,7 @@ export default class ItemManager {
 	private tsForGetData = 0;
 	private marketTick;
 	private StayLimit = 0;
+	private timeout:NodeJS.Timeout | null = null;
 	constructor(private TM:ATotalManager, info: ItemInfo, mt:MarketTickDB) {
 		this.marketTick = mt;
 		// this.id = info.id;
@@ -90,8 +91,11 @@ export default class ItemManager {
 				})
 				this.tsForGetData = itm.ticktime;
 			})
-			this.TM.SavePriceTick(res);
-			this.checkForNext(ts);			
+			if (res.length > 0) {
+				// console.log(this.code, '>', res);
+				this.TM.SavePriceTick(res);
+			}
+			this.checkForNext(ts);
 		}).catch(err=>{
 			console.log('ItemManager getData error', err);
 		})
@@ -104,7 +108,10 @@ export default class ItemManager {
 		if(chkLength > 0) {
 			if(ts < this.tsForGetData) ts = this.tsForGetData;
 			// this.wait(2000);
-			setTimeout(()=>{
+			// this.getData(ts);			
+			this.timeout = setTimeout(()=>{
+				if (this.timeout) clearTimeout(this.timeout);
+				// console.log('checkForNext:', this.Code, new Date().toLocaleString());
 				this.getData(ts);
 			}, 2000);
 		} else {

@@ -52,7 +52,7 @@ server.on('connection',(ws:WebSocket, req:IncomingMessage)=>{
   }
   ws.send(JSON.stringify(msg));
   ws.on('message',(data:Data)=>{
-    console.log('server onmessage check', new Date().toLocaleString(), server.clients.size);
+    // console.log('server onmessage check', new Date().toLocaleString(), server.clients.size);
     const strdata = data.toString();
     // SP.AcceptMessage(strdata, ws);
     // console.log(curClient, strdata);

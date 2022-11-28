@@ -87,7 +87,7 @@ export default class TotalManager extends ATotalManager {
 				this.SendMessage(Channels.ADMIN, JSON.stringify(wsg), 0);
 				// console.log('welcome:', JSON.stringify(wsg));
 			}			
-			console.log('TotalManager chk1:', wsg.UserID, new Date().toLocaleString());
+			// console.log('TotalManager chk1:', wsg.UserID, new Date().toLocaleString());
 			if(wsg.Ask) {
 				// console.log('TT Add Ask:', JSON.stringify(wsg.Ask));
 				this.AddSingleAsk(wsg.Ask);
@@ -96,7 +96,7 @@ export default class TotalManager extends ATotalManager {
 				// console.log('TT Add Asks:', JSON.stringify(wsg.Asks));
 				this.AddAsk(wsg.Asks);
 			}
-			console.log('TotalManager chk2:', wsg.UserID, new Date().toLocaleString());	
+			// console.log('TotalManager chk2:', wsg.UserID, new Date().toLocaleString());	
 		}
 	}
 	private AddAsk(ask:AskTable | AskTable[], initAsk = false){
