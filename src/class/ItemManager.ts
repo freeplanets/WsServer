@@ -82,11 +82,23 @@ export default class ItemManager {
 			console.log('set tsForGetData from getTime', this.tsForGetData);
 		}
 		// this.checkForNext(this.tsForGetData);
+		if (!this.timeout) {
+			this.getData();
+		}
+		/*
 		if (!this.timeout) this.timeout = setInterval(()=> {
 			this.getData();
 		}, 2000);
+		*/
 	}
 	private getData() {
+		if (this.list.length > 0) {
+			this.timeout = setTimeout(()=> {
+				// console.log('itmeout check:', this.timeout);
+				// if (this.timeout) clearTimeout(this.timeout);
+				this.getData();
+			}, 2000);
+		}		
 		if(this.curTs < this.tsForGetData) this.curTs = this.tsForGetData;
 		// console.log('checkForNext:', this.Code, this.curTs, new Date().toLocaleString());
 		this.marketTick.getData(this.currencypair, this.curTs).then(res=>{
