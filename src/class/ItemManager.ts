@@ -94,7 +94,7 @@ export default class ItemManager {
 	private getData() {
 		if (this.list.length > 0) {
 			this.timeout = setTimeout(()=> {
-				// console.log('itmeout check:', this.timeout);
+				// console.log('timeout check:', this.code, new Date().toLocaleString()); // , this.timeout);
 				// if (this.timeout) clearTimeout(this.timeout);
 				this.getData();
 			}, 2000);
