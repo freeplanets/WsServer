@@ -25,7 +25,7 @@ const options:ServerOptions = {
   port: port,
   clientTracking: true,
 }
-console.log('port:',options, 'version: v0.049');
+console.log('port:',options, 'version: v0.051');
 const server = new WebSocket.Server(options)
 console.log('defaultMaxListeners:', server.getMaxListeners());
 // server.setMaxListeners(50);
@@ -57,9 +57,9 @@ server.on('connection',(ws:WebSocket, req:IncomingMessage)=>{
     // SP.AcceptMessage(strdata, ws);
     // console.log(curClient, strdata);
     ttMg.AcceptMessage(strdata, ws);
-    ws.on('close',(chk:any)=>{
-      console.log('%s %s state:%s is closed', curClient, chk, ws.readyState);
-    })
+  });
+  ws.on('close',(chk:any)=>{
+    console.log('%s %s state:%s is closed', curClient, chk, ws.readyState);
   });
 });
 
