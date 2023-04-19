@@ -29,10 +29,10 @@ export default class AskChannel implements ChannelT {
     */
     const f = this.members.find(mb=>mb.UserID === UserID);
     if (f) {
-      if(f.ws.readyState !== f.ws.OPEN) {
+      // if(f.ws.readyState !== f.ws.OPEN) {
         f.ws = ws;
         // console.log(`Channel ${this.name} change ws`, UserID);
-      }
+      //}
     } else {
       this.members.push({ UserID, ws });
     }

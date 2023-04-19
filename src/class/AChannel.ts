@@ -15,9 +15,9 @@ export default class AChannel implements ChannelT {
     // console.log('AChannel register', ws);
     const fIdx = this.members.findIndex(itm => itm.UserID === UserID);
     if (fIdx !== -1) {
-      if (this.members[fIdx].ws.readyState !== 1) {
+      // if (this.members[fIdx].ws.readyState !== 1) {
         this.members[fIdx] = {UserID, ws}; 
-      }     
+      // }     
     } else {
       this.members.push({UserID, ws});
     }
