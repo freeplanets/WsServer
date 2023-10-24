@@ -18,9 +18,8 @@
     "typescript": "^4.2.4"
   },
   "dependencies": {
-    "@aws-sdk/types": "^3.433.0",
     "aws-mqtt": "^1.0.0",
-    "aws-sdk": "^2.1479.0",
+    "aws-sdk": "^2.889.0",
     "dotenv": "^8.2.0",
     "dynamoose": "^2.7.3",
     "mariadb": "^2.5.3",
