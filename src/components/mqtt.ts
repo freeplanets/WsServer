@@ -9,7 +9,6 @@ import SettleProcDB from './SettleProcDB';
 //import AWSMqttClient from 'aws-mqtt/lib/NodeClient';
 
 const AWSMqttClient	= require('aws-mqtt/lib/NodeClient');
-
 AWS.config.region = config.aws.region;
 AWS.config.credentials = new AWS.CognitoIdentityCredentials({
   IdentityPoolId: config.aws.cognito.identityPoolId,

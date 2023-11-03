@@ -8,7 +8,6 @@ import { ModelType, SortOrder } from 'dynamoose/dist/General';
 import { Condition } from 'dynamoose/dist/Condition';
 import { PriceTick } from '../interface/if';
 // const cd:Condition
-
 dotenv.config();
 
 export interface MarketTick extends AnyDocument {
@@ -33,6 +32,7 @@ export default class MarketTickDB {
 	private noDataAlert = false;
 	private noDataSec = 60000;	// miniSec
 	constructor() {
+		const opt = DynamoDB
 		const options:DynamoDB.ClientConfiguration = {
 			accessKeyId: process.env.AWS_ACCESS_KEY_ID,
 			secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
