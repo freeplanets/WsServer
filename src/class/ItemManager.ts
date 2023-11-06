@@ -13,7 +13,7 @@ export default class ItemManager {
 	private currencypair:string;
 	private code:string;
 	// private id:number;
-	private tsForGetData = 0;
+	private tsForGetData = new Date().getTime();
 	private curTs = 0;
 	private marketTick;
 	private StayLimit = 0;
@@ -77,10 +77,10 @@ export default class ItemManager {
 		this.list.forEach(manager=>{
 			manager.Add(ask, initAsk);
 		})
-		if(this.tsForGetData === 0) {
-			this.tsForGetData = new Date().getTime();
-			console.log('set tsForGetData from getTime', this.tsForGetData);
-		}
+		// if(this.tsForGetData === 0) {
+		// 	this.tsForGetData = new Date().getTime();
+		// 	console.log('set tsForGetData from getTime', this.tsForGetData);
+		// }
 		// this.checkForNext(this.tsForGetData);
 		if (!this.timeout) {
 			this.getData();
