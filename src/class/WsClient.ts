@@ -7,7 +7,8 @@ import { ClientRequest, IncomingMessage } from 'node:http';
 
 dotenv.config();
 
-const wsHost =  process.env.WS_SERVER === "localhost:4001" ? `ws://${process.env.WS_SERVER}` : `wss://${process.env.WS_SERVER}`;
+//const wsHost =  process.env.WS_SERVER === "localhost:4001" ? `ws://${process.env.WS_SERVER}` : `wss://${process.env.WS_SERVER}`;
+const wsHost =  `ws://${process.env.WS_SERVER}`;
 const sitename = process.env.SITE_NAME ? process.env.SITE_NAME : "Crypto";
 const wsOptions: ClientOptions = {
   // localAddress: 'localhost',

@@ -1,4 +1,5 @@
-import AWS from 'aws-sdk';
+// import AWS from 'aws-sdk';
+import { fromCognitoIdentity } from "@aws-sdk/credential-providers";
 // import WebSocket from 'ws';
 import config from './config';
 import { SendData, ReceivedData } from '../interface/if';
@@ -9,12 +10,22 @@ import SettleProcDB from './SettleProcDB';
 //import AWSMqttClient from 'aws-mqtt/lib/NodeClient';
 
 const AWSMqttClient	= require('aws-mqtt/lib/NodeClient');
-/*
-AWS.config.region = config.aws.region;
-AWS.config.credentials = new AWS.CognitoIdentityCredentials({
-  IdentityPoolId: config.aws.cognito.identityPoolId,
+
+// JS SDK v3 does not support global configuration.
+// Codemod has attempted to pass values to each service client in this file.
+// You may need to update clients outside of this file, if they use global config.
+// AWS.config.region = config.aws.region;
+// JS SDK v3 does not support global configuration.
+// Codemod has attempted to pass values to each service client in this file.
+// You may need to update clients outside of this file, if they use global config.
+// AWS.config.credentials = // JS SDK v3 switched credential providers from classes to functions.
+// This is the closest approximation from codemod of what your application needs.
+// Reference: https://www.npmjs.com/package/@aws-sdk/credential-providers
+fromCognitoIdentity({
+  // IdentityPoolId: config.aws.cognito.identityPoolId,
+  identityId: config.aws.cognito.identityPoolId,
 })
-*/
+
 class Mqtt {
   private client;
   private clientId:string;
@@ -26,8 +37,11 @@ class Mqtt {
     else this.clientId = 'dataprovider@kingbet';
     this.chMe = `${config.topics.room}${this.clientId}`; 
     this.client = new AWSMqttClient({
-      region: AWS.config.region,
-      credentials: AWS.config.credentials,
+      region: config.aws.region, //AWS.config.region,
+      credentials: fromCognitoIdentity({
+        // IdentityPoolId: config.aws.cognito.identityPoolId,
+        identityId: config.aws.cognito.identityPoolId,
+      }),  //AWS.config.credentials,
       endpoint: config.aws.iot.endpoint,
       clientId: this.clientId,
       will: {

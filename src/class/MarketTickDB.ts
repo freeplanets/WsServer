@@ -1,17 +1,19 @@
 
-//import { DynamoDB } from 'aws-sdk';
-import { DynamoDB } from 'dynamoose/dist/aws/sdk';
+import { DynamoDB, DynamoDBClientConfig } from "@aws-sdk/client-dynamodb";
+// import { DynamoDB } from 'dynamoose/dist/aws/sdk';
 import dotenv from 'dotenv';
 // import { ClientConfiguration } from 'aws-sdk/clients/acm';
 import * as Dynamoose from 'dynamoose';
-import { AnyDocument } from 'dynamoose/dist/Document';
+// import { AnyDocument } from 'dynamoose/dist/Document';
 import { ModelType, SortOrder } from 'dynamoose/dist/General';
 import { Condition } from 'dynamoose/dist/Condition';
 import { PriceTick } from '../interface/if';
+import { Item } from "dynamoose/dist/Item";
 // const cd:Condition
 dotenv.config();
 
-export interface MarketTick extends AnyDocument {
+// export interface MarketTick extends AnyDocument {
+export class MarketTick extends Item {
 	currencyPair?: string;
 	lastPrice?: string;
 	exchange?: string;
@@ -20,6 +22,7 @@ export interface MarketTick extends AnyDocument {
 	lastTradeId?: number;
 	// originalData?: object;
 }
+
 interface lastID {
 	lastTradeId: number;
 }
@@ -33,12 +36,21 @@ export default class MarketTickDB {
 	private noDataAlert = false;
 	private noDataSec = 60000;	// miniSec
 	constructor() {
+		/*
 		const options:DynamoDB.ClientConfiguration = {
 			accessKeyId: process.env.AWS_ACCESS_KEY_ID,
 			secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
 			region: process.env.AWS_REGION
 		}
-		const ddb:DynamoDB = new Dynamoose.aws.sdk.DynamoDB(options);
+		*/
+		const options:DynamoDBClientConfig = {
+			credentials: {
+				accessKeyId: process.env.AWS_ACCESS_KEY_ID as string,
+				secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY as string,	
+			},
+			region: process.env.AWS_REGION 
+		}
+		const ddb:DynamoDB = new Dynamoose.aws.ddb.DynamoDB(options);
 		Dynamoose.aws.ddb.set(ddb);
 		this.table = Dynamoose.model('uccpay-dev-MarketTick', this.Schema);
 	}
