@@ -86,7 +86,7 @@ export default class ItemManager {
 			console.log('run check 1');
 			this.getData();
 		} else {
-			console.log('run check 2');
+			console.log('run check 2', this.timeout);
 			this.getData();			
 		}
 
@@ -105,7 +105,7 @@ export default class ItemManager {
 			}, 2000);
 		}		
 		if(this.curTs < this.tsForGetData) this.curTs = this.tsForGetData;
-		// console.log('checkForNext:', this.Code, this.curTs, new Date().toLocaleString());
+		console.log('checkForNext:', this.Code, this.curTs, new Date().toLocaleString());
 		this.marketTick.getData(this.currencypair, this.curTs).then(res=>{
 			console.log('getData:', this.currencypair, JSON.stringify(res));
 			res.forEach(itm=>{
