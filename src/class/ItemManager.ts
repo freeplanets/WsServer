@@ -83,6 +83,7 @@ export default class ItemManager {
 		// }
 		// this.checkForNext(this.tsForGetData);
 		if (!this.timeout) {
+			console.log('run check 1');
 			this.getData();
 		}
 		/*
