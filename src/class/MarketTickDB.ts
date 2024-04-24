@@ -52,7 +52,7 @@ export default class MarketTickDB {
 			// endpoint: 'http://localhost:8000',
 			// endpoint: 'http://localhost:4569',
 		}
-		console.log("KEYCHECK:", JSON.stringify(options));
+		// console.log("KEYCHECK:", JSON.stringify(options));
 		const ddb:DynamoDB = new Dynamoose.aws.ddb.DynamoDB(options);
 		Dynamoose.aws.ddb.set(ddb);
 		this.table = Dynamoose.model('uccpay-dev-MarketTick', this.Schema);
