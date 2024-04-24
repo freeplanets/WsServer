@@ -85,7 +85,11 @@ export default class ItemManager {
 		if (!this.timeout) {
 			console.log('run check 1');
 			this.getData();
+		} else {
+			console.log('run check 2');
+			this.getData();			
 		}
+
 		/*
 		if (!this.timeout) this.timeout = setInterval(()=> {
 			this.getData();
