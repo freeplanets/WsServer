@@ -102,7 +102,7 @@ export default class ItemManager {
 		if(this.curTs < this.tsForGetData) this.curTs = this.tsForGetData;
 		// console.log('checkForNext:', this.Code, this.curTs, new Date().toLocaleString());
 		this.marketTick.getData(this.currencypair, this.curTs).then(res=>{
-			// console.log('getData:', this.currencypair, ts, JSON.stringify(res));
+			console.log('getData:', this.currencypair, JSON.stringify(res));
 			res.forEach(itm=>{
 				this.list.forEach(mag=>{
 					mag.AcceptPrice(itm);
