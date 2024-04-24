@@ -21,10 +21,10 @@ const AWSMqttClient	= require('aws-mqtt/lib/NodeClient');
 // AWS.config.credentials = // JS SDK v3 switched credential providers from classes to functions.
 // This is the closest approximation from codemod of what your application needs.
 // Reference: https://www.npmjs.com/package/@aws-sdk/credential-providers
-fromCognitoIdentity({
-  // IdentityPoolId: config.aws.cognito.identityPoolId,
-  identityId: config.aws.cognito.identityPoolId,
-})
+// fromCognitoIdentity({
+//   // IdentityPoolId: config.aws.cognito.identityPoolId,
+//   identityId: config.aws.cognito.identityPoolId,
+// })
 
 class Mqtt {
   private client;

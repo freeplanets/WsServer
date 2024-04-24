@@ -44,15 +44,18 @@ export default class MarketTickDB {
 		}
 		*/
 		const options:DynamoDBClientConfig = {
-			credentials: {
-				accessKeyId: process.env.AWS_ACCESS_KEY_ID as string,
-				secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY as string,	
-			},
-			region: process.env.AWS_REGION 
+			// credentials: {
+			// 	accessKeyId: process.env.AWS_ACCESS_KEY_ID as string,
+			// 	secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY as string,	
+			// },
+			region: process.env.AWS_REGION,
+			// endpoint: 'http://localhost:8000',
+			endpoint: 'http://localhost:4569',
 		}
 		const ddb:DynamoDB = new Dynamoose.aws.ddb.DynamoDB(options);
 		Dynamoose.aws.ddb.set(ddb);
-		this.table = Dynamoose.model('uccpay-dev-MarketTick', this.Schema);
+		//this.table = Dynamoose.model('uccpay-dev-MarketTick', this.Schema);
+		this.table = Dynamoose.model('uccpay-local-MarketTick', this.Schema);
 	}
 	get NoData() {
 		return this.noDataAlert;

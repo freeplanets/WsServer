@@ -8,7 +8,8 @@ const config = {
     },
     cognito: {
       // NOTE: Get this value with `aws cognito-identity list-identity-pools --max-results=5`
-      identityPoolId: 'ap-southeast-1:b2ca64ea-56ba-48fc-8230-5ca129e51a98',
+      // identityPoolId: 'ap-southeast-1:b2ca64ea-56ba-48fc-8230-5ca129e51a98',
+      identityPoolId: 'ap-southeast-1:020ac14d-2239-49e4-ad2e-a31aa20dafb0',
     },
   },
   topics: {
